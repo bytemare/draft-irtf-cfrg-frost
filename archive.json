@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-11-22T00:55:42.096428+00:00",
+  "timestamp": "2022-11-24T00:55:24.220321+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3193,6 +3193,58 @@
       "updatedAt": "2022-10-07T13:37:43Z",
       "closedAt": "2022-10-07T13:37:43Z",
       "comments": []
+    },
+    {
+      "number": 312,
+      "id": "I_kwDOEpUZs85XA-wh",
+      "title": "RGLC review request",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/312",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@aldenml do you think you could review this document and send a message indicating support (or lack there of) to the CFRG mailing list? (Apologies for the format of this request, but I could not find your email address!)",
+      "createdAt": "2022-11-22T13:28:49Z",
+      "updatedAt": "2022-11-23T13:04:21Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "aldenml",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hi @chris-wood, more than glad to do it, I will find some time today (my email: aldenml@gmail.com)",
+          "createdAt": "2022-11-22T23:34:31Z",
+          "updatedAt": "2022-11-22T23:34:31Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Lovely -- thank you! For your convenience, here is the thread to which you can reply: https://mailarchive.ietf.org/arch/msg/cfrg/SaPJ_cZ30plejbluZtcVYSHhjIc/",
+          "createdAt": "2022-11-23T00:15:19Z",
+          "updatedAt": "2022-11-23T00:15:19Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "cc @kayabaNerve, too!",
+          "createdAt": "2022-11-23T00:15:51Z",
+          "updatedAt": "2022-11-23T00:15:51Z"
+        },
+        {
+          "author": "kayabaNerve",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I've emailed cfrg-chairs my endorsement.\r\n\r\nWhile I reiterated #243 and #298*, I said the former is solely an available simplification and the latter is understandably not included. My only other comment was on how H2 *should* be application-bound, not ciphersuite bound, with the ack it's trivial to work around in practice and arguably not an issue accordingly. Solely a preference on layout.\r\n\r\nThe main reason I believe in standardization is for the test vectors, ensuring correct implementations can be built for FROST as a primitive. I also believe despite being a primitive, not covering items such as a wire protocol, it is extremely usable in the real world and I greatly appreciate it accordingly.\r\n\r\nThank you for requesting my participation in the review process and I wish you the best of luck :)\r\n\r\n*I do truly believe it should move forward regardless of the former, and definitely regardless of the latter. I'm just not a person to leave a review which I consider incomplete, nor glossing over topics. I found both personally sufficiently interesting.",
+          "createdAt": "2022-11-23T03:52:36Z",
+          "updatedAt": "2022-11-23T08:26:35Z"
+        },
+        {
+          "author": "aldenml",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@chris-wood just to let you know that I sent a message yesterday (for support), but as of today, I still don't see it in the CFRG mailing list archives.",
+          "createdAt": "2022-11-23T13:04:20Z",
+          "updatedAt": "2022-11-23T13:04:20Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -20364,6 +20416,32 @@
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/generalize-secret-sharing",
       "headRefOid": "208fbe1a03a0a4922a1f4401e4dfdd365ff6cd52",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 313,
+      "id": "PR_kwDOEpUZs85DguZ5",
+      "title": "minor edits to draft-irtf-cfrg-frost.md",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/313",
+      "state": "OPEN",
+      "author": "aldenml",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-11-23T02:08:54Z",
+      "updatedAt": "2022-11-23T02:08:55Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "113bd5a74e44725fc83d0e1c05f7b7ffdd5837cc",
+      "headRepository": "aldenml/draft-irtf-cfrg-frost",
+      "headRefName": "text-edits",
+      "headRefOid": "5eb122b034beb22f28cbfaa1569f9078c73e7c89",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
