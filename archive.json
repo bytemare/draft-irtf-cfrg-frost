@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-11-24T00:55:24.220321+00:00",
+  "timestamp": "2022-11-27T00:53:49.782517+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3206,7 +3206,7 @@
       "labels": [],
       "body": "@aldenml do you think you could review this document and send a message indicating support (or lack there of) to the CFRG mailing list? (Apologies for the format of this request, but I could not find your email address!)",
       "createdAt": "2022-11-22T13:28:49Z",
-      "updatedAt": "2022-11-23T13:04:21Z",
+      "updatedAt": "2022-11-26T00:11:22Z",
       "closedAt": null,
       "comments": [
         {
@@ -3243,6 +3243,34 @@
           "body": "@chris-wood just to let you know that I sent a message yesterday (for support), but as of today, I still don't see it in the CFRG mailing list archives.",
           "createdAt": "2022-11-23T13:04:20Z",
           "updatedAt": "2022-11-23T13:04:20Z"
+        },
+        {
+          "author": "kayabaNerve",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "My review does not seem to have been published with the rest yet, likely because I emailed the chairs (I subscribed to batched emails and couldn't reply to the original message). Hopefully that's forwarded soon.",
+          "createdAt": "2022-11-24T04:04:05Z",
+          "updatedAt": "2022-11-24T04:04:05Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@aldenml your message doesn't appear in the queue of pending messages. What email address did you send it to? Would it be possible to subscribe and resend it? And yeah, @kayabaNerve, your message wouldn't appear on the list since it only went to the chairs.",
+          "createdAt": "2022-11-25T13:51:09Z",
+          "updatedAt": "2022-11-25T13:51:40Z"
+        },
+        {
+          "author": "aldenml",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@chris-wood, yes, I will resend it.",
+          "createdAt": "2022-11-25T14:16:34Z",
+          "updatedAt": "2022-11-25T14:16:34Z"
+        },
+        {
+          "author": "kayabaNerve",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@chris-wood I expected them to forward it. If they won't, is there a way I can reply to the original email now (as I only have it in a batch) in order for it to be properly added to the list? Or is it simply a waiting game?\r\n\r\nIf they read it, I'm not sure it needs to be forwarded. Just want to do what I can :)",
+          "createdAt": "2022-11-26T00:11:21Z",
+          "updatedAt": "2022-11-26T00:11:21Z"
         }
       ]
     }
