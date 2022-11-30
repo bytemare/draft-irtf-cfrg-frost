@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 10 April 2023          University of Waterloo, Zcash Foundation
+Expires: 3 June 2023            University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                          7 October 2022
+                                                        30 November 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 April 2023.
+   This Internet-Draft will expire on 3 June 2023.
 
 Copyright Notice
 
@@ -479,7 +479,7 @@ Table of Contents
    *  Signature binding Section 4.4, group commitment Section 4.5, and
       challenge computation Section 4.6.
 
-   These sections describes these operations in more detail.
+   These sections describe these operations in more detail.
 
 4.1.  Nonce generation
 
@@ -1022,7 +1022,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    will not be included in the joint response z and consequently the
    output signature will not verify.  This is because the group
    commitment will be with respect to a different signing set than the
-   the aggregated response.
+   aggregated response.
 
    Otherwise, if all shares from participants that participated in
    Rounds 1 and 2 are valid, the Coordinator performs the aggregate
@@ -1418,7 +1418,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
        compatibility with [RFC8032].
 
    3.  The group MUST be of prime-order, and all deserialization
-       functions MUST output elements that belong to to their respective
+       functions MUST output elements that belong to their respective
        sets of Elements or Scalars, or failure when deserialization
        fails.
 
@@ -1530,13 +1530,13 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    protocol.  Applications can apply pre-hashing in settings where
    storing the full message is prohibitively expensive.  In such cases,
    pre-hashing MUST use a collision-resistant hash function with a
-   security level commensurate with the security in inherent to the
+   security level commensurate with the security inherent to the
    ciphersuite chosen.  It is RECOMMENDED that applications which choose
    to apply pre-hashing use the hash function (H) associated with the
    chosen ciphersuite in a manner similar to how H4 is defined.  In
    particular, a different prefix SHOULD be used to differentiate this
    pre-hash from H4.  One possible example is to construct this pre-hash
-   over message m as H(contextString \|\| "pre-hash" \|\| m).
+   over message m as H(contextString || "pre-hash" || m).
 
 7.5.  Input Message Validation
 
@@ -1564,7 +1564,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 8.1.  Normative References
 
    [HASH-TO-CURVE]
-              Faz-Hernández, A., Scott, S., Sullivan, N., Wahby, R. S.,
+              Faz-Hernandez, A., Scott, S., Sullivan, N., Wahby, R. S.,
               and C. A. Wood, "Hashing to Elliptic Curves", Work in
               Progress, Internet-Draft, draft-irtf-cfrg-hash-to-curve-
               16, 15 June 2022, <https://datatracker.ietf.org/doc/html/
@@ -1596,9 +1596,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
               de Valence, H., Grigg, J., Hamburg, M., Lovecruft, I.,
               Tankersley, G., and F. Valsorda, "The ristretto255 and
               decaf448 Groups", Work in Progress, Internet-Draft, draft-
-              irtf-cfrg-ristretto255-decaf448-03, 25 February 2022,
+              irtf-cfrg-ristretto255-decaf448-05, 29 November 2022,
               <https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-
-              ristretto255-decaf448-03>.
+              ristretto255-decaf448-05>.
 
    [SEC1]     "Elliptic Curve Cryptography, Standards for Efficient
               Cryptography Group, ver. 2", 2009,
@@ -1672,7 +1672,6 @@ Appendix B.  Schnorr Signature Generation and Verification for Prime-
    share.)
 
   prime_order_sign(msg, sk):
-``
 
   Inputs:
   - msg, message to sign, a byte string
@@ -1825,8 +1824,7 @@ C.1.  Shamir Secret Sharing
 
    The procedure for combining a shares list of length MIN_PARTICIPANTS
    to recover the secret s is as follows; the algorithm
-   polynomial_interpolation is defined in {{dep-polynomial-
-   interpolate}}.
+   polynomial_interpolation is defined in Appendix C.1.1.
 
   secret_share_combine(shares):
 
