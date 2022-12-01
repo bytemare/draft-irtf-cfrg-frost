@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-11-27T00:53:49.782517+00:00",
+  "timestamp": "2022-12-01T00:55:56.560351+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3199,15 +3199,15 @@
       "id": "I_kwDOEpUZs85XA-wh",
       "title": "RGLC review request",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/312",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "@aldenml do you think you could review this document and send a message indicating support (or lack there of) to the CFRG mailing list? (Apologies for the format of this request, but I could not find your email address!)",
       "createdAt": "2022-11-22T13:28:49Z",
-      "updatedAt": "2022-11-26T00:11:22Z",
-      "closedAt": null,
+      "updatedAt": "2022-11-30T23:18:13Z",
+      "closedAt": "2022-11-30T23:18:12Z",
       "comments": [
         {
           "author": "aldenml",
@@ -3271,6 +3271,13 @@
           "body": "@chris-wood I expected them to forward it. If they won't, is there a way I can reply to the original email now (as I only have it in a batch) in order for it to be properly added to the list? Or is it simply a waiting game?\r\n\r\nIf they read it, I'm not sure it needs to be forwarded. Just want to do what I can :)",
           "createdAt": "2022-11-26T00:11:21Z",
           "updatedAt": "2022-11-26T00:11:21Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sorry for the delay @kayabaNerve. In order for the message to show up on the list it needs to be sent to the cfrg@irtf.org email address, not to the CFRG chairs. But don't worry about it. I think they received both your and @aldenml's message, so we should be all set. Thanks, both!",
+          "createdAt": "2022-11-30T23:18:12Z",
+          "updatedAt": "2022-11-30T23:18:12Z"
         }
       ]
     }
@@ -20456,26 +20463,104 @@
       "id": "PR_kwDOEpUZs85DguZ5",
       "title": "minor edits to draft-irtf-cfrg-frost.md",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/313",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "aldenml",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2022-11-23T02:08:54Z",
-      "updatedAt": "2022-11-23T02:08:55Z",
+      "updatedAt": "2022-11-30T23:30:43Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "113bd5a74e44725fc83d0e1c05f7b7ffdd5837cc",
       "headRepository": "aldenml/draft-irtf-cfrg-frost",
       "headRefName": "text-edits",
       "headRefOid": "5eb122b034beb22f28cbfaa1569f9078c73e7c89",
+      "closedAt": "2022-11-30T23:13:43Z",
+      "mergedAt": "2022-11-30T23:13:43Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "ce0427f803a7b13bc498ceebfd0840c4b57073bb"
+      },
+      "comments": [
+        {
+          "author": "aldenml",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hi @chris-wood , a gentle ping here requesting your review :)",
+          "createdAt": "2022-11-29T13:05:04Z",
+          "updatedAt": "2022-11-29T13:05:04Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sorry for the delay @aldenml -- I'll get to this ASAP!",
+          "createdAt": "2022-11-30T23:12:59Z",
+          "updatedAt": "2022-11-30T23:12:59Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "... and by ASAP I mean right now. =)",
+          "createdAt": "2022-11-30T23:13:36Z",
+          "updatedAt": "2022-11-30T23:13:36Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85HiPMq",
+          "commit": {
+            "abbreviatedOid": "5eb122b"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-11-30T23:13:26Z",
+          "updatedAt": "2022-11-30T23:13:26Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 314,
+      "id": "PR_kwDOEpUZs85D6QFl",
+      "title": "make the SHAKE256 length explicit for the Ed448 ciphersuite",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/314",
+      "state": "OPEN",
+      "author": "conradoplg",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is not a big deal, not sure if we can still can get some changes in\r\n\r\nWhile implementing Ed448 support I noticed that the length of SHAKE256 in the Ed448 ciphersuite is not explicit. You can deduce it from the context but I thought this makes it clearer.",
+      "createdAt": "2022-11-29T17:58:44Z",
+      "updatedAt": "2022-11-30T23:16:50Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "113bd5a74e44725fc83d0e1c05f7b7ffdd5837cc",
+      "headRepository": "conradoplg/draft-irtf-cfrg-frost",
+      "headRefName": "shake256-length",
+      "headRefOid": "584d3a2845fe30c896979736e97c3953379d1a1e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85HiQTy",
+          "commit": {
+            "abbreviatedOid": "584d3a2"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Good catch -- I think this is the only variable-length output hash we have. I wonder if we should make clear in the ciphersuites requirements section that each hash function produces a fixed-length output?",
+          "createdAt": "2022-11-30T23:16:50Z",
+          "updatedAt": "2022-11-30T23:16:50Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
