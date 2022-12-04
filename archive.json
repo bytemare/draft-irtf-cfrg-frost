@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-01T00:55:56.560351+00:00",
+  "timestamp": "2022-12-04T00:45:44.691923+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -20534,18 +20534,26 @@
       "labels": [],
       "body": "This is not a big deal, not sure if we can still can get some changes in\r\n\r\nWhile implementing Ed448 support I noticed that the length of SHAKE256 in the Ed448 ciphersuite is not explicit. You can deduce it from the context but I thought this makes it clearer.",
       "createdAt": "2022-11-29T17:58:44Z",
-      "updatedAt": "2022-11-30T23:16:50Z",
+      "updatedAt": "2022-12-02T17:37:23Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "113bd5a74e44725fc83d0e1c05f7b7ffdd5837cc",
       "headRepository": "conradoplg/draft-irtf-cfrg-frost",
       "headRefName": "shake256-length",
-      "headRefOid": "584d3a2845fe30c896979736e97c3953379d1a1e",
+      "headRefOid": "f3f06d709f39302a87e6578c2ef3ac52927a26d3",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "conradoplg",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Good catch -- I think this is the only variable-length output hash we have. I wonder if we should make clear in the ciphersuites requirements section that each hash function produces a fixed-length output?\r\n\r\n@chris-wood I think it's not strictly required but it can makes things clearer, I gave it a shot in f3f06d7",
+          "createdAt": "2022-12-02T17:37:23Z",
+          "updatedAt": "2022-12-02T17:37:23Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOEpUZs85HiQTy",
@@ -20558,6 +20566,19 @@
           "body": "Good catch -- I think this is the only variable-length output hash we have. I wonder if we should make clear in the ciphersuites requirements section that each hash function produces a fixed-length output?",
           "createdAt": "2022-11-30T23:16:50Z",
           "updatedAt": "2022-11-30T23:16:50Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85Hi0UV",
+          "commit": {
+            "abbreviatedOid": "584d3a2"
+          },
+          "author": "dconnolly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-01T03:16:01Z",
+          "updatedAt": "2022-12-01T03:16:01Z",
           "comments": []
         }
       ]
