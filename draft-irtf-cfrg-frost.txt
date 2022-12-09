@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 9 June 2023            University of Waterloo, Zcash Foundation
+Expires: 12 June 2023           University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                         6 December 2022
+                                                         9 December 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 June 2023.
+   This Internet-Draft will expire on 12 June 2023.
 
 Copyright Notice
 
@@ -1235,10 +1235,10 @@ def binding_factor_for_participant(binding_factor_list, identifier):
          that optimizations for this check exist; see [Pornin22].
 
       -  SerializeScalar(s): Implemented by outputting the little-endian
-         48-byte encoding of the Scalar value.
+         57-byte encoding of the Scalar value.
 
       -  DeserializeScalar(buf): Implemented by attempting to
-         deserialize a Scalar from a little-endian 48-byte string.  This
+         deserialize a Scalar from a little-endian 57-byte string.  This
          function can fail if the input does not represent a Scalar in
          the range [0, G.Order() - 1].
 
