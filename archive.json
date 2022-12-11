@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-08T00:44:12.844222+00:00",
+  "timestamp": "2022-12-11T00:51:22.456511+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3565,9 +3565,17 @@
       "labels": [],
       "body": "From Paul:\r\n\r\n4.2.  Polynomial Operations\r\n\r\n    * \"A polynomial of maximum degree t+1 is represented as a list of t coefficients\" shouldn't it be the reverse? Namely, \"A polynomial of maximum degree t is represented as a list of t+1 coefficients\". For example, a polynomial of degree 2 (quadratic) could be f(x) = x^2 + x + 1, which has 2 + 1 = 3 coefficients.\r\n\r\nFrom @armfazh:\r\n\r\n\"A polynomial of maximum degree t+1 is represented as a list of t coefficients\" -> \"A polynomial of maximum degree t is represented as a list of t+1 coefficients\"\r\n\r\nWe should probably just include an example to be maximally clear.",
       "createdAt": "2022-12-07T15:50:44Z",
-      "updatedAt": "2022-12-07T16:06:11Z",
+      "updatedAt": "2022-12-09T23:53:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Assigning @conradoplg ",
+          "createdAt": "2022-12-09T23:53:21Z",
+          "updatedAt": "2022-12-09T23:53:21Z"
+        }
+      ]
     },
     {
       "number": 332,
@@ -3581,9 +3589,17 @@
       "labels": [],
       "body": "From Paul:\r\n\r\n4.3.  List Operations\r\n\r\n    * In the function \"binding_factor_for_participant(binding_factor_list, identifier):\", is the requirement that \"This list MUST be sorted in ascending order by participant identifier.\" Is this really necessary for that particular algorithm?\r\n\r\n4.5.  Group Commitment Computation\r\n\r\n    * \"binding_factor_list = [(i, binding_factor), ...], a list of (identifier, Scalar) tuples representing the binding factor Scalar for the given identifier. This list MUST be sorted in ascending order by identifier.\" -> again, it doesn't seem necessary for this specific list to be sorted.\r\n\r\nWe should explain why these things need to be sorted.",
       "createdAt": "2022-12-07T15:51:50Z",
-      "updatedAt": "2022-12-07T15:52:14Z",
+      "updatedAt": "2022-12-09T23:40:41Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Assigning to @conradoplg ",
+          "createdAt": "2022-12-09T23:40:41Z",
+          "updatedAt": "2022-12-09T23:40:41Z"
+        }
+      ]
     },
     {
       "number": 333,
@@ -3641,11 +3657,13 @@
       "state": "OPEN",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "chelseakomlo"
+      ],
       "labels": [],
       "body": "From @armfazh\r\n\r\n> In Section 5. (without reading the Appendix) it is not clear what is the (mathematical) relation, if any, between the key shares (sk_i), and the signing key (sk).",
       "createdAt": "2022-12-07T16:07:30Z",
-      "updatedAt": "2022-12-07T16:07:30Z",
+      "updatedAt": "2022-12-09T23:52:50Z",
       "closedAt": null,
       "comments": []
     },
@@ -3670,15 +3688,15 @@
       "id": "I_kwDOEpUZs85YWeqi",
       "title": "Ed448 scalar size",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/338",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From @armfazh:\r\n\r\nFor FROST(Ed448, SHAKE256) ciphersuite:\r\n\r\nSerializeScalar(s): Implemented by outputting the little-endian\r\n48-byte encoding of the Scalar value.\r\nDeserializeScalar(buf): Implemented by attempting to deserialize a\r\nScalar from a little-endian 48-byte string.\r\n\r\nScalars are 57-byte strings.",
       "createdAt": "2022-12-07T16:11:28Z",
-      "updatedAt": "2022-12-07T16:11:28Z",
-      "closedAt": null,
+      "updatedAt": "2022-12-09T23:08:15Z",
+      "closedAt": "2022-12-09T23:08:15Z",
       "comments": []
     },
     {
@@ -3693,9 +3711,17 @@
       "labels": [],
       "body": "From @armfazh:\r\n\r\nFor secp256r1:\r\npartial public-key validation as defined in section 5.6.2.3.4 of [KEYAGREEMENT].\r\n\r\nFor secp256k1:\r\npartial public-key validation as defined in section 3.2.2.1 of [SEC1].\r\n\r\nAre these validation methods different? If not, why make a distinction?",
       "createdAt": "2022-12-07T16:22:21Z",
-      "updatedAt": "2022-12-07T16:22:21Z",
+      "updatedAt": "2022-12-09T23:39:10Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Assigning to @conradoplg ",
+          "createdAt": "2022-12-09T23:39:10Z",
+          "updatedAt": "2022-12-09T23:39:10Z"
+        }
+      ]
     },
     {
       "number": 340,
@@ -21122,6 +21148,78 @@
           "body": "",
           "createdAt": "2022-12-01T03:16:01Z",
           "updatedAt": "2022-12-01T03:16:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 346,
+      "id": "PR_kwDOEpUZs85E5l65",
+      "title": "Bump actions/setup-python from 4.1.0 to 4.3.1",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/346",
+      "state": "OPEN",
+      "author": "dependabot",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "dconnolly"
+      ],
+      "labels": [
+        "dependencies"
+      ],
+      "body": "Bumps [actions/setup-python](https://github.com/actions/setup-python) from 4.1.0 to 4.3.1.\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a href=\"https://github.com/actions/setup-python/releases\">actions/setup-python's releases</a>.</em></p>\n<blockquote>\n<h2>Improve error handling and messages</h2>\n<p>In scope of this release we added improved error message to put operating system and its version in the logs (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/559\">actions/setup-python#559</a>). Besides, the release</p>\n<ul>\n<li>fixes issue about <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/518\">specifying architecture for pypy-nightly on Windows</a> with related <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/520\">pull request</a>.</li>\n<li>improves error handling for Http Errors (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/511\">actions/setup-python#511</a>).</li>\n<li>updates minimatch (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/558\">actions/setup-python#558</a>).</li>\n</ul>\n<h2>v4.3.0</h2>\n<ul>\n<li>Update <code>@\u200bactions/core</code> to 1.10.0 version <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/517\">#517</a></li>\n<li>Update <code>@\u200bactions/cache</code> to 3.0.4 version <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/499\">#499</a></li>\n<li>Only use github.token on github.com <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/443\">#443</a></li>\n<li>Improvement of documentation <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/477\">#477</a>  <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/479\">#479</a> <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/491\">#491</a>  <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/492\">#492</a></li>\n</ul>\n<h2>Add check-latest input and bug fixes</h2>\n<p>In scope of this release we add the\u00a0<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/406\">check-latest</a>\u00a0input. If\u00a0check-latest\u00a0is set to\u00a0true, the action first checks if the cached version is the latest one. If the locally cached version is not the most up-to-date, the version will then be downloaded from\u00a0<a href=\"https://github.com/actions/python-versions\">python-versions</a>\u00a0repository. By default\u00a0check-latest\u00a0is set to\u00a0false. For PyPy it will to try to reach <a href=\"https://downloads.python.org/pypy/versions.json\">https://downloads.python.org/pypy/versions.json</a></p>\n<h3>Example of usage:</h3>\n<pre lang=\"yaml\"><code>steps:\n  - uses: actions/checkout@v3\n  - uses: actions/setup-python@v4\n    with:\n      python-version: '3.9'\n      check-latest: true\n  - run: python --version\n</code></pre>\n<p>Besides, it includes such changes as</p>\n<ul>\n<li>Resolved logs for python-version and file inputs: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/465\">actions/setup-python#465</a></li>\n<li>Added linux os release info to primary key: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/467\">actions/setup-python#467</a></li>\n<li>Added fix to change Python versions for poetry: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/445\">actions/setup-python#445</a></li>\n<li>Fix Tool Path handling for self-hosted runners: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/466\">actions/setup-python#466</a></li>\n</ul>\n</blockquote>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a href=\"https://github.com/actions/setup-python/commit/2c3dd9e7e29afd70cc0950079bde6c979d1f69f9\"><code>2c3dd9e</code></a> Add OS info to the error message (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/559\">#559</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/76bbdfadd7792e54db5b82bd04a77913663d4dd6\"><code>76bbdfa</code></a> Update minimatch (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/558\">#558</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/1aafadcfb96443dc8b2c66d464369fad6ead5571\"><code>1aafadc</code></a> Caching projects that use setup.py (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/549\">#549</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/b80efd6bc5dcdc82c015d69ecd3e39320d0095e6\"><code>b80efd6</code></a> Update to latest <code>actions/publish-action</code> (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/546\">#546</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/5cddb278857fec730853802fad5126d9d78895d5\"><code>5cddb27</code></a> Recommend setting python-version (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/545\">#545</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/47c4a7af1d72897a511c975c95a5335bb6329dec\"><code>47c4a7a</code></a> fix(ci): run <code>.github/workflows/workflow.yml</code> on ubuntu-20.04 (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/535\">#535</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/af57b6499414c9dd25c305c7c008a5109c5a188f\"><code>af57b64</code></a> Extend docu regarding rate limit issues. (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/510\">#510</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/4818a5a1535387fb9d6e71f7ace82ad3b405804b\"><code>4818a5a</code></a> Handle download HTTP error (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/511\">#511</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/8bcd2560e267a43fbd8ff66c50da8a61825a0782\"><code>8bcd256</code></a> Add architecture input check for PyPy for Windows platform (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/520\">#520</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/13ae5bb136fac2878aff31522b9efb785519f984\"><code>13ae5bb</code></a> Merge pull request <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/517\">#517</a> from rentziass/rentziass/update-actions-core</li>\n<li>Additional commits viewable in <a href=\"https://github.com/actions/setup-python/compare/v4.1.0...v4.3.1\">compare view</a></li>\n</ul>\n</details>\n<br />\n\n\n[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/setup-python&package-manager=github_actions&previous-version=4.1.0&new-version=4.3.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge and block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually\n- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)\n\n\n</details>",
+      "createdAt": "2022-12-09T12:06:12Z",
+      "updatedAt": "2022-12-09T12:06:15Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "d3322a4c4418f50f3285547e359170eb88e311d5",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "dependabot/github_actions/actions/setup-python-4.3.1",
+      "headRefOid": "1cb5f45d3128e3e54163c0b06368da67b4f7cb4b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 347,
+      "id": "PR_kwDOEpUZs85E8I4r",
+      "title": "fix Ed448 Scalar size",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/347",
+      "state": "MERGED",
+      "author": "conradoplg",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes https://github.com/cfrg/draft-irtf-cfrg-frost/issues/338",
+      "createdAt": "2022-12-09T19:59:33Z",
+      "updatedAt": "2022-12-09T23:08:15Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "d3322a4c4418f50f3285547e359170eb88e311d5",
+      "headRepository": "conradoplg/draft-irtf-cfrg-frost",
+      "headRefName": "ed448-scalar-size",
+      "headRefOid": "927303b90fe755626ef1087931afaf4d4fd36281",
+      "closedAt": "2022-12-09T23:08:14Z",
+      "mergedAt": "2022-12-09T23:08:14Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "2ba899ee0de3d0fc4fee28c6e11385626c6f984f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85IQuKv",
+          "commit": {
+            "abbreviatedOid": "927303b"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-09T23:08:09Z",
+          "updatedAt": "2022-12-09T23:08:09Z",
           "comments": []
         }
       ]
