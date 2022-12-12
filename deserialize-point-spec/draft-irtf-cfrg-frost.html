@@ -2546,7 +2546,7 @@ and then performs public-key validation as defined in section 3.2.2.1 of <span>[
 This includes checking that the coordinates of the resulting point are
 in the correct range, that the point is on the curve, and that the point is not
 the point at infinity. (As noted in the specification, validation of the point
-order is not required since the cofactor is 1.) If these checks fail,
+order is not required since the cofactor is 1.) If any of these checks fail,
 deserialization returns an error.<a href="#section-6.4-2.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.4-2.1.2.6">SerializeScalar(s): Implemented using the Field-Element-to-Octet-String conversion
@@ -2611,7 +2611,7 @@ and then performs public-key validation as defined in section 3.2.2.1 of <span>[
 This includes checking that the coordinates of the resulting point are
 in the correct range, that the point is on the curve, and that the point is not
 the point at infinity. (As noted in the specification, validation of the point
-order is not required since the cofactor is 1.) If these checks fail,
+order is not required since the cofactor is 1.) If any of these checks fail,
 deserialization returns an error.<a href="#section-6.5-2.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.5-2.1.2.6">SerializeScalar(s): Implemented using the Field-Element-to-Octet-String conversion

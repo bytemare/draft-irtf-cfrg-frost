@@ -1304,8 +1304,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
          range, that the point is on the curve, and that the point is
          not the point at infinity.  (As noted in the specification,
          validation of the point order is not required since the
-         cofactor is 1.)  If these checks fail, deserialization returns
-         an error.
+         cofactor is 1.)  If any of these checks fail, deserialization
+         returns an error.
 
       -  SerializeScalar(s): Implemented using the Field-Element-to-
          Octet-String conversion according to [SEC1].
@@ -1371,8 +1371,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
          range, that the point is on the curve, and that the point is
          not the point at infinity.  (As noted in the specification,
          validation of the point order is not required since the
-         cofactor is 1.)  If these checks fail, deserialization returns
-         an error.
+         cofactor is 1.)  If any of these checks fail, deserialization
+         returns an error.
 
       -  SerializeScalar(s): Implemented using the Field-Element-to-
          Octet-String conversion according to [SEC1].
