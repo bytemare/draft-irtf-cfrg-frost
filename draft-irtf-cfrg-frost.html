@@ -2141,7 +2141,7 @@ MUST abort the protocol. Moreover, each participant MUST ensure that
 their identifier appears in commitment_list along with
 their commitment from the first round.
 Applications which require that participants not process arbitrary
-input messages are also required to also perform relevant application-layer input
+input messages are also required to perform relevant application-layer input
 validation checks; see <a href="#message-validation" class="auto internal xref">Section 7.5</a> for more details.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">Upon receipt and successful input validation, each Signer then runs the following
 procedure to produce its own signature share.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
@@ -2788,19 +2788,23 @@ In particular, a different prefix SHOULD be used to differentiate this pre-hash 
         <h3 id="name-input-message-validation">
 <a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-input-message-validation" class="section-name selfRef">Input Message Validation</a>
         </h3>
-<p id="section-7.5-1">Some applications may require that participants only process messages of a certain
-structure. For example, in digital currency applications wherein multiple
-participants may collectively sign a transaction, it is reasonable to require that
-each participant check the input message to be a syntactically valid transaction.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
-<p id="section-7.5-2">As another example, use of threshold signatures in <span>[<a href="#TLS" class="cite xref">TLS</a>]</span> to produce
-signatures of transcript hashes might require the participants receive the source
-handshake messages themselves, and recompute the transcript hash which is used
-as input message to the signature generation process, so that they can verify
-that they are signing a proper TLS transcript hash and not some other data.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
+<p id="section-7.5-1">Message validation varies by application. For example, some applications may
+require that participants only process messages of a certain structure. In digital
+currency applications, wherein multiple participants may collectively sign a transaction,
+it is reasonable to require that each participant check the input message to be a
+syntactically valid transaction.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.5-2">As another example, some applications may require that participants only process
+messages with permitted content according to some policy. In digital currency
+applications, this might mean that a transaction being signed is allowed and
+intended by the relevant stakeholders. Another instance of this type of message
+validation is in the context of <span>[<a href="#TLS" class="cite xref">TLS</a>]</span>, wherein implementations may
+use threshold signing protocols to produce signatures of transcript hashes. In
+this setting, signing participants might require the raw TLS handshake messages
+to validate before computing the transcript hash that is signed.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
 <p id="section-7.5-3">In general, input message validation is an application-specific consideration
 that varies based on the use case and threat model. However, it is RECOMMENDED
-that applications take additional precautions and validate inputs so that participants
-do not operate as signing oracles for arbitrary messages.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+that applications take additional precautions and validate inputs so that
+participants do not operate as signing oracles for arbitrary messages.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
