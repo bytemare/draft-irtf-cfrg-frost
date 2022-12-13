@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-11T00:51:22.456511+00:00",
+  "timestamp": "2022-12-13T00:50:26.201180+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3561,11 +3561,13 @@
       "state": "OPEN",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "conradoplg"
+      ],
       "labels": [],
       "body": "From Paul:\r\n\r\n4.2.  Polynomial Operations\r\n\r\n    * \"A polynomial of maximum degree t+1 is represented as a list of t coefficients\" shouldn't it be the reverse? Namely, \"A polynomial of maximum degree t is represented as a list of t+1 coefficients\". For example, a polynomial of degree 2 (quadratic) could be f(x) = x^2 + x + 1, which has 2 + 1 = 3 coefficients.\r\n\r\nFrom @armfazh:\r\n\r\n\"A polynomial of maximum degree t+1 is represented as a list of t coefficients\" -> \"A polynomial of maximum degree t is represented as a list of t+1 coefficients\"\r\n\r\nWe should probably just include an example to be maximally clear.",
       "createdAt": "2022-12-07T15:50:44Z",
-      "updatedAt": "2022-12-09T23:53:21Z",
+      "updatedAt": "2022-12-12T14:46:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -3585,11 +3587,13 @@
       "state": "OPEN",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "conradoplg"
+      ],
       "labels": [],
       "body": "From Paul:\r\n\r\n4.3.  List Operations\r\n\r\n    * In the function \"binding_factor_for_participant(binding_factor_list, identifier):\", is the requirement that \"This list MUST be sorted in ascending order by participant identifier.\" Is this really necessary for that particular algorithm?\r\n\r\n4.5.  Group Commitment Computation\r\n\r\n    * \"binding_factor_list = [(i, binding_factor), ...], a list of (identifier, Scalar) tuples representing the binding factor Scalar for the given identifier. This list MUST be sorted in ascending order by identifier.\" -> again, it doesn't seem necessary for this specific list to be sorted.\r\n\r\nWe should explain why these things need to be sorted.",
       "createdAt": "2022-12-07T15:51:50Z",
-      "updatedAt": "2022-12-09T23:40:41Z",
+      "updatedAt": "2022-12-12T18:14:33Z",
       "closedAt": null,
       "comments": [
         {
@@ -3598,6 +3602,13 @@
           "body": "Assigning to @conradoplg ",
           "createdAt": "2022-12-09T23:40:41Z",
           "updatedAt": "2022-12-09T23:40:41Z"
+        },
+        {
+          "author": "conradoplg",
+          "authorAssociation": "COLLABORATOR",
+          "body": "They don't actually need to be sorted in these functions. The only justification I can see is that the list needs to be sorted to being used elsewhere so there is no reason to not pass a sorted list, but it's still not a requirement.\r\n\r\nI'm considering these options:\r\n\r\n- Remove the sorting requirement in these functions\r\n- Change to SHOULD\r\n- Do nothing\r\n\r\nI went with the first one in https://github.com/cfrg/draft-irtf-cfrg-frost/pull/349 but feel free to disagree and I'll change the PR.",
+          "createdAt": "2022-12-12T18:14:33Z",
+          "updatedAt": "2022-12-12T18:14:33Z"
         }
       ]
     },
@@ -3707,11 +3718,13 @@
       "state": "OPEN",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "conradoplg"
+      ],
       "labels": [],
       "body": "From @armfazh:\r\n\r\nFor secp256r1:\r\npartial public-key validation as defined in section 5.6.2.3.4 of [KEYAGREEMENT].\r\n\r\nFor secp256k1:\r\npartial public-key validation as defined in section 3.2.2.1 of [SEC1].\r\n\r\nAre these validation methods different? If not, why make a distinction?",
       "createdAt": "2022-12-07T16:22:21Z",
-      "updatedAt": "2022-12-09T23:39:10Z",
+      "updatedAt": "2022-12-12T14:45:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -21223,6 +21236,84 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 348,
+      "id": "PR_kwDOEpUZs85FOLti",
+      "title": "poin both secp256r1/k1 point deserialization to SEC1 spec",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/348",
+      "state": "OPEN",
+      "author": "conradoplg",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes https://github.com/cfrg/draft-irtf-cfrg-frost/issues/339\r\n\r\nBoth algorithms do the same thing, but to avoid confusion, I thought it would be simpler to point both to SEC1. Also SEC1 is specifies that the point multiplication is not necessary when not needed (cofactor 1) while SP800-56A requires it.\r\n\r\nI also made the descriptions consistent across both ciphersuites, and fixed the name of the pointed routine (it's not partial validation which is in 3.2.3.1; it's full validation which is what we want, while still allowing skipping the order check)",
+      "createdAt": "2022-12-12T17:49:14Z",
+      "updatedAt": "2022-12-12T17:49:14Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "2ba899ee0de3d0fc4fee28c6e11385626c6f984f",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "deserialize-point-spec",
+      "headRefOid": "eb419458dc351aba2d2b729e0c525b00a0296ab8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 349,
+      "id": "PR_kwDOEpUZs85FOVeI",
+      "title": "remove unneded sorting requirements",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/349",
+      "state": "OPEN",
+      "author": "conradoplg",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes https://github.com/cfrg/draft-irtf-cfrg-frost/issues/332. See discussion there on whether this is the approach we want to take or not.",
+      "createdAt": "2022-12-12T18:13:45Z",
+      "updatedAt": "2022-12-12T18:13:46Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "2ba899ee0de3d0fc4fee28c6e11385626c6f984f",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "remove-sorting-requirements",
+      "headRefOid": "3d9ef3e6dab1108a21c160548f3c3b8bd4370098",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 350,
+      "id": "PR_kwDOEpUZs85FOj4L",
+      "title": "fix and clarify polynomial representation",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/350",
+      "state": "OPEN",
+      "author": "conradoplg",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes https://github.com/cfrg/draft-irtf-cfrg-frost/issues/331",
+      "createdAt": "2022-12-12T18:49:47Z",
+      "updatedAt": "2022-12-12T18:49:48Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "2ba899ee0de3d0fc4fee28c6e11385626c6f984f",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "polynomial-clarification",
+      "headRefOid": "e2b2040a94bfe172894f4315fea4e8518f7148b8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
