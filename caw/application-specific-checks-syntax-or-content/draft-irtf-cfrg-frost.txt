@@ -1556,7 +1556,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    stakeholders.  Another instance of this type of message validation is
    in the context of [TLS], wherein implementations may use threshold
    signing protocols to produce signatures of transcript hashes.  In
-   this setting, signing particiapnts might require the raw TLS
+   this setting, signing participants might require the raw TLS
    handshake messages to validate before computing the transcript hash
    that is signed.
 
