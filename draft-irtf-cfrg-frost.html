@@ -2779,8 +2779,8 @@ level commensurate with the security inherent to the ciphersuite chosen. It is
 RECOMMENDED that applications which choose to apply pre-hashing use the hash function
 (<code>H</code>) associated with the chosen ciphersuite in a manner similar to how <code>H4</code> is defined.
 In particular, a different prefix SHOULD be used to differentiate this pre-hash from
-<code>H4</code>. One possible example is to construct this pre-hash over message <code>m</code> as
-<code>H(contextString || "pre-hash" || m)</code>.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<code>H4</code>. For example, if a fictional protocol Quux decided to pre-hash its input messages,
+one possible way to do so is via <code>H(contextString || "Quux-pre-hash" || m)</code>.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="message-validation">
