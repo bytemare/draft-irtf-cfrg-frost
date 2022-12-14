@@ -3006,7 +3006,7 @@ algorithm, defined in <a href="#dep-shamir" class="auto internal xref">Appendix 
 </div>
 <p id="appendix-C-4">It is assumed the dealer then sends one secret key share to each of the <code>NUM_PARTICIPANTS</code> participants, along with <code>vss_commitment</code>.
 After receiving their secret key share and <code>vss_commitment</code>, participants MUST abort if they do not have the same view of <code>vss_commitment</code>.
-Ensuring a consistent view of this VSS commitment can be achieved by employing a secure broadcast channel.
+The dealer can use a secure broadcast channel to ensure each participant has a consistent view of this commitment.
 Otherwise, each participant MUST perform <code>vss_verify(secret_key_share_i, vss_commitment)</code>, and abort if the check fails.
 The trusted dealer MUST delete the secret_key and secret_key_shares upon completion.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 <p id="appendix-C-5">Use of this method for key generation requires a mutually authenticated secure channel
