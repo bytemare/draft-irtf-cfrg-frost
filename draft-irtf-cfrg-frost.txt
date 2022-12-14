@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 16 June 2023           University of Waterloo, Zcash Foundation
+Expires: 17 June 2023           University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                        13 December 2022
+                                                        14 December 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 June 2023.
+   This Internet-Draft will expire on 17 June 2023.
 
 Copyright Notice
 
@@ -1024,6 +1024,10 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    commitment will be with respect to a different signing set than the
    aggregated response.
 
+   If robustness is desired (i.e, the signing protocol will complete
+   even if some participants abort or submit invalid shares), see
+   [ROAST] as a wrapper protocol.
+
    Otherwise, if all shares from participants that participated in
    Rounds 1 and 2 are valid, the Coordinator performs the aggregate
    operation and publishes the resulting signature.
@@ -1635,6 +1639,11 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    [RFC7748]  Langley, A., Hamburg, M., and S. Turner, "Elliptic Curves
               for Security", RFC 7748, DOI 10.17487/RFC7748, January
               2016, <https://www.rfc-editor.org/rfc/rfc7748>.
+
+   [ROAST]    Ruffing, T., Ronge, V., Jin, E., Schneider-Bensch, J., and
+              D. Schröder, "ROAST: Robust Asynchronous Schnorr Threshold
+              Signatures", 18 September 2022,
+              <https://eprint.iacr.org/2022/550>.
 
    [Schnorr21]
               Crites, E., Komlo, C., and M. Maller, "How to Prove
