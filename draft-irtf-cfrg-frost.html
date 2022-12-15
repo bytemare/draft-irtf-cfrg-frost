@@ -2268,12 +2268,9 @@ Excluding one participant means that their nonce will not be included in the joi
 and consequently the output signature will not verify. This is because the
 group commitment will be with respect to a different signing set than the
 aggregated response.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<p id="section-5.3-4">If robustness is desired (i.e, the signing protocol will complete even if some
-participants abort or submit invalid shares), see <span>[<a href="#ROAST" class="cite xref">ROAST</a>]</span> as a wrapper
-protocol.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
-<p id="section-5.3-5">Otherwise, if all shares from participants that participated in Rounds 1 and 2 are valid, the Coordinator
-performs the <code>aggregate</code> operation and publishes the resulting signature.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.3-6">
+<p id="section-5.3-4">Otherwise, if all shares from participants that participated in Rounds 1 and 2 are valid, the Coordinator
+performs the <code>aggregate</code> operation and publishes the resulting signature.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3-5">
 <pre>
   Inputs:
   - group_commitment, the group commitment returned by compute_group_commitment,
@@ -2288,20 +2285,20 @@ performs the <code>aggregate</code> operation and publishes the resulting signat
     for z_i in sig_shares:
       z = z + z_i
     return (group_commitment, z)
-</pre><a href="#section-5.3-6" class="pilcrow">¶</a>
+</pre><a href="#section-5.3-5" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-7">The output signature (R, z) from the aggregation step MUST be encoded as follows
-(using notation from <span><a href="https://rfc-editor.org/rfc/rfc8446#section-3" class="relref">Section 3</a> of [<a href="#TLS" class="cite xref">TLS</a>]</span>):<a href="#section-5.3-7" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.3-8">
+<p id="section-5.3-6">The output signature (R, z) from the aggregation step MUST be encoded as follows
+(using notation from <span><a href="https://rfc-editor.org/rfc/rfc8446#section-3" class="relref">Section 3</a> of [<a href="#TLS" class="cite xref">TLS</a>]</span>):<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3-7">
 <pre>
   struct {
     opaque R_encoded[Ne];
     opaque z_encoded[Ns];
   } Signature;
-</pre><a href="#section-5.3-8" class="pilcrow">¶</a>
+</pre><a href="#section-5.3-7" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-9">Where Signature.R_encoded is <code>G.SerializeElement(R)</code> and Signature.z_encoded is
-<code>G.SerializeScalar(z)</code>.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
+<p id="section-5.3-8">Where Signature.R_encoded is <code>G.SerializeElement(R)</code> and Signature.z_encoded is
+<code>G.SerializeScalar(z)</code>.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2709,7 +2706,8 @@ requirements in <a href="#ciphersuite-reqs" class="auto internal xref">Section 6
 <ul class="normal">
 <li class="normal" id="section-7-5.1">Post quantum security. FROST, like plain Schnorr signatures, requires the hardness of the Discrete Logarithm Problem.<a href="#section-7-5.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-7-5.2">Robustness. In the case of failure, FROST requires aborting the protocol.<a href="#section-7-5.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-7-5.2">Robustness. In the case of failure, FROST requires aborting the protocol. See <span>[<a href="#ROAST" class="cite xref">ROAST</a>]</span> as a wrapper protocol around
+FROST that provides robustness.<a href="#section-7-5.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-7-5.3">Downgrade prevention. All participants in the protocol are assumed to agree on what algorithms to use.<a href="#section-7-5.3" class="pilcrow">¶</a>
 </li>
