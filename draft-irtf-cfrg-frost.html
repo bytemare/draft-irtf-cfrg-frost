@@ -2338,7 +2338,7 @@ The value of the contextString parameter is "FROST-ED25519-SHA512-v11".<a href="
 <li class="normal" id="section-6.1-2.1">
             <p id="section-6.1-2.1.1">Group: edwards25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span><a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.1-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>)<a href="#section-6.1-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.1-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>).<a href="#section-6.1-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.1-2.1.2.2">Identity(): As defined in <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>.<a href="#section-6.1-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2351,7 +2351,8 @@ identity element.<a href="#section-6.1-2.1.2.4" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.1-2.1.2.5">DeserializeElement(buf): Implemented as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>], <a href="https://rfc-editor.org/rfc/rfc8032#section-5.1.3" class="relref">Section 5.1.3</a></span>.
 Additionally, this function validates that the resulting element is not the group
-identity element and is in the prime-order subgroup. The latter check can
+identity element and is in the prime-order subgroup. If any of these checks fail,
+deserialization returns an error. The latter check can
 be implemented by multiplying the resulting point by the order of the group and
 checking that the result is the identity element. Note that optimizations for
 this check exist; see <span>[<a href="#Pornin22" class="cite xref">Pornin22</a>]</span>.<a href="#section-6.1-2.1.2.5" class="pilcrow">¶</a>
@@ -2406,7 +2407,7 @@ The value of the contextString parameter is "FROST-RISTRETTO255-SHA512-v11".<a h
 <li class="normal" id="section-6.2-2.1">
             <p id="section-6.2-2.1.1">Group: ristretto255 <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span><a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.2-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>)<a href="#section-6.2-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.2-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>).<a href="#section-6.2-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.2-2.1.2.2">Identity(): As defined in <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>.<a href="#section-6.2-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2419,7 +2420,7 @@ identity element.<a href="#section-6.2-2.1.2.4" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.2-2.1.2.5">DeserializeElement(buf): Implemented using the 'Decode' function from <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>.
 Additionally, this function validates that the resulting element is not the group
-identity element.<a href="#section-6.2-2.1.2.5" class="pilcrow">¶</a>
+identity element. If either 'Decode' or that check fails, deserialization returns an error.<a href="#section-6.2-2.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.2-2.1.2.6">SerializeScalar(s): Implemented by outputting the little-endian 32-byte encoding of
 the Scalar value with the top three bits set to zero.<a href="#section-6.2-2.1.2.6" class="pilcrow">¶</a>
@@ -2465,7 +2466,7 @@ The value of the contextString parameter is "FROST-ED448-SHAKE256-v11".<a href="
 <li class="normal" id="section-6.3-2.1">
             <p id="section-6.3-2.1.1">Group: edwards448 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span><a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.3-2.1.2.1">Order(): Return 2^446 - 13818066809895115352007386748515426880336692474882178609894547503885<a href="#section-6.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.3-2.1.2.1">Order(): Return 2^446 - 13818066809895115352007386748515426880336692474882178609894547503885.<a href="#section-6.3-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.3-2.1.2.2">Identity(): As defined in <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>.<a href="#section-6.3-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2478,7 +2479,8 @@ identity element.<a href="#section-6.3-2.1.2.4" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.3-2.1.2.5">DeserializeElement(buf): Implemented as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>], <a href="https://rfc-editor.org/rfc/rfc8032#section-5.2.3" class="relref">Section 5.2.3</a></span>.
 Additionally, this function validates that the resulting element is not the group
-identity element and is in the prime-order subgroup. The latter check can
+identity element and is in the prime-order subgroup. If any of these checks fail,
+deserialization returns an error. The latter check can
 be implemented by multiplying the resulting point by the order of the group and
 checking that the result is the identity element. Note that optimizations for
 this check exist; see <span>[<a href="#Pornin22" class="cite xref">Pornin22</a>]</span>.<a href="#section-6.3-2.1.2.5" class="pilcrow">¶</a>
@@ -2532,7 +2534,7 @@ The value of the contextString parameter is "FROST-P256-SHA256-v11".<a href="#se
 <li class="normal" id="section-6.4-2.1">
             <p id="section-6.4-2.1.1">Group: P-256 (secp256r1) <span>[<a href="#x9.62" class="cite xref">x9.62</a>]</span><a href="#section-6.4-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.4-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551<a href="#section-6.4-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.4-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551.<a href="#section-6.4-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.4-2.1.2.2">Identity(): As defined in <span>[<a href="#x9.62" class="cite xref">x9.62</a>]</span>.<a href="#section-6.4-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2597,7 +2599,7 @@ The value of the contextString parameter is "FROST-secp256k1-SHA256-v11".<a href
 <li class="normal" id="section-6.5-2.1">
             <p id="section-6.5-2.1.1">Group: secp256k1 <span>[<a href="#SEC2" class="cite xref">SEC2</a>]</span><a href="#section-6.5-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.5-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551<a href="#section-6.5-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.5-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551.<a href="#section-6.5-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.5-2.1.2.2">Identity(): As defined in <span>[<a href="#SEC2" class="cite xref">SEC2</a>]</span>.<a href="#section-6.5-2.1.2.2" class="pilcrow">¶</a>
 </li>
