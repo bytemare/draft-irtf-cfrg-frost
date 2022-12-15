@@ -156,8 +156,8 @@ Table of Contents
    deterministically allows for a complete key-recovery attack in multi-
    party discrete logarithm-based signatures, such as FROST.
 
-   While an optimization to FROST was shown in [Schnorr21] that reduces
-   scalar multiplications from linear in the number of signing
+   While an optimization to FROST was shown in [StrongerSec22] that
+   reduces scalar multiplications from linear in the number of signing
    participants to constant, this draft does not specify that
    optimization due to the malleability that this optimization
    introduces, as shown in [StrongerSec22].  Specifically, this
@@ -1425,7 +1425,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
 7.  Security Considerations
 
-   A security analysis of FROST exists in [FROST20] and [Schnorr21].
+   A security analysis of FROST exists in [FROST20] and [StrongerSec22].
    The protocol as specified in this document assumes the following
    threat model.
 
@@ -1641,15 +1641,12 @@ def binding_factor_for_participant(binding_factor_list, identifier):
               Signatures", 18 September 2022,
               <https://eprint.iacr.org/2022/550>.
 
-   [Schnorr21]
-              Crites, E., Komlo, C., and M. Maller, "How to Prove
-              Schnorr Assuming Schnorr", 11 October 2021,
-              <https://eprint.iacr.org/2021/1375>.
-
    [StrongerSec22]
-              Bellare, M., Tessaro, S., and C. Zhu, "Stronger Security
-              for Non-Interactive Threshold Signatures: BLS and FROST",
-              1 June 2022, <https://eprint.iacr.org/2022/833>.
+              Bellare, M., Crites, E., Komlo, C., Maller, M., Tessaro,
+              S., and C. Zhu, "Better than Advertised Security for Non-
+              interactive Threshold Signatures", 1 June 2022,
+              <https://crypto.iacr.org/2022/
+              papers/538806_1_En_18_Chapter_OnlinePDF.pdf>.
 
    [TLS]      Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
