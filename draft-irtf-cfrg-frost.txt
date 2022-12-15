@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 17 June 2023           University of Waterloo, Zcash Foundation
+Expires: 18 June 2023           University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                        14 December 2022
+                                                        15 December 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 June 2023.
+   This Internet-Draft will expire on 18 June 2023.
 
 Copyright Notice
 
@@ -876,8 +876,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    locally and kept for use in the second round.  The nonce value is
    secret and MUST NOT be shared, whereas the public output comm is sent
    to the Coordinator.  The nonce values produced by this function MUST
-   NOT be reused in more than one invocation of FROST, and it MUST be
-   generated from a source of secure randomness.
+   NOT be used in more than one invocation of sign, and the nonces MUST
+   be generated from a source of secure randomness.
 
 5.2.  Round Two - Signature Share Generation
 
@@ -943,9 +943,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
    The output of this procedure is a signature share.  Each participant
    then sends these shares back to the Coordinator.  Each participant
-   MUST delete the nonce and corresponding commitment after this round
-   completes, and MUST use the nonce to generate at most one signature
-   share.
+   MUST delete the nonce and corresponding commitment after completing
+   sign, and MUST NOT use the nonce as input more than once to sign.
 
    Note that the lambda_i value derived during this procedure does not
    change across FROST signing operations for the same signing group.
