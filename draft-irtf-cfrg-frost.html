@@ -3044,7 +3044,7 @@ the scalar field of the prime-order group <code>G</code>.<a href="#appendix-C.1-
   - coefficients, a vector of MIN_PARTICIPANTS coefficients which uniquely determine a polynomial f.
 
   Errors:
-  - "invalid parameters", if MIN_PARTICIPANTS &gt; MAX_PARTICIPANTS or if MIN_PARTICIPANTS is less than 2
+  - "invalid parameters", if MIN_PARTICIPANTS &gt; MAX_PARTICIPANTS or if MIN_PARTICIPANTS is less than 1
 
   def secret_share_shard(s, coefficients, MAX_PARTICIPANTS, MIN_PARTICIPANTS):
     if MIN_PARTICIPANTS &gt; MAX_PARTICIPANTS:
