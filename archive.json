@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-15T00:47:40.660887+00:00",
+  "timestamp": "2022-12-18T00:42:14.392954+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3318,7 +3318,7 @@
       "id": "I_kwDOEpUZs85YN1Az",
       "title": "Add extensions discussion",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/317",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chelseakomlo",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3327,9 +3327,17 @@
       "labels": [],
       "body": "From @hdevalence:\r\n\r\nOne thing that could be nice to mention in the document would be pointers on robust schemes built on top of FROST, like ROAST. I don't think it makes sense to incorporate a specification of ROAST in the document -- since it would best be standardized on its own, in a separate document referencing this one -- but it would be helpful for readers to be aware that it exists.",
       "createdAt": "2022-12-06T19:43:22Z",
-      "updatedAt": "2022-12-13T20:46:43Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2022-12-15T14:37:01Z",
+      "closedAt": "2022-12-15T14:37:01Z",
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed by #356",
+          "createdAt": "2022-12-15T14:37:00Z",
+          "updatedAt": "2022-12-15T14:37:00Z"
+        }
+      ]
     },
     {
       "number": 318,
@@ -3352,7 +3360,7 @@
       "id": "I_kwDOEpUZs85YWHgj",
       "title": "Fix Schnorr reference",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/319",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3361,16 +3369,24 @@
       "labels": [],
       "body": "From @real-or-random:\r\n\r\n> [Schnorr21]\r\n\r\nThis citation tag really looks like Schnorr wrote the referenced paper,\r\nI suggest to change it.",
       "createdAt": "2022-12-07T15:29:02Z",
-      "updatedAt": "2022-12-13T20:46:25Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2022-12-15T14:42:12Z",
+      "closedAt": "2022-12-15T14:42:12Z",
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed by #357",
+          "createdAt": "2022-12-15T14:42:12Z",
+          "updatedAt": "2022-12-15T14:42:12Z"
+        }
+      ]
     },
     {
       "number": 320,
       "id": "I_kwDOEpUZs85YWH1I",
       "title": "Clarify nonce use limitation",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/320",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3379,16 +3395,24 @@
       "labels": [],
       "body": "From @real-or-random:\r\n\r\n> The nonce values produced by this function MUST NOT be reused in more\r\nthan one invocation of FROST, and it MUST be generated from a source of\r\nsecure randomness.\r\n\r\nIt's not clear what an \"invocation\" is in a two-round protocol. Maybe\r\n\"more than one invocation of the second round algorithm\" or something\r\nalong these lines? Below you say \"and MUST use the nonce to generate at\r\nmost one signature share.\" -- this is very clear.\r\n\r\n> Each participant MUST delete the nonce and corresponding commitment\r\nafter this round completes\r\n\r\nIt's not entirely clear what \"completes\" means here. (One could for\r\nexample wrongly assume that the round does not \"complete\" before the\r\naggregator outputs a signature.)\r\n\r\nFrom @cjpatton:\r\n\r\nSection 5.2: \"... and MUST use the nonce to generate at most one signature share\": I think a MUST NOT would better emphasize the requirement: \"... MUST NOT use the nonce for more than once\".\r\n\r\nFrom @armfazh:\r\n\r\n\"The nonce values produced by this function MUST NOT be reused in more than one invocation of FROST, and it MUST be generated from a source of secure randomness.\" -> \"The nonce values produced by this function MUST NOT be reused in more than one invocation of FROST, and they MUST be generated from a source of secure randomness.\"",
       "createdAt": "2022-12-07T15:29:36Z",
-      "updatedAt": "2022-12-13T20:46:14Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2022-12-15T14:36:36Z",
+      "closedAt": "2022-12-15T14:36:36Z",
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed by #358",
+          "createdAt": "2022-12-15T14:36:35Z",
+          "updatedAt": "2022-12-15T14:36:35Z"
+        }
+      ]
     },
     {
       "number": 321,
       "id": "I_kwDOEpUZs85YWICj",
       "title": "Multi-signature applicability",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/321",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3397,8 +3421,8 @@
       "labels": [],
       "body": "From @real-or-random:\r\n\r\nIt may make sense to mention that FROST can be used in the case\r\nMIN_PARTICIPANTS == MAX_PARTICIPANTS but in this special case of\r\nmultisignatures, other schemes (MuSig2, SpeedyMuSig) with nicer\r\nproperties (e.g., much simpler key generation) are available but out of\r\nscope of this document. I believe this could be a useful hint for\r\napplications that purely need an \"n-of-n\" solution. Of course, even for\r\nthese application, one may still come to the conclusion that FROST is\r\nthe way to go given that it's a RFC (assuming it makes it). \r\n\r\nFrom @armfazh:\r\n\r\n\"invalid parameters\", if MIN_PARTICIPANTS > MAX_PARTICIPANTS or if\r\nMIN_PARTICIPANTS is less than 2\r\n\r\nThis prevents splitting the secret between two entities, is this correct?\r\n\r\nAlso note that in the Test Vector Section\r\nMIN_PARTICIPANTS = 2\r\n\r\n---------\r\n\r\nWe should have a consistency story as to whether FROST can (or should) be used for multi-signatures, even when `t=n=2`.",
       "createdAt": "2022-12-07T15:29:58Z",
-      "updatedAt": "2022-12-13T22:28:26Z",
-      "closedAt": null,
+      "updatedAt": "2022-12-15T17:40:28Z",
+      "closedAt": "2022-12-15T17:40:27Z",
       "comments": [
         {
           "author": "chelseakomlo",
@@ -3406,6 +3430,13 @@
           "body": "We generalize t to be 1 in #359. The discussion of whether to use multisignatures or threshold signatures is out of scope; t=n is a valid input to FROST. ",
           "createdAt": "2022-12-13T22:28:25Z",
           "updatedAt": "2022-12-13T22:28:25Z"
+        },
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed by #359",
+          "createdAt": "2022-12-15T17:40:27Z",
+          "updatedAt": "2022-12-15T17:40:27Z"
         }
       ]
     },
@@ -3683,7 +3714,7 @@
       "id": "I_kwDOEpUZs85YWVHn",
       "title": "Ciphersuite edits and clarifications",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/334",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3692,8 +3723,8 @@
       "labels": [],
       "body": "From Paul:\r\n\r\n6.1.  FROST(Ed25519, SHA-512)\r\n\r\n    * \"Order():\" -> Missing period at the end of that statement. This applies to all \"Order():\" descriptions. Note that this may be done on purpose to avoid confusion when copy/pasting the value, in which case this comment may be disregarded.\r\n\r\n\r\n6.4.  FROST(P-256, SHA-256)\r\n\r\n    * \"yielding a 33 byte output.  Additionally, this function\" -> should \"33 byte\" be hyphenated (\"33-byte\")? \r\n\r\n    * \"deserialize a 33 byte input string to a public key using the\" -> again, should \"33 bytes\" be hyphenated? I think most of the document is consistent otherwise. Consider performing a document-wide search and replace.\r\n\r\n    * At the end of the \"DeserializeElement(buf):\" description, it says \"If these checks fail, deserialization returns an error.\" Interestingly, this is not specified in such details in other instances of \"DeserializeElement()\". For example, the previous instance states \"this function *validates* that the resulting element is not the group identity element and is in the prime-order subgroup\", but it does not say that the function should return an error. Similarly, for the different \"DeserializeScalar()\" functions, the phrasing \"This function can fail if the\" is used in all ciphersuite examples. Would it make sense to say that it *does* fail and returns an error?",
       "createdAt": "2022-12-07T15:54:19Z",
-      "updatedAt": "2022-12-13T20:41:52Z",
-      "closedAt": null,
+      "updatedAt": "2022-12-15T17:45:06Z",
+      "closedAt": "2022-12-15T17:45:06Z",
       "comments": []
     },
     {
@@ -3812,7 +3843,7 @@
       "id": "I_kwDOEpUZs85YWpWb",
       "title": "Lagrange input checks",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/340",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3821,8 +3852,8 @@
       "labels": [],
       "body": "From @armfazh:\r\n\r\n> \"points, a set of t distinct points on a polynomial f\"\r\n\r\nNote that (1,2) != (1,3), these points are different, but they are an\r\ninvalid input to polynomial_interpolation function",
       "createdAt": "2022-12-07T16:32:31Z",
-      "updatedAt": "2022-12-14T19:02:48Z",
-      "closedAt": null,
+      "updatedAt": "2022-12-15T17:45:25Z",
+      "closedAt": "2022-12-15T17:45:25Z",
       "comments": [
         {
           "author": "conradoplg",
@@ -3871,7 +3902,7 @@
       "id": "I_kwDOEpUZs85YWroz",
       "title": "VSS implementation details",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/342",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3880,8 +3911,8 @@
       "labels": [],
       "body": "From @armfazh:\r\n\r\n> ...participants MUST abort if they do not have the same view of vss_commitment.\r\n\r\nIn practice, how this checking is performed (without adding a\r\ncommunication round)?\r\n\r\n> In the VSS section:\r\n\"We now define how the Coordinator and participants can derive group\r\ninfo, which is an input into the FROST signing protocol.\"\r\n\r\nIf the group info is the input of the FROST protocol, then VSS is a dependency?",
       "createdAt": "2022-12-07T16:37:30Z",
-      "updatedAt": "2022-12-14T18:50:35Z",
-      "closedAt": null,
+      "updatedAt": "2022-12-15T14:36:12Z",
+      "closedAt": "2022-12-15T14:36:12Z",
       "comments": [
         {
           "author": "chelseakomlo",
@@ -3896,6 +3927,13 @@
           "body": "That's fine. Then, such a relation should be explicitly stated in the document. I pointed this in other comment.\r\n\r\n",
           "createdAt": "2022-12-14T18:50:34Z",
           "updatedAt": "2022-12-14T18:50:34Z"
+        },
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed by #366",
+          "createdAt": "2022-12-15T14:36:12Z",
+          "updatedAt": "2022-12-15T14:36:12Z"
         }
       ]
     },
@@ -21136,21 +21174,21 @@
       "id": "PR_kwDOEpUZs85DZRxj",
       "title": "Generalize secret sharing",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/311",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The secret sharing components of this draft have value outside of FROST. This PR is one way we could repurpose them. We could also spin out a separate draft entirely that covers secret sharing. \r\n\r\nThe crux of the change is that secret sharing is done _deterministically_ using freshly generated randomness. In other words, rather than generate the polynomial coefficients at random, the coefficients are derived from a suitable amount of entropy. This allows the secret sharing mechanics to be repurposed elsewhere, such as in STAR.\r\n\r\nKeeping this as a draft for now while we solicit feedback. This is a big change to a draft that's in RGLC, so I'm not convinced we should land it. But I'm also not enthusiastic about spinning up an entirely new draft just for the purposes of formalizing some things that are already here (and potentially further delaying FROST).",
       "createdAt": "2022-11-21T22:22:07Z",
-      "updatedAt": "2022-12-06T20:15:41Z",
+      "updatedAt": "2022-12-15T16:09:41Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "113bd5a74e44725fc83d0e1c05f7b7ffdd5837cc",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/generalize-secret-sharing",
       "headRefOid": "208fbe1a03a0a4922a1f4401e4dfdd365ff6cd52",
-      "closedAt": null,
+      "closedAt": "2022-12-15T16:09:40Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -21161,6 +21199,20 @@
           "body": "This is a large divergence, and as you said, the draft is already in RGLC. The vote by @dconnolly, @conradoplg, and I is to keep the draft as is, and the generalization of secret sharing to a deterministic variant (from a random seed) be a different draft. ",
           "createdAt": "2022-12-06T20:15:40Z",
           "updatedAt": "2022-12-06T20:15:40Z"
+        },
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@chris-wood Ok if we close this PR?",
+          "createdAt": "2022-12-15T14:42:41Z",
+          "updatedAt": "2022-12-15T14:42:41Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yeah, let's close this.",
+          "createdAt": "2022-12-15T16:09:40Z",
+          "updatedAt": "2022-12-15T16:09:40Z"
         }
       ],
       "reviews": []
@@ -21946,24 +21998,26 @@
       "id": "PR_kwDOEpUZs85FX48i",
       "title": "Fix up reference to conference version",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/357",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chelseakomlo",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #319",
       "createdAt": "2022-12-13T22:01:42Z",
-      "updatedAt": "2022-12-14T20:03:07Z",
+      "updatedAt": "2022-12-15T14:42:00Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "efb522bb0e34649dc0456adecb67890365faab03",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "reference",
       "headRefOid": "c4842ecfdc45602b12c3cd208395379efa88d1c9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-12-15T14:41:57Z",
+      "mergedAt": "2022-12-15T14:41:57Z",
+      "mergedBy": "chelseakomlo",
+      "mergeCommit": {
+        "oid": "b5646183360369f5425e353da75f04566ccc7ae1"
+      },
       "comments": [],
       "reviews": [
         {
@@ -21986,24 +22040,26 @@
       "id": "PR_kwDOEpUZs85FX7pf",
       "title": "Nonce wording",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/358",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chelseakomlo",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #320\r\n\r\nSome of the wording is arguably still up for debate, so suggestions here are very welcome.",
       "createdAt": "2022-12-13T22:10:45Z",
-      "updatedAt": "2022-12-14T20:02:27Z",
+      "updatedAt": "2022-12-15T17:42:12Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "efb522bb0e34649dc0456adecb67890365faab03",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "nonces",
       "headRefOid": "f0046cea9d0805e398c98d67bfcb7a8d592d7289",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-12-15T14:35:30Z",
+      "mergedAt": "2022-12-15T14:35:30Z",
+      "mergedBy": "chelseakomlo",
+      "mergeCommit": {
+        "oid": "3e9f79fdd9ffd567a2ce6e078da529f4d8ee82d5"
+      },
       "comments": [],
       "reviews": [
         {
@@ -22031,6 +22087,32 @@
           "createdAt": "2022-12-14T20:02:27Z",
           "updatedAt": "2022-12-14T20:02:27Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85Iqawk",
+          "commit": {
+            "abbreviatedOid": "f0046ce"
+          },
+          "author": "armfazh",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2022-12-15T11:57:48Z",
+          "updatedAt": "2022-12-15T11:57:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85Isu2r",
+          "commit": {
+            "abbreviatedOid": "f0046ce"
+          },
+          "author": "real-or-random",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "lgtm",
+          "createdAt": "2022-12-15T17:42:12Z",
+          "updatedAt": "2022-12-15T17:42:12Z",
+          "comments": []
         }
       ]
     },
@@ -22039,25 +22121,35 @@
       "id": "PR_kwDOEpUZs85FX_hM",
       "title": "Min participants = 1",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/359",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chelseakomlo",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #321 comment for generalizing the threshold to 1\r\n\r\n",
       "createdAt": "2022-12-13T22:26:34Z",
-      "updatedAt": "2022-12-14T19:17:19Z",
+      "updatedAt": "2022-12-15T17:49:15Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "efb522bb0e34649dc0456adecb67890365faab03",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "arbitrary-t",
-      "headRefOid": "a11261d7da878207df7e8a07055d85c9d08a38a7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "23307e7e90cf9ecdb82f14dbe1953e5d3a2df146",
+      "closedAt": "2022-12-15T17:39:36Z",
+      "mergedAt": "2022-12-15T17:39:36Z",
+      "mergedBy": "conradoplg",
+      "mergeCommit": {
+        "oid": "0765e8fd7dcc530c0d9005c4047b0b99179f5db3"
+      },
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@chris-wood mind looking this over?",
+          "createdAt": "2022-12-15T14:41:19Z",
+          "updatedAt": "2022-12-15T14:41:19Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOEpUZs85Imoqb",
@@ -22084,6 +22176,72 @@
               "updatedAt": "2022-12-14T19:17:19Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85IrbF1",
+          "commit": {
+            "abbreviatedOid": "a11261d"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-15T14:40:56Z",
+          "updatedAt": "2022-12-15T14:40:56Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Good point, thanks @conradoplg ! ",
+              "createdAt": "2022-12-15T14:40:56Z",
+              "updatedAt": "2022-12-15T14:40:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85IsJ5f",
+          "commit": {
+            "abbreviatedOid": "23307e7"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-15T16:13:58Z",
+          "updatedAt": "2022-12-15T16:13:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85IstYx",
+          "commit": {
+            "abbreviatedOid": "23307e7"
+          },
+          "author": "conradoplg",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-15T17:38:29Z",
+          "updatedAt": "2022-12-15T17:38:29Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85IsxKA",
+          "commit": {
+            "abbreviatedOid": "23307e7"
+          },
+          "author": "real-or-random",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-15T17:49:14Z",
+          "updatedAt": "2022-12-15T17:49:14Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "editorial: maybe `if MIN_PARTICIPANTS < 1` (because you use `>` in the first part of the sentence)\r\n\r\n",
+              "createdAt": "2022-12-15T17:49:14Z",
+              "updatedAt": "2022-12-15T17:49:15Z"
+            }
+          ]
         }
       ]
     },
@@ -22099,18 +22257,33 @@
       "labels": [],
       "body": "Addresses comments in #322",
       "createdAt": "2022-12-13T22:38:31Z",
-      "updatedAt": "2022-12-14T01:11:54Z",
+      "updatedAt": "2022-12-16T16:14:19Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "efb522bb0e34649dc0456adecb67890365faab03",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "sig-verify",
-      "headRefOid": "bdbe2421e864d410f6bfe4197de12abc2587c9cc",
+      "headRefOid": "a9176649b848063e40e7e1595a2d08297dc91bbe",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we can probably spell this somewhat differently. @chelseakomlo, if it's OK with you, I'd like to propose an alternative to this change.",
+          "createdAt": "2022-12-15T16:15:32Z",
+          "updatedAt": "2022-12-15T16:15:40Z"
+        },
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@chris-wood Sure, please do\r\n",
+          "createdAt": "2022-12-16T16:02:07Z",
+          "updatedAt": "2022-12-16T16:02:07Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOEpUZs85IhHSe",
@@ -22131,6 +22304,19 @@
               "updatedAt": "2022-12-14T01:11:54Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85IyJSS",
+          "commit": {
+            "abbreviatedOid": "a917664"
+          },
+          "author": "dconnolly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-16T16:14:19Z",
+          "updatedAt": "2022-12-16T16:14:19Z",
+          "comments": []
         }
       ]
     },
@@ -22139,26 +22325,42 @@
       "id": "PR_kwDOEpUZs85FdJg0",
       "title": "Move ROAST citation",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/361",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2022-12-14T14:19:29Z",
-      "updatedAt": "2022-12-14T14:19:29Z",
+      "updatedAt": "2022-12-15T14:40:07Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "dedeef1a715b7bb3ca766907d7ac603bf5e59ba3",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/move-roast",
       "headRefOid": "36711a28c1b08eea96fd2588504582780cb1aa2e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-12-15T14:40:04Z",
+      "mergedAt": "2022-12-15T14:40:04Z",
+      "mergedBy": "chelseakomlo",
+      "mergeCommit": {
+        "oid": "f8651299b53f03be7990be32b7f2895598645954"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85IranW",
+          "commit": {
+            "abbreviatedOid": "36711a2"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-15T14:39:57Z",
+          "updatedAt": "2022-12-15T14:39:57Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 362,
@@ -22198,13 +22400,13 @@
       "labels": [],
       "body": "Closes #330\r\n\r\nBuilds on #333 -- merge that first.",
       "createdAt": "2022-12-14T15:45:07Z",
-      "updatedAt": "2022-12-14T19:46:12Z",
+      "updatedAt": "2022-12-15T16:14:13Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "caw/identifier-type",
       "baseRefOid": "d91d6c8b9052dcafce7a074db44ab00208b4bda5",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/consistent-pseudocode",
-      "headRefOid": "7d95d877c7b347e4ee4cabeff34770ee1214c351",
+      "headRefOid": "dec3996dc9ef549b7570f631e44c4e8aca264383",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -22245,7 +22447,7 @@
       "labels": [],
       "body": "Addresses #335",
       "createdAt": "2022-12-14T16:21:02Z",
-      "updatedAt": "2022-12-14T17:43:58Z",
+      "updatedAt": "2022-12-16T00:49:01Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "dedeef1a715b7bb3ca766907d7ac603bf5e59ba3",
@@ -22277,6 +22479,26 @@
               "updatedAt": "2022-12-14T17:43:58Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85IueA9",
+          "commit": {
+            "abbreviatedOid": "fb44344"
+          },
+          "author": "dconnolly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-16T00:49:01Z",
+          "updatedAt": "2022-12-16T00:49:01Z",
+          "comments": [
+            {
+              "originalPosition": 2,
+              "body": "```suggestion\r\n### Lagrange bases\r\n```",
+              "createdAt": "2022-12-16T00:49:01Z",
+              "updatedAt": "2022-12-16T00:49:01Z"
+            }
+          ]
         }
       ]
     },
@@ -22292,7 +22514,7 @@
       "labels": [],
       "body": "Addresses #336",
       "createdAt": "2022-12-14T16:42:57Z",
-      "updatedAt": "2022-12-14T17:47:27Z",
+      "updatedAt": "2022-12-16T00:50:24Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "dedeef1a715b7bb3ca766907d7ac603bf5e59ba3",
@@ -22316,6 +22538,19 @@
           "body": "This particular change looks good, but we should not merge this until the Lagrange function update PR is merged. Alternatively, @chelseakomlo, can you please move this change to a separate branch?",
           "createdAt": "2022-12-14T17:47:27Z",
           "updatedAt": "2022-12-14T17:47:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85IueNp",
+          "commit": {
+            "abbreviatedOid": "70cbc79"
+          },
+          "author": "dconnolly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-16T00:50:24Z",
+          "updatedAt": "2022-12-16T00:50:24Z",
           "comments": []
         }
       ]
@@ -22422,24 +22657,26 @@
       "id": "PR_kwDOEpUZs85Fepz2",
       "title": "add period in 'Order()' items; make explicit that DeserializeElement can return an error",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/367",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "conradoplg",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes https://github.com/cfrg/draft-irtf-cfrg-frost/issues/334",
       "createdAt": "2022-12-14T18:30:00Z",
-      "updatedAt": "2022-12-14T19:52:34Z",
+      "updatedAt": "2022-12-15T17:45:05Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "dedeef1a715b7bb3ca766907d7ac603bf5e59ba3",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "deserialize-return-error",
       "headRefOid": "c3d987b0854ecfc02a7a32aa60fba74a5586c724",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-12-15T17:45:05Z",
+      "mergedAt": "2022-12-15T17:45:05Z",
+      "mergedBy": "conradoplg",
+      "mergeCommit": {
+        "oid": "3551c6ef2b3e25356cd7aaa9b4849ab992524bc2"
+      },
       "comments": [],
       "reviews": [
         {
@@ -22462,24 +22699,26 @@
       "id": "PR_kwDOEpUZs85FetLe",
       "title": "add input restriction to 'polynomial_interpolation'",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/368",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "conradoplg",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes https://github.com/cfrg/draft-irtf-cfrg-frost/issues/340 but not sure about it, see discussion in the issue",
       "createdAt": "2022-12-14T18:40:54Z",
-      "updatedAt": "2022-12-14T19:54:13Z",
+      "updatedAt": "2022-12-15T17:45:25Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "dedeef1a715b7bb3ca766907d7ac603bf5e59ba3",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "polynomial-interpolation-input-restriction",
       "headRefOid": "f29fe5d45ed6dc800700854bbfdee9f8a42cdb03",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-12-15T17:45:25Z",
+      "mergedAt": "2022-12-15T17:45:25Z",
+      "mergedBy": "conradoplg",
+      "mergeCommit": {
+        "oid": "f66b018eceab63108651ae8aca9a6fc66464c06f"
+      },
       "comments": [],
       "reviews": [
         {
@@ -22509,7 +22748,7 @@
       "labels": [],
       "body": "Part of https://github.com/cfrg/draft-irtf-cfrg-frost/issues/337\r\n\r\nBut we still need to address the reasoning, see discussion.",
       "createdAt": "2022-12-14T19:37:51Z",
-      "updatedAt": "2022-12-14T20:05:52Z",
+      "updatedAt": "2022-12-16T15:08:25Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "dedeef1a715b7bb3ca766907d7ac603bf5e59ba3",
@@ -22520,7 +22759,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "dconnolly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> How about just dropping \"safe\" here? The fact that it's not interoperable seems to be the reason it's not safe for given applications, as it does not lead to consensus for different implementations that need it.\r\n\r\nI'm good removing 'safe', would a 'not interoperable nor recommended in practice' be acceptable? It's not just that it's not interoperable",
+          "createdAt": "2022-12-16T00:54:23Z",
+          "updatedAt": "2022-12-16T00:54:23Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dconnolly  Why is not interoperable insufficient? ",
+          "createdAt": "2022-12-16T15:08:25Z",
+          "updatedAt": "2022-12-16T15:08:25Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOEpUZs85Im5gz",
