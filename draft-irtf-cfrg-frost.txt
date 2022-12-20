@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 22 June 2023           University of Waterloo, Zcash Foundation
+Expires: 23 June 2023           University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                        19 December 2022
+                                                        20 December 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 June 2023.
+   This Internet-Draft will expire on 23 June 2023.
 
 Copyright Notice
 
@@ -84,7 +84,7 @@ Table of Contents
      4.1.  Nonce generation
      4.2.  Polynomial Operations
        4.2.1.  Evaluation of a polynomial
-       4.2.2.  Lagrange coefficients
+       4.2.2.  Lagrange bases
      4.3.  List Operations
      4.4.  Binding Factors Computation
      4.5.  Group Commitment Computation
@@ -541,17 +541,16 @@ Table of Contents
          value += coeff
        return value
 
-4.2.2.  Lagrange coefficients
+4.2.2.  Lagrange bases
 
-   The function derive_lagrange_coefficient derives a Lagrange
-   coefficient to later perform polynomial interpolation, and is
-   provided a list of x-coordinates as input.  Note that
-   derive_lagrange_coefficient does not permit any x-coordinate to equal
-   0.  Lagrange coefficients are used in FROST to evaluate a polynomial
-   f at x-coordinate 0, i.e., f(0), given a list of t other
-   x-coordinates.
+   The function lagrange_basis_at_zero derives a Lagrange coefficient to
+   later perform polynomial interpolation to derive the zeroth point,
+   and is provided a list of x-coordinates as input.  Note that
+   lagrange_basis_at_zero does not permit any x-coordinate to equal 0.
+   Lagrange coefficients are used in FROST to evaluate a polynomial f at
+   x-coordinate 0, i.e., f(0), given a list of t other x-coordinates.
 
-  derive_lagrange_coefficient(x_i, L):
+  lagrange_basis_at_zero(x_i, L):
 
   Inputs:
   - x_i, an x-coordinate contained in L, a Scalar
@@ -563,7 +562,7 @@ Table of Contents
   - "invalid parameters", if 1) any x-coordinate is equal to 0, 2) if x_i
     is not in L, or if 3) any x-coordinate is represented more than once in L.
 
-  def derive_lagrange_coefficient(x_i, L):
+  def lagrange_basis_at_zero(x_i, L):
     if x_i == 0:
       raise "invalid parameters"
     for x_j in L:
@@ -934,7 +933,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
     # Compute Lagrange coefficient
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
+    lambda_i = lagrange_basis_at_zero(identifier, participant_list)
 
     # Compute the per-message challenge
     challenge = compute_challenge(group_commitment, group_public_key, msg)
@@ -1009,7 +1008,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
     # Compute Lagrange coefficient
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
+    lambda_i = lagrange_basis_at_zero(identifier, participant_list)
 
     # Compute relation values
     l = G.ScalarBaseMult(sig_share_i)
@@ -1873,7 +1872,7 @@ C.1.1.  Deriving the constant term of a polynomial
 
     f_zero = Scalar(0)
     for point in points:
-      delta = point.y * derive_lagrange_coefficient(point.x, x_coords)
+      delta = point.y * lagrange_basis_at_zero(point.x, x_coords)
       f_zero = f_zero + delta
 
     return f_zero
