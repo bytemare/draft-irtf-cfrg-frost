@@ -1197,7 +1197,7 @@ This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF
                     <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-evaluation-of-a-polynomial" class="internal xref">Evaluation of a polynomial</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
-                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-lagrange-bases" class="internal xref">Lagrange bases</a></p>
+                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-lagrange-coefficients" class="internal xref">Lagrange coefficients</a></p>
 </li>
                 </ul>
 </li>
@@ -1760,19 +1760,19 @@ particular input <code>x</code>, i.e., <code>y = f(x)</code> using Horner's meth
 </div>
 </section>
 </div>
-<div id="lagrange-bases">
+<div id="lagrange-coefficients">
 <section id="section-4.2.2">
-          <h4 id="name-lagrange-bases">
-<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-lagrange-bases" class="section-name selfRef">Lagrange bases</a>
+          <h4 id="name-lagrange-coefficients">
+<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-lagrange-coefficients" class="section-name selfRef">Lagrange coefficients</a>
           </h4>
-<p id="section-4.2.2-1">The function <code>lagrange_basis_at_zero</code> derives a Lagrange coefficient
-to later perform polynomial interpolation to derive the zeroth point, and is provided a list of x-coordinates
-as input. Note that <code>lagrange_basis_at_zero</code> does not permit any x-coordinate
+<p id="section-4.2.2-1">The function <code>derive_lagrange_coefficient</code> derives a Lagrange coefficient
+to later perform polynomial interpolation, and is provided a list of x-coordinates
+as input. Note that <code>derive_lagrange_coefficient</code> does not permit any x-coordinate
 to equal 0. Lagrange coefficients are used in FROST to evaluate a polynomial <code>f</code>
 at x-coordinate 0, i.e., <code>f(0)</code>, given a list of <code>t</code> other x-coordinates.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4.2.2-2">
 <pre>
-  lagrange_basis_at_zero(x_i, L):
+  derive_lagrange_coefficient(x_i, L):
 
   Inputs:
   - x_i, an x-coordinate contained in L, a Scalar
@@ -1784,7 +1784,7 @@ at x-coordinate 0, i.e., <code>f(0)</code>, given a list of <code>t</code> other
   - "invalid parameters", if 1) any x-coordinate is equal to 0, 2) if x_i
     is not in L, or if 3) any x-coordinate is represented more than once in L.
 
-  def lagrange_basis_at_zero(x_i, L):
+  def derive_lagrange_coefficient(x_i, L):
     if x_i == 0:
       raise "invalid parameters"
     for x_j in L:
@@ -2180,7 +2180,7 @@ procedure to produce its own signature share.<a href="#section-5.2-3" class="pil
 
     # Compute Lagrange coefficient
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = lagrange_basis_at_zero(identifier, participant_list)
+    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
 
     # Compute the per-message challenge
     challenge = compute_challenge(group_commitment, group_public_key, msg)
@@ -2255,7 +2255,7 @@ parameters, to check that the signature share is valid using the following proce
 
     # Compute Lagrange coefficient
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = lagrange_basis_at_zero(identifier, participant_list)
+    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
 
     # Compute relation values
     l = G.ScalarBaseMult(sig_share_i)
@@ -3121,7 +3121,7 @@ interpolation, defined as follows.<a href="#appendix-C.1.1-1" class="pilcrow">¶
 
     f_zero = Scalar(0)
     for point in points:
-      delta = point.y * lagrange_basis_at_zero(point.x, x_coords)
+      delta = point.y * derive_lagrange_coefficient(point.x, x_coords)
       f_zero = f_zero + delta
 
     return f_zero
@@ -3241,7 +3241,7 @@ can leak information about the underlying corresponding Scalar.<a href="#appendi
 <p id="appendix-D.1-2">As an optimization, if the group order is very close to a power of
 2, it is acceptable to omit the rejection test completely.  In
 particular, if the group order is p, and there is an integer b
-such that <code>p - 2&lt;sup&gt;b&lt;/sup&gt;| &lt; 2&lt;sup&gt;(b/2)&lt;/sup&gt;</code>, then
+such that |p - 2<sup>b</sup>| is less than 2<sup>(b/2)</sup>, then
 <code>RandomScalar</code> can simply return a uniformly random integer of at
 most b bits.<a href="#appendix-D.1-2" class="pilcrow">¶</a></p>
 </section>
