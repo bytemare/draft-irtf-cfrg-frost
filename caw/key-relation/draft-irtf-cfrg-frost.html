@@ -2011,7 +2011,7 @@ FROST assumes each participant is configured with the following information:<a h
 and MUST be distinct from the identifier of every other participant.<a href="#section-5-5.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-5-5.2">A signing key <code>sk_i</code>, which is a Scalar value representing the i-th Shamir secret share
-of the group signing key <code>s</code>. In particular, <code>sk_i</code> is the point <code>f(i)</code> on a secret polynomial <code>f</code>, where <code>s</code> is <code>f(0)</code>.
+of the group signing key <code>s</code>. In particular, <code>sk_i</code> is the value <code>f(i)</code> on a secret polynomial <code>f</code>, where <code>s</code> is <code>f(0)</code>.
 The public key corresponding to this signing key share is <code>PK_i = G.ScalarBaseMult(sk_i)</code>.<a href="#section-5-5.2" class="pilcrow">¶</a>
 </li>
       </ul>

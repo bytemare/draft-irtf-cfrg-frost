@@ -763,7 +763,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
    *  A signing key sk_i, which is a Scalar value representing the i-th
       Shamir secret share of the group signing key s.  In particular,
-      sk_i is the point f(i) on a secret polynomial f, where s is f(0).
+      sk_i is the value f(i) on a secret polynomial f, where s is f(0).
       The public key corresponding to this signing key share is PK_i =
       G.ScalarBaseMult(sk_i).
 
