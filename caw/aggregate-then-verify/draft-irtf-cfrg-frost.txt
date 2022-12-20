@@ -955,18 +955,16 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    As such, participants can compute it once and store it for reuse
    across signing sessions.
 
-   Upon receipt from each Signer, the Coordinator MUST validate the
-   input signature share using DeserializeElement.  If validation fails,
-   the Coordinator MUST abort the protocol.  If validation succeeds, the
-   Coordinator then verifies the set of signature shares using the
-   following procedure.
-
 5.3.  Signature Share Aggregation
 
    After participants perform round two and send their signature shares
    to the Coordinator, the Coordinator can aggregate each share to
-   produce a final signature.  This is done using the following
-   procedure.
+   produce a final signature.  Before aggregating, the Coordinator MUST
+   validate each signature share using DeserializeElement.  If
+   validation fails, the Coordinator MUST abort the protocol as the
+   resulting signature will be invalid.  If all signature shares are
+   valid, the Coordinator then aggregates them to produce the final
+   signature using the following procedure.
 
   Inputs:
   - group_commitment, the group commitment returned by compute_group_commitment,
@@ -994,14 +992,18 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    Signature.z_encoded is G.SerializeScalar(z).
 
    The Coordinator SHOULD verify this signature using the group public
-   key before publishing or releasing the signature.  If verification
-   fails, the Coordinator can verify each signature share individually
-   to identify and act on misbehaving participants.  The mechanism for
-   acting on a misbehaving participant is out of scope for this
-   specification.  However, a reasonable approach would be to remove the
-   participant from the set of allowed participants in future runs of
-   FROST.  The function for verifying a signature share, denoted
-   verify_signature_share, is described below.
+   key before publishing or releasing the signature.  Signature
+   verification is as specified for the corresponding ciphersuite; see
+   Section 6 for details.
+
+   If the aggregate signature verification fails, the Coordinator can
+   verify each signature share individually to identify and act on
+   misbehaving participants.  The mechanism for acting on a misbehaving
+   participant is out of scope for this specification.  However, a
+   reasonable approach would be to remove the participant from the set
+   of allowed participants in future runs of FROST.  The function for
+   verifying a signature share, denoted verify_signature_share, is
+   described below.
 
   Inputs:
   - identifier, Identifier i of the participant. Note: identifier MUST never equal 0.

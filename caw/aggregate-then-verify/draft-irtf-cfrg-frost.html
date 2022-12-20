@@ -2199,10 +2199,6 @@ as input more than once to <code>sign</code>.<a href="#section-5.2-5" class="pil
 <p id="section-5.2-6">Note that the <code>lambda_i</code> value derived during this procedure does not change
 across FROST signing operations for the same signing group. As such, participants
 can compute it once and store it for reuse across signing sessions.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
-<p id="section-5.2-7">Upon receipt from each Signer, the Coordinator MUST validate the input
-signature share using DeserializeElement. If validation fails, the Coordinator MUST abort
-the protocol. If validation succeeds, the Coordinator then verifies the set of
-signature shares using the following procedure.<a href="#section-5.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frost-aggregation">
@@ -2211,8 +2207,11 @@ signature shares using the following procedure.<a href="#section-5.2-7" class="p
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-signature-share-aggregation" class="section-name selfRef">Signature Share Aggregation</a>
         </h3>
 <p id="section-5.3-1">After participants perform round two and send their signature shares to the Coordinator,
-the Coordinator can aggregate each share to produce a final signature. This is done
-using the following procedure.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+the Coordinator can aggregate each share to produce a final signature. Before aggregating,
+the Coordinator MUST validate each signature share using DeserializeElement. If validation
+fails, the Coordinator MUST abort the protocol as the resulting signature will be invalid.
+If all signature shares are valid, the Coordinator then aggregates them to produce the final
+signature using the following procedure.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.3-2">
 <pre>
   Inputs:
@@ -2243,12 +2242,14 @@ using the following procedure.<a href="#section-5.3-1" class="pilcrow">¶</a></p
 <p id="section-5.3-5">Where Signature.R_encoded is <code>G.SerializeElement(R)</code> and Signature.z_encoded is
 <code>G.SerializeScalar(z)</code>.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
 <p id="section-5.3-6">The Coordinator SHOULD verify this signature using the group public key before publishing or
-releasing the signature. If verification fails, the Coordinator can verify each signature
+releasing the signature. Signature verification is as specified for the corresponding
+ciphersuite; see <a href="#ciphersuites" class="auto internal xref">Section 6</a> for details.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<p id="section-5.3-7">If the aggregate signature verification fails, the Coordinator can verify each signature
 share individually to identify and act on misbehaving participants. The mechanism for acting on
 a misbehaving participant is out of scope for this specification. However, a reasonable approach
 would be to remove the participant from the set of allowed participants in future runs of FROST.
-The function for verifying a signature share, denoted <code>verify_signature_share</code>, is described below.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.3-7">
+The function for verifying a signature share, denoted <code>verify_signature_share</code>, is described below.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3-8">
 <pre>
   Inputs:
   - identifier, Identifier i of the participant. Note: identifier MUST never equal 0.
@@ -2295,12 +2296,12 @@ The function for verifying a signature share, denoted <code>verify_signature_sha
     r = comm_share + G.ScalarMult(PK_i, challenge * lambda_i)
 
     return l == r
-</pre><a href="#section-5.3-7" class="pilcrow">¶</a>
+</pre><a href="#section-5.3-8" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-8">The Coordinator can verify each signature share before first aggregating and verifying the
+<p id="section-5.3-9">The Coordinator can verify each signature share before first aggregating and verifying the
 signature under the group public key. However, since the aggregate signature is valid if
 and only if all signature shares are valid, this order of operations is more expensive
-if the signature is valid.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+if the signature is valid.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
