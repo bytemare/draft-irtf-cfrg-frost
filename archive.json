@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-18T00:42:14.392954+00:00",
+  "timestamp": "2022-12-20T00:44:47.748179+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -22447,13 +22447,13 @@
       "labels": [],
       "body": "Addresses #335",
       "createdAt": "2022-12-14T16:21:02Z",
-      "updatedAt": "2022-12-16T00:49:01Z",
+      "updatedAt": "2022-12-19T17:40:24Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "dedeef1a715b7bb3ca766907d7ac603bf5e59ba3",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "lagrange-naming",
-      "headRefOid": "fb4434408a99861242182ea482d2507bc22f6314",
+      "headRefOid": "6fc43a00d9aa9d15b075aaae504297dc6c4690ae",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -22801,6 +22801,48 @@
               "updatedAt": "2022-12-14T19:58:46Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 370,
+      "id": "PR_kwDOEpUZs85FymOr",
+      "title": "Add CFRG document status requirement",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/370",
+      "state": "MERGED",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-12-19T14:55:07Z",
+      "updatedAt": "2022-12-19T20:16:09Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "f66b018eceab63108651ae8aca9a6fc66464c06f",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "caw/doc-status",
+      "headRefOid": "37371891268c47de852d40f848b3b4746672e79b",
+      "closedAt": "2022-12-19T20:16:08Z",
+      "mergedAt": "2022-12-19T20:16:08Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "c61d528b974712b9a4ae4ffa1a2d7431e073e86a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85I6dYY",
+          "commit": {
+            "abbreviatedOid": "3737189"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-19T17:39:32Z",
+          "updatedAt": "2022-12-19T17:39:32Z",
+          "comments": []
         }
       ]
     }
