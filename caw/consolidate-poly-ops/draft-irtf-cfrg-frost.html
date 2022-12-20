@@ -1733,7 +1733,7 @@ cannot equal 0.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
   - x_i, an x-coordinate contained in L, a Scalar
   - L, the set of x-coordinates, each a Scalar
 
-  Outputs: L_i, the i-th Lagrange coefficient
+  Outputs: value, a Scalar
 
   Errors:
   - "invalid parameters", if 1) any x-coordinate is equal to 0, 2) if x_i
@@ -1758,8 +1758,8 @@ cannot equal 0.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
       numerator *= x_j
       denominator *= x_j - x_i
 
-    L_i = numerator / denominator
-    return L_i
+    value = numerator / denominator
+    return value
 </pre><a href="#section-4.2-3" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2131,7 +2131,7 @@ procedure to produce its own signature share.<a href="#section-5.2-3" class="pil
     # Compute the group commitment
     group_commitment = compute_group_commitment(commitment_list, binding_factor_list)
 
-    # Compute Lagrange coefficient
+    # Compute the interpolating value
     participant_list = participants_from_commitment_list(commitment_list)
     lambda_i = derive_interpolating_value(identifier, participant_list)
 
@@ -2206,7 +2206,7 @@ parameters, to check that the signature share is valid using the following proce
     # Compute the challenge
     challenge = compute_challenge(group_commitment, group_public_key, msg)
 
-    # Compute Lagrange coefficient
+    # Compute the interpolating value
     participant_list = participants_from_commitment_list(commitment_list)
     lambda_i = derive_interpolating_value(identifier, participant_list)
 
@@ -3047,7 +3047,7 @@ secret <code>s</code> is as follows; the algorithm <code>polynomial_interpolatio
   def secret_share_combine(shares):
     if len(shares) &lt; MIN_PARTICIPANTS:
       raise "invalid parameters"
-    s = polynomial_interoplate_constant(shares)
+    s = polynomial_interpolate_constant(shares)
     return s
 </pre><a href="#appendix-C.1-7" class="pilcrow">¶</a>
 </div>
@@ -3058,7 +3058,7 @@ secret <code>s</code> is as follows; the algorithm <code>polynomial_interpolatio
           </h4>
 <p id="appendix-C.1.1-1">This section describes two functions. One function, denoted <code>polynomial_evaluate</code>,
 is for evaluating a polynomial <code>f(x)</code> at a particular point <code>x</code> using Horner's method,
-i.e., computing <code>y = f(x)</code>. The other function, <code>polynomial_interoplate_constant</code>, is for
+i.e., computing <code>y = f(x)</code>. The other function, <code>polynomial_interpolate_constant</code>, is for
 recovering the constant term of an interpolating polynomial defined by a set of points.<a href="#appendix-C.1.1-1" class="pilcrow">¶</a></p>
 <p id="appendix-C.1.1-2">The function <code>polynomial_evaluate</code> is defined as follows.<a href="#appendix-C.1.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-C.1.1-3">
@@ -3079,7 +3079,7 @@ recovering the constant term of an interpolating polynomial defined by a set of 
     return value
 </pre><a href="#appendix-C.1.1-3" class="pilcrow">¶</a>
 </div>
-<p id="appendix-C.1.1-4">The function <code>polynomial_interoplate_constant</code> is defined as follows.<a href="#appendix-C.1.1-4" class="pilcrow">¶</a></p>
+<p id="appendix-C.1.1-4">The function <code>polynomial_interpolate_constant</code> is defined as follows.<a href="#appendix-C.1.1-4" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-C.1.1-5">
 <pre>
   Inputs:
@@ -3088,7 +3088,7 @@ recovering the constant term of an interpolating polynomial defined by a set of 
 
   Outputs: The constant term of f, i.e., f(0)
 
-  def polynomial_interoplate_constant(points):
+  def polynomial_interpolate_constant(points):
     x_coords = []
     for (x, y) in points:
       x_coords.append(x)
