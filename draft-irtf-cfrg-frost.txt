@@ -18,17 +18,17 @@ Expires: 24 June 2023           University of Waterloo, Zcash Foundation
 
 Abstract
 
-   In this draft, we present the two-round signing variant of FROST, a
-   Flexible Round-Optimized Schnorr Threshold signature scheme.  FROST
-   signatures can be issued after a threshold number of entities
-   cooperate to issue a signature, allowing for improved distribution of
-   trust and redundancy with respect to a secret key.  Further, this
-   draft specifies signatures that are compatible with [RFC8032].
-   However, unlike [RFC8032], the protocol for producing signatures in
-   this draft is not deterministic, so as to ensure protection against a
-   key-recovery attack that is possible when even only one signer
-   participant is malicious.  This document is a product of the Crypto
-   Forum Research Group (CFRG) in the IRTF.
+   This document specifies the Flexible Round-Optimized Schnorr
+   Threshold (FROST) signing protocol.  FROST signatures can be issued
+   after a threshold number of entities cooperate to issue a signature,
+   allowing for improved distribution of trust and redundancy with
+   respect to a secret key.  Further, this document specifies signatures
+   that are compatible with RFC8032.  However, unlike RFC8032, the
+   protocol for producing signatures in this document is not
+   deterministic, so as to ensure protection against a key-recovery
+   attack that is possible when even only one signer participant is
+   malicious.  This document is a product of the Crypto Forum Research
+   Group (CFRG) in the IRTF.
 
 Discussion Venues
 
@@ -140,16 +140,15 @@ Table of Contents
    threshold schemes in general assumes that an adversary can corrupt
    strictly fewer than a threshold number of signer participants.
 
-   This document presents a variant of a Flexible Round-Optimized
-   Schnorr Threshold (FROST) signature scheme originally defined in
+   This document specifies the Flexible Round-Optimized Schnorr
+   Threshold (FROST) signing protocol based on the original work in
    [FROST20].  FROST reduces network overhead during threshold signing
    operations while employing a novel technique to protect against
    forgery attacks applicable to prior Schnorr-based threshold signature
-   constructions.  The variant of FROST presented in this document
-   requires two rounds to compute a signature.  Single-round signing
-   with FROST is out of scope.
+   constructions.  FROST requires two rounds to compute a signature.
+   Single-round signing variants based on [FROST20] are out of scope.
 
-   For select ciphersuites, the signatures produced by this draft are
+   For select ciphersuites, the signatures produced by this document are
    compatible with [RFC8032].  However, unlike [RFC8032], signatures
    produced by FROST are not deterministic, since deriving nonces
    deterministically allows for a complete key-recovery attack in multi-
@@ -157,7 +156,7 @@ Table of Contents
 
    While an optimization to FROST was shown in [StrongerSec22] that
    reduces scalar multiplications from linear in the number of signing
-   participants to constant, this draft does not specify that
+   participants to constant, this document does not specify that
    optimization due to the malleability that this optimization
    introduces, as shown in [StrongerSec22].  Specifically, this
    optimization removes the guarantee that the set of signer
@@ -691,17 +690,16 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
 5.  Two-Round FROST Signing Protocol
 
-   This section describes the two-round variant of the FROST threshold
-   signature protocol for producing Schnorr signatures.  The protocol is
-   configured to run with a selection of NUM_PARTICIPANTS signer
-   participants and a Coordinator.  NUM_PARTICIPANTS is a positive
-   integer at least MIN_PARTICIPANTS but no larger than
-   MAX_PARTICIPANTS, where MIN_PARTICIPANTS <= MAX_PARTICIPANTS,
-   MIN_PARTICIPANTS is a positive integer and MAX_PARTICIPANTS is a
-   positive integer less than the group order.  A signer participant, or
-   simply participant, is an entity that is trusted to hold and use a
-   signing key share.  The Coordinator is an entity with the following
-   responsibilities:
+   This section describes the two-round FROST signing protocol for
+   producing Schnorr signatures.  The protocol is configured to run with
+   a selection of NUM_PARTICIPANTS signer participants and a
+   Coordinator.  NUM_PARTICIPANTS is a positive integer at least
+   MIN_PARTICIPANTS but no larger than MAX_PARTICIPANTS, where
+   MIN_PARTICIPANTS <= MAX_PARTICIPANTS, MIN_PARTICIPANTS is a positive
+   integer and MAX_PARTICIPANTS is a positive integer less than the
+   group order.  A signer participant, or simply participant, is an
+   entity that is trusted to hold and use a signing key share.  The
+   Coordinator is an entity with the following responsibilities:
 
    1.  Determining which participants will participate (at least
        MIN_PARTICIPANTS in number);
@@ -721,17 +719,19 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    produced with a single participant using a signing key s with
    corresponding public key PK, where s is a Scalar value and PK =
    G.ScalarBaseMult(s).  As a threshold signing protocol, the group
-   signing key s is secret-shared amongst each participant and used to
-   produce signatures.  In particular, FROST assumes each participant is
-   configured with the following information:
+   signing key s is Shamir secret-shared amongst each of the
+   MAX_PARTICIPANTS participant and used to produce signatures.  In
+   particular, FROST assumes each participant is configured with the
+   following information:
 
    *  An identifier, which is a Scalar value denoted i in the range [1,
       MAX_PARTICIPANTS] and MUST be distinct from the identifier of
       every other participant.
 
-   *  A signing key share sk_i, which is a Scalar value representing the
-      i-th secret share of the group signing key s.  The public key
-      corresponding to this signing key share is PK_i =
+   *  A signing key sk_i, which is a Scalar value representing the i-th
+      Shamir secret share of the group signing key s.  In particular,
+      sk_i is the value f(i) on a secret polynomial f, where s is f(0).
+      The public key corresponding to this signing key share is PK_i =
       G.ScalarBaseMult(sk_i).
 
    The Coordinator and each participant are additionally configured with
@@ -750,16 +750,12 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    performing a distributed key generation protocol.  We highlight key
    generation mechanism by a trusted dealer in Appendix C for reference.
 
-   The signing variant of FROST in this document requires participants
-   to perform two network rounds: 1) generating and publishing
-   commitments, and 2) signature share generation and publication.  The
-   first round serves for each participant to issue a commitment to a
-   nonce.  The second round receives commitments for all participants as
-   well as the message, and issues a signature share with respect to
-   that message.  The Coordinator performs the coordination of each of
-   these rounds.  At the end of the second round, the Coordinator then
-   performs an aggregation step and outputs the final signature.  This
-   complete interaction is shown in Figure 1.
+   FROST requires two rounds to complete.  In the first round,
+   participants generate and publish one-time-use commitments to be used
+   in the second round.  In the second round, each participant produces
+   a share of the signature over the Coordinator-chosen message and the
+   other participant commitments.  This complete interaction is shown in
+   Figure 1.
 
            (group info)            (group info,     (group info,
                |               signing key share)   signing key share)

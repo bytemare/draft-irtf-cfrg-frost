@@ -10,12 +10,12 @@
 <meta content="Ian Goldberg" name="author">
 <meta content="Christopher A. Wood" name="author">
 <meta content="
-       In this draft, we present the two-round signing variant of FROST, a Flexible Round-Optimized
-Schnorr Threshold signature scheme. FROST signatures can be issued after a threshold number
-of entities cooperate to issue a signature, allowing for improved distribution of trust and
-redundancy with respect to a secret key. Further, this draft specifies signatures that are
-compatible with  . However, unlike  , the protocol for producing
-signatures in this draft is not deterministic, so as to ensure protection against a
+       This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol.
+FROST signatures can be issued after a threshold number of entities cooperate to
+issue a signature, allowing for improved distribution of trust and
+redundancy with respect to a secret key. Further, this document specifies signatures that are
+compatible with RFC8032. However, unlike RFC8032, the protocol for producing
+signatures in this document is not deterministic, so as to ensure protection against a
 key-recovery attack that is possible when even only one signer participant is malicious.
 This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF. 
     " name="description">
@@ -1094,12 +1094,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <h1 id="title">Two-Round Threshold Schnorr Signatures with FROST</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">In this draft, we present the two-round signing variant of FROST, a Flexible Round-Optimized
-Schnorr Threshold signature scheme. FROST signatures can be issued after a threshold number
-of entities cooperate to issue a signature, allowing for improved distribution of trust and
-redundancy with respect to a secret key. Further, this draft specifies signatures that are
-compatible with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>. However, unlike <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, the protocol for producing
-signatures in this draft is not deterministic, so as to ensure protection against a
+<p id="section-abstract-1">This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol.
+FROST signatures can be issued after a threshold number of entities cooperate to
+issue a signature, allowing for improved distribution of trust and
+redundancy with respect to a secret key. Further, this document specifies signatures that are
+compatible with RFC8032. However, unlike RFC8032, the protocol for producing
+signatures in this document is not deterministic, so as to ensure protection against a
 key-recovery attack that is possible when even only one signer participant is malicious.
 This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
@@ -1349,18 +1349,17 @@ well.<a href="#section-1-2" class="pilcrow">¶</a></p>
 require cooperation among a threshold number of signing participants each holding a share
 of a common private key. The security of threshold schemes in general assumes
 that an adversary can corrupt strictly fewer than a threshold number of signer participants.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document presents a variant of a Flexible Round-Optimized Schnorr Threshold (FROST)
-signature scheme originally defined in <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span>. FROST reduces network overhead during
+<p id="section-1-4">This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol
+based on the original work in <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span>. FROST reduces network overhead during
 threshold signing operations while employing a novel technique to protect against forgery
-attacks applicable to prior Schnorr-based threshold signature constructions. The variant of
-FROST presented in this document requires two rounds to compute a signature. Single-round
-signing with FROST is out of scope.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">For select ciphersuites, the signatures produced by this draft are compatible with
+attacks applicable to prior Schnorr-based threshold signature constructions. FROST requires
+two rounds to compute a signature. Single-round signing variants based on <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span> are out of scope.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">For select ciphersuites, the signatures produced by this document are compatible with
 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>. However, unlike <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, signatures produced by FROST are not
 deterministic, since deriving nonces deterministically allows for a complete key-recovery
 attack in multi-party discrete logarithm-based signatures, such as FROST.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">While an optimization to FROST was shown in <span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span> that reduces scalar multiplications
-from linear in the number of signing participants to constant, this draft does not specify that optimization
+from linear in the number of signing participants to constant, this document does not specify that optimization
 due to the malleability that this optimization introduces, as shown in <span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span>.
 Specifically, this optimization removes the guarantee that the set of signer participants that started
 round one of the protocol is the same set of signing participants that produced the signature output by
@@ -1935,9 +1934,8 @@ from a commitment list.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
       <h2 id="name-two-round-frost-signing-pro">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-two-round-frost-signing-pro" class="section-name selfRef">Two-Round FROST Signing Protocol</a>
       </h2>
-<p id="section-5-1">This section describes the two-round variant of the FROST threshold signature
-protocol for producing Schnorr signatures. The protocol is configured to
-run with a selection of <code>NUM_PARTICIPANTS</code> signer participants and a Coordinator.
+<p id="section-5-1">This section describes the two-round FROST signing protocol for producing Schnorr signatures.
+The protocol is configured to run with a selection of <code>NUM_PARTICIPANTS</code> signer participants and a Coordinator.
 <code>NUM_PARTICIPANTS</code> is a positive integer at least <code>MIN_PARTICIPANTS</code> but no larger than
 <code>MAX_PARTICIPANTS</code>, where <code>MIN_PARTICIPANTS &lt;= MAX_PARTICIPANTS</code>, <code>MIN_PARTICIPANTS</code> is a positive
 integer and <code>MAX_PARTICIPANTS</code> is a positive integer less than the group order.
@@ -1957,15 +1955,15 @@ a distinguished Coordinator; see <a href="#no-coordinator" class="auto internal 
 <p id="section-5-4">FROST produces signatures that are indistinguishable from those produced with a single
 participant using a signing key <code>s</code> with corresponding public key <code>PK</code>, where <code>s</code> is a Scalar
 value and <code>PK = G.ScalarBaseMult(s)</code>. As a threshold signing protocol, the group signing
-key <code>s</code> is secret-shared amongst each participant and used to produce signatures. In particular,
+key <code>s</code> is Shamir secret-shared amongst each of the <code>MAX_PARTICIPANTS</code> participant and used to produce signatures. In particular,
 FROST assumes each participant is configured with the following information:<a href="#section-5-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-5.1">An identifier, which is a Scalar value denoted <code>i</code> in the range <code>[1, MAX_PARTICIPANTS]</code>
 and MUST be distinct from the identifier of every other participant.<a href="#section-5-5.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-5-5.2">A signing key share <code>sk_i</code>, which is a Scalar value representing the i-th secret share
-of the group signing key <code>s</code>. The public key corresponding to this signing key share
-is <code>PK_i = G.ScalarBaseMult(sk_i)</code>.<a href="#section-5-5.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-5.2">A signing key <code>sk_i</code>, which is a Scalar value representing the i-th Shamir secret share
+of the group signing key <code>s</code>. In particular, <code>sk_i</code> is the value <code>f(i)</code> on a secret polynomial <code>f</code>, where <code>s</code> is <code>f(0)</code>.
+The public key corresponding to this signing key share is <code>PK_i = G.ScalarBaseMult(sk_i)</code>.<a href="#section-5-5.2" class="pilcrow">¶</a>
 </li>
       </ul>
 <p id="section-5-6">The Coordinator and each participant are additionally configured with common group
@@ -1982,14 +1980,10 @@ are configured and distributed to participants. In general, two possible configu
 mechanisms are possible: one that requires a single, trusted dealer, and the other
 which requires performing a distributed key generation protocol. We highlight
 key generation mechanism by a trusted dealer in <a href="#dep-dealer" class="auto internal xref">Appendix C</a> for reference.<a href="#section-5-8" class="pilcrow">¶</a></p>
-<p id="section-5-9">The signing variant of FROST in this document requires participants to perform two network rounds:
-1) generating and publishing commitments, and 2) signature share generation and
-publication. The first round serves for each participant to issue a commitment to
-a nonce. The second round receives commitments for all participants as well as the message,
-and issues a signature share with respect to that message. The Coordinator performs
-the coordination of each of these rounds. At the end of the second round, the
-Coordinator then performs an aggregation step and outputs the final signature.
-This complete interaction is shown in <a href="#fig-frost" class="auto internal xref">Figure 1</a>.<a href="#section-5-9" class="pilcrow">¶</a></p>
+<p id="section-5-9">FROST requires two rounds to complete. In the first round, participants generate
+and publish one-time-use commitments to be used in the second round. In the second
+round, each participant produces a share of the signature over the Coordinator-chosen
+message and the other participant commitments. This complete interaction is shown in <a href="#fig-frost" class="auto internal xref">Figure 1</a>.<a href="#section-5-9" class="pilcrow">¶</a></p>
 <span id="name-frost-signature-overview"></span><div id="fig-frost">
 <figure id="figure-1">
         <div class="alignLeft art-text artwork" id="section-5-10.1">
