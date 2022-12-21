@@ -12,11 +12,12 @@
 <meta content="
        This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol.
 FROST signatures can be issued after a threshold number of entities cooperate to
-issue a signature, allowing for improved distribution of trust and
-redundancy with respect to a secret key. Further, this document specifies signatures that are
-compatible with RFC8032. However, unlike RFC8032, the protocol for producing
-signatures in this document is not deterministic, so as to ensure protection against a
-key-recovery attack that is possible when even only one signer participant is malicious.
+compute a signature, allowing for improved distribution of trust and
+redundancy with respect to a secret key. FROST depends only on a prime-order group and cryptographic
+hash function. This document specifies a number of ciphersuites to instantiate FROST using different
+prime-order groups and hash functions. One such ciphersuite can be used to produce signatures
+that can be verified with an RFC8032 compliant verifier. However, unlike RFC8032, the
+signatures produced by FROST are not deterministic.
 This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF. 
     " name="description">
 <meta content="xml2rfc 3.15.3" name="generator">
@@ -1096,11 +1097,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol.
 FROST signatures can be issued after a threshold number of entities cooperate to
-issue a signature, allowing for improved distribution of trust and
-redundancy with respect to a secret key. Further, this document specifies signatures that are
-compatible with RFC8032. However, unlike RFC8032, the protocol for producing
-signatures in this document is not deterministic, so as to ensure protection against a
-key-recovery attack that is possible when even only one signer participant is malicious.
+compute a signature, allowing for improved distribution of trust and
+redundancy with respect to a secret key. FROST depends only on a prime-order group and cryptographic
+hash function. This document specifies a number of ciphersuites to instantiate FROST using different
+prime-order groups and hash functions. One such ciphersuite can be used to produce signatures
+that can be verified with an RFC8032 compliant verifier. However, unlike RFC8032, the
+signatures produced by FROST are not deterministic.
 This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
@@ -1248,19 +1250,22 @@ This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-nonce-reuse-attacks" class="internal xref">Nonce Reuse Attacks</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-optimizations" class="internal xref">Optimizations</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-protocol-failures" class="internal xref">Protocol Failures</a></p>
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-nonce-reuse-attacks" class="internal xref">Nonce Reuse Attacks</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-removing-the-coordinator-ro" class="internal xref">Removing the Coordinator Role</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-protocol-failures" class="internal xref">Protocol Failures</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-input-message-hashing" class="internal xref">Input Message Hashing</a></p>
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-removing-the-coordinator-ro" class="internal xref">Removing the Coordinator Role</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.5">
-                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-input-message-validation" class="internal xref">Input Message Validation</a></p>
+                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-input-message-hashing" class="internal xref">Input Message Hashing</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
+                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-input-message-validation" class="internal xref">Input Message Validation</a></p>
 </li>
             </ul>
 </li>
@@ -1340,34 +1345,30 @@ This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">DISCLAIMER: This is a work-in-progress draft of FROST.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">RFC EDITOR: PLEASE REMOVE THE FOLLOWING PARAGRAPH The source for this draft is
+<p id="section-1-1">RFC EDITOR: PLEASE REMOVE THE FOLLOWING PARAGRAPH The source for this draft is
 maintained in GitHub. Suggested changes should be submitted as pull requests
 at https://github.com/cfrg/draft-irtf-cfrg-frost. Instructions are on that page as
-well.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">Unlike signatures in a single-party setting, threshold signatures
+well.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Unlike signatures in a single-party setting, threshold signatures
 require cooperation among a threshold number of signing participants each holding a share
 of a common private key. The security of threshold schemes in general assumes
-that an adversary can corrupt strictly fewer than a threshold number of signer participants.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol
+that an adversary can corrupt strictly fewer than a threshold number of signer participants.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol
 based on the original work in <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span>. FROST reduces network overhead during
 threshold signing operations while employing a novel technique to protect against forgery
 attacks applicable to prior Schnorr-based threshold signature constructions. FROST requires
-two rounds to compute a signature. Single-round signing variants based on <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span> are out of scope.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">For select ciphersuites, the signatures produced by this document are compatible with
-<span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>. However, unlike <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, signatures produced by FROST are not
-deterministic, since deriving nonces deterministically allows for a complete key-recovery
-attack in multi-party discrete logarithm-based signatures, such as FROST.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">While an optimization to FROST was shown in <span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span> that reduces scalar multiplications
-from linear in the number of signing participants to constant, this document does not specify that optimization
-due to the malleability that this optimization introduces, as shown in <span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span>.
-Specifically, this optimization removes the guarantee that the set of signer participants that started
-round one of the protocol is the same set of signing participants that produced the signature output by
-round two.<a href="#section-1-6" class="pilcrow">¶</a></p>
-<p id="section-1-7">Key generation for FROST signing is out of scope for this document. However, for completeness,
-key generation with a trusted dealer is specified in <a href="#dep-dealer" class="auto internal xref">Appendix C</a>.<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">This document represents the consensus of the Crypto Forum Research
-Group (CFRG). It is not an IETF product and is not a standard.<a href="#section-1-8" class="pilcrow">¶</a></p>
+two rounds to compute a signature. Single-round signing variants based on <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span> are out of scope.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">FROST depends only on a prime-order group and cryptographic hash function. This document specifies
+a number of ciphersuites to instantiate FROST using different prime-order groups and hash functions.
+Two ciphersuites can be used to produce signatures that are compatible with Ed25519 and Ed448 as
+specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, i.e., the signatures can be verified with an <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> compliant
+verifier. However, unlike <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, the signatures produced by FROST are not deterministic,
+since deriving nonces deterministically allows for a complete key-recovery attack in multi-party
+discrete logarithm-based signatures.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Key generation for FROST signing is out of scope for this document. However, for completeness,
+key generation with a trusted dealer is specified in <a href="#dep-dealer" class="auto internal xref">Appendix C</a>.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document represents the consensus of the Crypto Forum Research
+Group (CFRG). It is not an IETF product and is not a standard.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="change-log">
 <section id="section-1.1">
         <h3 id="name-change-log">
@@ -1952,9 +1953,9 @@ use a signing key share. The Coordinator is an entity with the following respons
       </ol>
 <p id="section-5-3">FROST assumes that the Coordinator and the set of signer participants, are chosen
 externally to the protocol. Note that it is possible to deploy the protocol without
-a distinguished Coordinator; see <a href="#no-coordinator" class="auto internal xref">Section 7.3</a> for more information.<a href="#section-5-3" class="pilcrow">¶</a></p>
-<p id="section-5-4">FROST produces signatures that are indistinguishable from those produced with a single
-participant using a signing key <code>s</code> with corresponding public key <code>PK</code>, where <code>s</code> is a Scalar
+a distinguished Coordinator; see <a href="#no-coordinator" class="auto internal xref">Section 7.4</a> for more information.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">FROST produces signatures that can be verified as if they were produced from a single signer
+using a signing key <code>s</code> with corresponding public key <code>PK</code>, where <code>s</code> is a Scalar
 value and <code>PK = G.ScalarBaseMult(s)</code>. As a threshold signing protocol, the group signing
 key <code>s</code> is Shamir secret-shared amongst each of the <code>MAX_PARTICIPANTS</code> participant and used to produce signatures. In particular,
 FROST assumes each participant is configured with the following information:<a href="#section-5-4" class="pilcrow">¶</a></p>
@@ -2096,7 +2097,7 @@ their identifier appears in commitment_list along with
 their commitment from the first round.
 Applications which require that participants not process arbitrary
 input messages are also required to perform relevant application-layer input
-validation checks; see <a href="#message-validation" class="auto internal xref">Section 7.5</a> for more details.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+validation checks; see <a href="#message-validation" class="auto internal xref">Section 7.6</a> for more details.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">Upon receipt and successful input validation, each Signer then runs the following
 procedure to produce its own signature share.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.2-4">
@@ -2269,8 +2270,8 @@ e.g., (ristretto255, SHA-512). This section contains some ciphersuites.
 Each ciphersuite also includes a context string, denoted <code>contextString</code>,
 which is an ASCII string literal (with no NULL terminating character).<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">The RECOMMENDED ciphersuite is (ristretto255, SHA-512) <a href="#recommended-suite" class="auto internal xref">Section 6.2</a>.
-The (Ed25519, SHA-512) ciphersuite is included for backwards compatibility
-with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-6-2" class="pilcrow">¶</a></p>
+The (Ed25519, SHA-512) and (Ed448, SHAKE256) ciphersuites are included
+for compatibility with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <p id="section-6-3">The DeserializeElement and DeserializeScalar functions instantiated for a
 particular prime-order group corresponding to a ciphersuite MUST adhere
 to the description in <a href="#dep-pog" class="auto internal xref">Section 3.1</a>. Validation steps for these functions
@@ -2287,7 +2288,7 @@ ciphersuites MUST also adhere to these requirements.<a href="#section-6-5" class
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-frosted25519-sha-512" class="section-name selfRef">FROST(Ed25519, SHA-512)</a>
         </h3>
 <p id="section-6.1-1">This ciphersuite uses edwards25519 for the Group and SHA-512 for the Hash function <code>H</code>
-meant to produce signatures indistinguishable from Ed25519 as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.
+meant to produce Ed25519-compliant signatures as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.
 The value of the contextString parameter is "FROST-ED25519-SHA512-v11".<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1-2.1">
@@ -2344,8 +2345,7 @@ as a little-endian integer, and reducing the resulting integer modulo
             </ul>
 </li>
         </ul>
-<p id="section-6.1-3">Normally H2 would also include a domain separator, but for backwards compatibility
-with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Normally H2 would also include a domain separator, but for compatibility with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.1-4">Signature verification is as specified in <span><a href="https://rfc-editor.org/rfc/rfc8032#section-5.1.7" class="relref">Section 5.1.7</a> of [<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> with the
 constraint that implementations MUST check the group equation [8][z]B = [8]R + [8][c]PK
 (changed to use the notation in this document).
@@ -2416,7 +2416,7 @@ output to a Scalar as described in <span>[<a href="#RISTRETTO" class="cite xref"
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-frosted448-shake256" class="section-name selfRef">FROST(Ed448, SHAKE256)</a>
         </h3>
 <p id="section-6.3-1">This ciphersuite uses edwards448 for the Group and SHAKE256 for the Hash function <code>H</code>
-meant to produce signatures indistinguishable from Ed448 as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.
+meant to produce Ed448-compliant signatures as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.
 The value of the contextString parameter is "FROST-ED448-SHAKE256-v11".<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-2.1">
@@ -2472,8 +2472,7 @@ modulo 2^446 - 13818066809895115352007386748515426880336692474882178609894547503
             </ul>
 </li>
         </ul>
-<p id="section-6.3-3">Normally H2 would also include a domain separator, but for backwards compatibility
-with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">Normally H2 would also include a domain separator, but for compatibility with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">Signature verification is as specified in <span><a href="https://rfc-editor.org/rfc/rfc8032#section-5.2.7" class="relref">Section 5.2.7</a> of [<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> with the
 constraint that implementations MUST check the group equation [4][z]B = [4]R + [4][c]PK
 (changed to use the notation in this document).
@@ -2623,7 +2622,7 @@ the following requirements.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-6.6-2.2">All hash functions MUST be domain separated with a per-suite context
   string. Note that the FROST(Ed25519, SHA-512) ciphersuite does not
-  adhere to this requirement for backwards compatibility with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-6.6-2.2" class="pilcrow">¶</a>
+  adhere to this requirement for compatibility with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-6.6-2.2" class="pilcrow">¶</a>
 </li>
           <li id="section-6.6-2.3">The group MUST be of prime-order, and all deserialization functions MUST
   output elements that belong to their respective sets of Elements or Scalars,
@@ -2675,65 +2674,77 @@ channel can be used to facilitate key generation and signing.<a href="#section-7
 </li>
       </ul>
 <p id="section-7-6">The rest of this section documents issues particular to implementations or deployments.<a href="#section-7-6" class="pilcrow">¶</a></p>
-<div id="nonce-reuse-attacks">
+<div id="optimizations">
 <section id="section-7.1">
-        <h3 id="name-nonce-reuse-attacks">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-nonce-reuse-attacks" class="section-name selfRef">Nonce Reuse Attacks</a>
+        <h3 id="name-optimizations">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-optimizations" class="section-name selfRef">Optimizations</a>
         </h3>
-<p id="section-7.1-1"><a href="#dep-nonces" class="auto internal xref">Section 4.1</a> describes the procedure that participants use to produce nonces during
+<p id="section-7.1-1"><span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span> presented an optimization to FROST that reduces the total number of scalar multiplications
+from linear in the number of signing participants to a constant. However, as described in <span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span>,
+this optimization removes the guarantee that the set of signer participants that started round one of
+the protocol is the same set of signing participants that produced the signature output by round two.
+As such, the optimization is NOT RECOMENDED, and it is not covered in this document.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="nonce-reuse-attacks">
+<section id="section-7.2">
+        <h3 id="name-nonce-reuse-attacks">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-nonce-reuse-attacks" class="section-name selfRef">Nonce Reuse Attacks</a>
+        </h3>
+<p id="section-7.2-1"><a href="#dep-nonces" class="auto internal xref">Section 4.1</a> describes the procedure that participants use to produce nonces during
 the first round of signing. The randomness produced in this procedure MUST be sampled
 uniformly at random. The resulting nonces produced via <code>nonce_generate</code> are indistinguishable
 from values sampled uniformly at random. This requirement is necessary to avoid
 replay attacks initiated by other participants, which allow for a complete key-recovery attack.
 The Coordinator MAY further hedge against nonce reuse attacks by tracking participant nonce
-commitments used for a given group key, at the cost of additional state.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+commitments used for a given group key, at the cost of additional state.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="protocol-failures">
-<section id="section-7.2">
+<section id="section-7.3">
         <h3 id="name-protocol-failures">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-protocol-failures" class="section-name selfRef">Protocol Failures</a>
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-protocol-failures" class="section-name selfRef">Protocol Failures</a>
         </h3>
-<p id="section-7.2-1">We do not specify what implementations should do when the protocol fails, other than requiring that
+<p id="section-7.3-1">We do not specify what implementations should do when the protocol fails, other than requiring that
 the protocol abort. Examples of viable failure include when a verification check returns invalid or
-if the underlying transport failed to deliver the required messages.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+if the underlying transport failed to deliver the required messages.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="no-coordinator">
-<section id="section-7.3">
+<section id="section-7.4">
         <h3 id="name-removing-the-coordinator-ro">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-removing-the-coordinator-ro" class="section-name selfRef">Removing the Coordinator Role</a>
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-removing-the-coordinator-ro" class="section-name selfRef">Removing the Coordinator Role</a>
         </h3>
-<p id="section-7.3-1">In some settings, it may be desirable to omit the role of the Coordinator entirely.
+<p id="section-7.4-1">In some settings, it may be desirable to omit the role of the Coordinator entirely.
 Doing so does not change the security implications of FROST, but instead simply
 requires each participant to communicate with all other participants. We loosely
 describe how to perform FROST signing among participants without this coordinator role.
 We assume that every participant receives as input from an external source the
-message to be signed prior to performing the protocol.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">Every participant begins by performing <code>commit()</code> as is done in the setting
+message to be signed prior to performing the protocol.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">Every participant begins by performing <code>commit()</code> as is done in the setting
 where a Coordinator is used. However, instead of sending the commitment
 to the Coordinator, every participant instead will publish
 this commitment to every other participant. Then, in the second round, participants will already have
 sufficient information to perform signing. They will directly perform <code>sign()</code>.
 All participants will then publish their signature shares to one another. After having
 received all signature shares from all other participants, each participant will then perform
-<code>verify_signature_share</code> and then <code>aggregate</code> directly.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
-<p id="section-7.3-3">The requirements for the underlying network channel remain the same in the setting
+<code>verify_signature_share</code> and then <code>aggregate</code> directly.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">The requirements for the underlying network channel remain the same in the setting
 where all participants play the role of the Coordinator, in that all messages that
 are exchanged are public and so the channel simply must be reliable. However, in
 the setting that a player attempts to split the view of all other players by
 sending disjoint values to a subset of players, the signing operation will output
 an invalid signature. To avoid this denial of service, implementations may wish
 to define a mechanism where messages are authenticated, so that cheating players
-can be identified and excluded.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+can be identified and excluded.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pre-hashing">
-<section id="section-7.4">
+<section id="section-7.5">
         <h3 id="name-input-message-hashing">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-input-message-hashing" class="section-name selfRef">Input Message Hashing</a>
+<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-input-message-hashing" class="section-name selfRef">Input Message Hashing</a>
         </h3>
-<p id="section-7.4-1">FROST signatures do not pre-hash message inputs. This means that the entire message
+<p id="section-7.5-1">FROST signatures do not pre-hash message inputs. This means that the entire message
 must be known in advance of invoking the signing protocol. Applications can apply
 pre-hashing in settings where storing the full message is prohibitively expensive.
 In such cases, pre-hashing MUST use a collision-resistant hash function with a security
@@ -2742,31 +2753,31 @@ RECOMMENDED that applications which choose to apply pre-hashing use the hash fun
 (<code>H</code>) associated with the chosen ciphersuite in a manner similar to how <code>H4</code> is defined.
 In particular, a different prefix SHOULD be used to differentiate this pre-hash from
 <code>H4</code>. For example, if a fictional protocol Quux decided to pre-hash its input messages,
-one possible way to do so is via <code>H(contextString || "Quux-pre-hash" || m)</code>.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+one possible way to do so is via <code>H(contextString || "Quux-pre-hash" || m)</code>.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="message-validation">
-<section id="section-7.5">
+<section id="section-7.6">
         <h3 id="name-input-message-validation">
-<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-input-message-validation" class="section-name selfRef">Input Message Validation</a>
+<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-input-message-validation" class="section-name selfRef">Input Message Validation</a>
         </h3>
-<p id="section-7.5-1">Message validation varies by application. For example, some applications may
+<p id="section-7.6-1">Message validation varies by application. For example, some applications may
 require that participants only process messages of a certain structure. In digital
 currency applications, wherein multiple participants may collectively sign a transaction,
 it is reasonable to require that each participant check the input message to be a
-syntactically valid transaction.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
-<p id="section-7.5-2">As another example, some applications may require that participants only process
+syntactically valid transaction.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.6-2">As another example, some applications may require that participants only process
 messages with permitted content according to some policy. In digital currency
 applications, this might mean that a transaction being signed is allowed and
 intended by the relevant stakeholders. Another instance of this type of message
 validation is in the context of <span>[<a href="#TLS" class="cite xref">TLS</a>]</span>, wherein implementations may
 use threshold signing protocols to produce signatures of transcript hashes. In
 this setting, signing participants might require the raw TLS handshake messages
-to validate before computing the transcript hash that is signed.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
-<p id="section-7.5-3">In general, input message validation is an application-specific consideration
+to validate before computing the transcript hash that is signed.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-3">In general, input message validation is an application-specific consideration
 that varies based on the use case and threat model. However, it is RECOMMENDED
 that applications take additional precautions and validate inputs so that
-participants do not operate as signing oracles for arbitrary messages.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+participants do not operate as signing oracles for arbitrary messages.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
