@@ -10,28 +10,29 @@
 <meta content="Ian Goldberg" name="author">
 <meta content="Christopher A. Wood" name="author">
 <meta content="
-       In this document, we present the two-round signing variant of FROST, a Flexible Round-Optimized
-Schnorr Threshold signature scheme. FROST can produce signatures after a threshold number
-of entities cooperate to compute a signature, allowing for improved distribution of trust and
+       This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol.
+FROST signatures can be issued after a threshold number of entities cooperate to
+compute a signature, allowing for improved distribution of trust and
 redundancy with respect to a secret key. FROST depends only on a prime-order group and cryptographic
 hash function. This document specifies a number of ciphersuites to instantiate FROST using different
 prime-order groups and hash functions. One such ciphersuite can be used to produce signatures
-that can be verified with an   compliant verifier. However, unlike  , the
-signatures produced by FROST are not deterministic. 
+that can be verified with an RFC8032 compliant verifier. However, unlike RFC8032, the
+signatures produced by FROST are not deterministic.
+This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF. 
     " name="description">
 <meta content="xml2rfc 3.15.3" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-irtf-cfrg-frost-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.15.3
-    Python 3.10.8
+    Python 3.10.9
     appdirs 1.4.4
     ConfigArgParse 1.5.3
     google-i18n-address 2.5.2
     html5lib 1.1
     intervaltree 3.1.0
     Jinja2 3.1.2
-    lxml 4.9.1
+    lxml 4.9.2
     MarkupSafe 2.1.1
     pycountry 22.3.5
     PyYAML 6.0
@@ -405,7 +406,7 @@ dl > dd > dl {
   margin-top: 0.5em;
   margin-bottom: 0;
 }
-dl .break {
+:is(dd, span).break {
   display: none;
 }
 
@@ -425,7 +426,7 @@ a[href]:hover {
 a[href].selfRef:hover {
   background-color: var(--highlight-color);
 }
-a.xref {
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
   white-space: nowrap;
 }
 
@@ -437,7 +438,9 @@ tt, code, pre {
 tt, code {
   /* changing the font for inline elements leads to different ascender
      and descender heights; as we want to retain baseline alignment,
-     remove leading to avoid altering the final height of lines */
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
   line-height: 0;
 }
 :is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
@@ -1049,7 +1052,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Connolly, et al.</td>
-<td class="center">Expires 16 June 2023</td>
+<td class="center">Expires 24 June 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1065,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-irtf-cfrg-frost-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-12-13" class="published">13 December 2022</time>
+<time datetime="2022-12-21" class="published">21 December 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-06-16">16 June 2023</time></dd>
+<dd class="expires"><time datetime="2023-06-24">24 June 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1092,14 +1095,15 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <h1 id="title">Two-Round Threshold Schnorr Signatures with FROST</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">In this document, we present the two-round signing variant of FROST, a Flexible Round-Optimized
-Schnorr Threshold signature scheme. FROST can produce signatures after a threshold number
-of entities cooperate to compute a signature, allowing for improved distribution of trust and
+<p id="section-abstract-1">This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol.
+FROST signatures can be issued after a threshold number of entities cooperate to
+compute a signature, allowing for improved distribution of trust and
 redundancy with respect to a secret key. FROST depends only on a prime-order group and cryptographic
 hash function. This document specifies a number of ciphersuites to instantiate FROST using different
 prime-order groups and hash functions. One such ciphersuite can be used to produce signatures
-that can be verified with an <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> compliant verifier. However, unlike <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, the
-signatures produced by FROST are not deterministic.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+that can be verified with an RFC8032 compliant verifier. However, unlike RFC8032, the
+signatures produced by FROST are not deterministic.
+This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-discussion-venues">
@@ -1131,7 +1135,7 @@ signatures produced by FROST are not deterministic.<a href="#section-abstract-1"
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 June 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 June 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1189,15 +1193,7 @@ signatures produced by FROST are not deterministic.<a href="#section-abstract-1"
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-nonce-generation" class="internal xref">Nonce generation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-polynomial-operations" class="internal xref">Polynomial Operations</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
-                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-evaluation-of-a-polynomial" class="internal xref">Evaluation of a polynomial</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
-                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-lagrange-coefficients" class="internal xref">Lagrange coefficients</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-polynomials" class="internal xref">Polynomials</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
                 <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-list-operations" class="internal xref">List Operations</a></p>
@@ -1297,7 +1293,7 @@ signatures produced by FROST are not deterministic.<a href="#section-abstract-1"
                 <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-C.1" class="auto internal xref">C.1</a>.  <a href="#name-shamir-secret-sharing" class="internal xref">Shamir Secret Sharing</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1.2.1">
-                    <p id="section-toc.1-1.11.2.1.2.1.1"><a href="#appendix-C.1.1" class="auto internal xref">C.1.1</a>.  <a href="#name-deriving-the-constant-term-" class="internal xref">Deriving the constant term of a polynomial</a></p>
+                    <p id="section-toc.1-1.11.2.1.2.1.1"><a href="#appendix-C.1.1" class="auto internal xref">C.1.1</a>.  <a href="#name-additional-polynomial-opera" class="internal xref">Additional polynomial operations</a></p>
 </li>
                 </ul>
 </li>
@@ -1357,12 +1353,11 @@ well.<a href="#section-1-1" class="pilcrow">¶</a></p>
 require cooperation among a threshold number of signing participants each holding a share
 of a common private key. The security of threshold schemes in general assumes
 that an adversary can corrupt strictly fewer than a threshold number of signer participants.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This document presents a variant of a Flexible Round-Optimized Schnorr Threshold (FROST)
-signature scheme originally defined in <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span>. FROST reduces network overhead during
+<p id="section-1-3">This document specifies the Flexible Round-Optimized Schnorr Threshold (FROST) signing protocol
+based on the original work in <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span>. FROST reduces network overhead during
 threshold signing operations while employing a novel technique to protect against forgery
-attacks applicable to prior Schnorr-based threshold signature constructions. The variant of
-FROST presented in this document requires two rounds to compute a signature. Single-round
-signing with FROST is out of scope.<a href="#section-1-3" class="pilcrow">¶</a></p>
+attacks applicable to prior Schnorr-based threshold signature constructions. FROST requires
+two rounds to compute a signature. Single-round signing variants based on <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span> are out of scope.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">FROST depends only on a prime-order group and cryptographic hash function. This document specifies
 a number of ciphersuites to instantiate FROST using different prime-order groups and hash functions.
 Two ciphersuites can be used to produce signatures that are compatible with Ed25519 and Ed448 as
@@ -1372,6 +1367,8 @@ since deriving nonces deterministically allows for a complete key-recovery attac
 discrete logarithm-based signatures.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">Key generation for FROST signing is out of scope for this document. However, for completeness,
 key generation with a trusted dealer is specified in <a href="#dep-dealer" class="auto internal xref">Appendix C</a>.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document represents the consensus of the Crypto Forum Research
+Group (CFRG). It is not an IETF product and is not a standard.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="change-log">
 <section id="section-1.1">
         <h3 id="name-change-log">
@@ -1607,39 +1604,41 @@ and <code>*</code> operators, respectively. (Note that this means <code>+</code>
 scalar addition, depending on types of the operands.) For any element <code>A</code>, <code>ScalarMult(A, p) = I</code>.
 We denote <code>B</code> as a fixed generator of the group. Scalar base multiplication is equivalent to the repeated application
 of the group operation <code>B</code> with itself <code>r-1</code> times, this is denoted as <code>ScalarBaseMult(r)</code>. The set of
-scalars corresponds to <code>GF(p)</code>, which we refer to as the scalar field. This document uses types
-<code>Element</code> and <code>Scalar</code> to denote elements of the group <code>G</code> and its set of scalars, respectively.
-We denote Scalar(x) as the conversion of integer input <code>x</code> to the corresponding Scalar value with
-the same numeric value. For example, Scalar(1) yields a Scalar representing the value 1.
-We denote equality comparison as <code>==</code> and assignment of values by <code>=</code>. Finally, it is assumed that
+scalars corresponds to <code>GF(p)</code>, which we refer to as the scalar field. It is assumed that
 group element addition, negation, and equality comparisons can be efficiently computed for
 arbitrary group elements.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">We now detail a number of member functions that can be invoked on <code>G</code>.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">This document uses types <code>Element</code> and <code>Scalar</code> to denote elements of the group <code>G</code> and
+its set of scalars, respectively. We denote Scalar(x) as the conversion of integer input <code>x</code>
+to the corresponding Scalar value with the same numeric value. For example, Scalar(1) yields
+a Scalar representing the value 1. Moreover, we use the type <code>NonZeroScalar</code> to denote a <code>Scalar</code>
+value that is not equal to zero, i.e., Scalar(0). We denote equality comparison of these types
+as <code>==</code> and assignment of values by <code>=</code>.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">We now detail a number of member functions that can be invoked on <code>G</code>.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1-3.1">Order(): Outputs the order of <code>G</code> (i.e. <code>p</code>).<a href="#section-3.1-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-3.1-4.1">Order(): Outputs the order of <code>G</code> (i.e. <code>p</code>).<a href="#section-3.1-4.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.2">Identity(): Outputs the identity <code>Element</code> of the group (i.e. <code>I</code>).<a href="#section-3.1-3.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.1-4.2">Identity(): Outputs the identity <code>Element</code> of the group (i.e. <code>I</code>).<a href="#section-3.1-4.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.3">RandomScalar(): Outputs a random <code>Scalar</code> element in GF(p), i.e., a random scalar in [0, p - 1].<a href="#section-3.1-3.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.1-4.3">RandomScalar(): Outputs a random <code>Scalar</code> element in GF(p), i.e., a random scalar in [0, p - 1].<a href="#section-3.1-4.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.4">ScalarMult(A, k): Output the scalar multiplication between Element <code>A</code> and Scalar <code>k</code>.<a href="#section-3.1-3.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.1-4.4">ScalarMult(A, k): Output the scalar multiplication between Element <code>A</code> and Scalar <code>k</code>.<a href="#section-3.1-4.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.5">ScalarBaseMult(k): Output the scalar multiplication between Scalar <code>k</code> and the group generator <code>B</code>.<a href="#section-3.1-3.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.1-4.5">ScalarBaseMult(k): Output the scalar multiplication between Scalar <code>k</code> and the group generator <code>B</code>.<a href="#section-3.1-4.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.6">SerializeElement(A): Maps an <code>Element</code> <code>A</code> to a canonical byte array <code>buf</code> of fixed length <code>Ne</code>. This
-function can raise an error if <code>A</code> is the identity element of the group.<a href="#section-3.1-3.6" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.1-4.6">SerializeElement(A): Maps an <code>Element</code> <code>A</code> to a canonical byte array <code>buf</code> of fixed length <code>Ne</code>. This
+function can raise an error if <code>A</code> is the identity element of the group.<a href="#section-3.1-4.6" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.7">DeserializeElement(buf): Attempts to map a byte array <code>buf</code> to an <code>Element</code> <code>A</code>,
+          <li class="normal" id="section-3.1-4.7">DeserializeElement(buf): Attempts to map a byte array <code>buf</code> to an <code>Element</code> <code>A</code>,
 and fails if the input is not the valid canonical byte representation of an element of
 the group. This function can raise an error if deserialization fails
 or <code>A</code> is the identity element of the group; see <a href="#ciphersuites" class="auto internal xref">Section 6</a> for group-specific
-input validation steps.<a href="#section-3.1-3.7" class="pilcrow">¶</a>
+input validation steps.<a href="#section-3.1-4.7" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.8">SerializeScalar(s): Maps a Scalar <code>s</code> to a canonical byte array <code>buf</code> of fixed length <code>Ns</code>.<a href="#section-3.1-3.8" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.1-4.8">SerializeScalar(s): Maps a Scalar <code>s</code> to a canonical byte array <code>buf</code> of fixed length <code>Ns</code>.<a href="#section-3.1-4.8" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.1-3.9">DeserializeScalar(buf): Attempts to map a byte array <code>buf</code> to a <code>Scalar</code> <code>s</code>.
+          <li class="normal" id="section-3.1-4.9">DeserializeScalar(buf): Attempts to map a byte array <code>buf</code> to a <code>Scalar</code> <code>s</code>.
 This function can raise an error if deserialization fails; see
-<a href="#ciphersuites" class="auto internal xref">Section 6</a> for group-specific input validation steps.<a href="#section-3.1-3.9" class="pilcrow">¶</a>
+<a href="#ciphersuites" class="auto internal xref">Section 6</a> for group-specific input validation steps.<a href="#section-3.1-4.9" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1676,7 +1675,7 @@ following helper operations:<a href="#section-4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4-2.1">Nonce generation, <a href="#dep-nonces" class="auto internal xref">Section 4.1</a>;<a href="#section-4-2.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-4-2.2">Polynomial operations, <a href="#dep-polynomial" class="auto internal xref">Section 4.2</a>;<a href="#section-4-2.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-4-2.2">Polynomials, <a href="#dep-polynomial" class="auto internal xref">Section 4.2</a>;<a href="#section-4-2.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-4-2.3">Encoding operations, <a href="#dep-encoding" class="auto internal xref">Section 4.3</a>;<a href="#section-4-2.3" class="pilcrow">¶</a>
 </li>
@@ -1716,70 +1715,33 @@ signing participant.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 </div>
 <div id="dep-polynomial">
 <section id="section-4.2">
-        <h3 id="name-polynomial-operations">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-polynomial-operations" class="section-name selfRef">Polynomial Operations</a>
+        <h3 id="name-polynomials">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-polynomials" class="section-name selfRef">Polynomials</a>
         </h3>
-<p id="section-4.2-1">This section describes operations on and associated with polynomials over Scalars
-that are used in the main signing protocol. A polynomial of maximum degree t
-is represented as a list of t+1 coefficients, where the constant term of the polynomial
-is in the first position and the highest-degree coefficient is in the last position.
-For example, the polynomial <code>x^2 + 2x + 3</code> has degree 2 and is represented as
-a list of 3 coefficients <code>[3, 2, 1]</code>.
-A point on the polynomial is a tuple (x, y), where <code>y = f(x)</code>. For notational
-convenience, we refer to the x-coordinate and y-coordinate of a
-point p as <code>p.x</code> and <code>p.y</code>, respectively.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<div id="evaluation-of-a-polynomial">
-<section id="section-4.2.1">
-          <h4 id="name-evaluation-of-a-polynomial">
-<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-evaluation-of-a-polynomial" class="section-name selfRef">Evaluation of a polynomial</a>
-          </h4>
-<p id="section-4.2.1-1">This section describes a method for evaluating a polynomial <code>f</code> at a
-particular input <code>x</code>, i.e., <code>y = f(x)</code> using Horner's method.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.2.1-2">
+<p id="section-4.2-1">This section defines polynomials over Scalars that are used in the main protocol.
+A polynomial of maximum degree t is represented as a list of t+1 coefficients,
+where the constant term of the polynomial is in the first position and the
+highest-degree coefficient is in the last position. For example, the polynomial
+<code>x^2 + 2x + 3</code> has degree 2 and is represented as a list of 3 coefficients <code>[3, 2, 1]</code>.
+A point on the polynomial is a tuple (x, y), where <code>y = f(x)</code>.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">The function <code>derive_interpolating_value</code> derives a value used for polynomial
+interpolation. It is is provided a list of x-coordinates as input, each of which
+cannot equal 0.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2-3">
 <pre>
-  polynomial_evaluate(x, coeffs):
-
-  Inputs:
-  - x, input at which to evaluate the polynomial, a Scalar
-  - coeffs, the polynomial coefficients, a list of Scalars
-
-  Outputs: Scalar result of the polynomial evaluated at input x
-
-  def polynomial_evaluate(x, coeffs):
-    value = 0
-    for coeff in reverse(coeffs):
-      value *= x
-      value += coeff
-    return value
-</pre><a href="#section-4.2.1-2" class="pilcrow">¶</a>
-</div>
-</section>
-</div>
-<div id="lagrange-coefficients">
-<section id="section-4.2.2">
-          <h4 id="name-lagrange-coefficients">
-<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-lagrange-coefficients" class="section-name selfRef">Lagrange coefficients</a>
-          </h4>
-<p id="section-4.2.2-1">The function <code>derive_lagrange_coefficient</code> derives a Lagrange coefficient
-to later perform polynomial interpolation, and is provided a list of x-coordinates
-as input. Note that <code>derive_lagrange_coefficient</code> does not permit any x-coordinate
-to equal 0. Lagrange coefficients are used in FROST to evaluate a polynomial <code>f</code>
-at x-coordinate 0, i.e., <code>f(0)</code>, given a list of <code>t</code> other x-coordinates.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.2.2-2">
-<pre>
-  derive_lagrange_coefficient(x_i, L):
+  derive_interpolating_value(x_i, L):
 
   Inputs:
   - x_i, an x-coordinate contained in L, a Scalar
   - L, the set of x-coordinates, each a Scalar
 
-  Outputs: L_i, the i-th Lagrange coefficient
+  Outputs: value, a Scalar
 
   Errors:
   - "invalid parameters", if 1) any x-coordinate is equal to 0, 2) if x_i
     is not in L, or if 3) any x-coordinate is represented more than once in L.
 
-  def derive_lagrange_coefficient(x_i, L):
+  def derive_interpolating_value(x_i, L):
     if x_i == 0:
       raise "invalid parameters"
     for x_j in L:
@@ -1798,11 +1760,9 @@ at x-coordinate 0, i.e., <code>f(0)</code>, given a list of <code>t</code> other
       numerator *= x_j
       denominator *= x_j - x_i
 
-    L_i = numerator / denominator
-    return L_i
-</pre><a href="#section-4.2.2-2" class="pilcrow">¶</a>
-</div>
-</section>
+    value = numerator / denominator
+    return value
+</pre><a href="#section-4.2-3" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1819,9 +1779,9 @@ commitments into a bytestring for use in the FROST protocol.<a href="#section-4.
   Inputs:
   - commitment_list = [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...],
     a list of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be sorted
-    in ascending order by participant identifier.
+    in ascending order by identifier.
 
   Outputs: A byte string containing the serialized representation of commitment_list
 
@@ -1835,18 +1795,17 @@ commitments into a bytestring for use in the FROST protocol.<a href="#section-4.
     return encoded_group_commitment
 </pre><a href="#section-4.3-2" class="pilcrow">¶</a>
 </div>
-<p id="section-4.3-3">The following function is used to extract participant identifiers from a commitment
-list.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">The following function is used to extract identifiers from a commitment list.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4.3-4">
 <pre>
   Inputs:
   - commitment_list = [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...],
     a list of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be sorted
-    in ascending order by participant identifier.
+    in ascending order by identifier.
 
-  Outputs: A list of participant identifiers
+  Outputs: A list of identifiers
 
 def participants_from_commitment_list(commitment_list):
   identifiers = []
@@ -1861,8 +1820,8 @@ def participants_from_commitment_list(commitment_list):
   Inputs:
   - binding_factor_list = [(i, binding_factor), ...],
     a list of binding factors for each participant, where each element in the list
-    indicates the participant identifier i and their binding factor.
-  - identifier, participant identifier, a Scalar.
+    indicates a NonZeroScalar identifier i and Scalar binding factor.
+  - identifier, participant identifier, a NonZeroScalar.
 
   Outputs: A Scalar value.
 
@@ -1889,12 +1848,12 @@ on the participant commitment list and message to be signed.<a href="#section-4.
   Inputs:
   - commitment_list = [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...],
     a list of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be sorted
-    in ascending order by participant identifier.
+    in ascending order by identifier.
   - msg, the message to be signed.
 
-  Outputs: A list of (identifier, Scalar) tuples representing the binding factors.
+  Outputs: A list of (NonZeroScalar, Scalar) tuples representing the binding factors.
 
   def compute_binding_factors(commitment_list, msg):
     msg_hash = H4(msg)
@@ -1924,19 +1883,19 @@ from a commitment list.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
   - commitment_list =
      [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...], a list
     of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be
-    sorted in ascending order by participant identifier.
+    sorted in ascending order by identifier.
   - binding_factor_list = [(i, binding_factor), ...],
-    a list of (identifier, Scalar) tuples representing the binding factor Scalar
+    a list of (NonZeroScalar, Scalar) tuples representing the binding factor Scalar
     for the given identifier.
 
-  Outputs: An Element in G representing the group commitment
+  Outputs: An Element representing the group commitment
 
   def compute_group_commitment(commitment_list, binding_factor_list):
     group_commitment = G.Identity()
     for (identifier, hiding_nonce_commitment, binding_nonce_commitment) in commitment_list:
-      binding_factor = binding_factor_for_participant(binding_factors, identifier)
+      binding_factor = binding_factor_for_participant(binding_factor_list, identifier)
       group_commitment = group_commitment +
         hiding_nonce_commitment + G.ScalarMult(binding_nonce_commitment, binding_factor)
     return group_commitment
@@ -1977,9 +1936,8 @@ from a commitment list.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
       <h2 id="name-two-round-frost-signing-pro">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-two-round-frost-signing-pro" class="section-name selfRef">Two-Round FROST Signing Protocol</a>
       </h2>
-<p id="section-5-1">This section describes the two-round variant of the FROST threshold signature
-protocol for producing Schnorr signatures. The protocol is configured to
-run with a selection of <code>NUM_PARTICIPANTS</code> signer participants and a Coordinator.
+<p id="section-5-1">This section describes the two-round FROST signing protocol for producing Schnorr signatures.
+The protocol is configured to run with a selection of <code>NUM_PARTICIPANTS</code> signer participants and a Coordinator.
 <code>NUM_PARTICIPANTS</code> is a positive integer at least <code>MIN_PARTICIPANTS</code> but no larger than
 <code>MAX_PARTICIPANTS</code>, where <code>MIN_PARTICIPANTS &lt;= MAX_PARTICIPANTS</code>, <code>MIN_PARTICIPANTS</code> is a positive
 integer and <code>MAX_PARTICIPANTS</code> is a positive integer less than the group order.
@@ -1999,15 +1957,15 @@ a distinguished Coordinator; see <a href="#no-coordinator" class="auto internal 
 <p id="section-5-4">FROST produces signatures that can be verified as if they were produced from a single signer
 using a signing key <code>s</code> with corresponding public key <code>PK</code>, where <code>s</code> is a Scalar
 value and <code>PK = G.ScalarBaseMult(s)</code>. As a threshold signing protocol, the group signing
-key <code>s</code> is secret-shared amongst each participant and used to produce signatures. In particular,
+key <code>s</code> is Shamir secret-shared amongst each of the <code>MAX_PARTICIPANTS</code> participant and used to produce signatures. In particular,
 FROST assumes each participant is configured with the following information:<a href="#section-5-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5-5.1">An identifier, which is a Scalar value denoted <code>i</code> in the range <code>[1, MAX_PARTICIPANTS]</code>
+<li class="normal" id="section-5-5.1">An identifier, which is a NonZeroScalar value denoted <code>i</code> in the range <code>[1, MAX_PARTICIPANTS]</code>
 and MUST be distinct from the identifier of every other participant.<a href="#section-5-5.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-5-5.2">A signing key share <code>sk_i</code>, which is a Scalar value representing the i-th secret share
-of the group signing key <code>s</code>. The public key corresponding to this signing key share
-is <code>PK_i = G.ScalarBaseMult(sk_i)</code>.<a href="#section-5-5.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-5-5.2">A signing key <code>sk_i</code>, which is a Scalar value representing the i-th Shamir secret share
+of the group signing key <code>s</code>. In particular, <code>sk_i</code> is the value <code>f(i)</code> on a secret polynomial <code>f</code>, where <code>s</code> is <code>f(0)</code>.
+The public key corresponding to this signing key share is <code>PK_i = G.ScalarBaseMult(sk_i)</code>.<a href="#section-5-5.2" class="pilcrow">¶</a>
 </li>
       </ul>
 <p id="section-5-6">The Coordinator and each participant are additionally configured with common group
@@ -2024,15 +1982,11 @@ are configured and distributed to participants. In general, two possible configu
 mechanisms are possible: one that requires a single, trusted dealer, and the other
 which requires performing a distributed key generation protocol. We highlight
 key generation mechanism by a trusted dealer in <a href="#dep-dealer" class="auto internal xref">Appendix C</a> for reference.<a href="#section-5-8" class="pilcrow">¶</a></p>
-<p id="section-5-9">The signing variant of FROST in this document requires participants to perform two network rounds:
-1) generating and publishing commitments, and 2) signature share generation and
-publication. The first round serves for each participant to issue a commitment to
-a nonce. The second round receives commitments for all participants as well as the message,
-and issues a signature share with respect to that message. The Coordinator performs
-the coordination of each of these rounds. At the end of the second round, the
-Coordinator then performs an aggregation step and outputs the final signature.
-This complete interaction is shown in <a href="#fig-frost" class="auto internal xref">Figure 1</a>.<a href="#section-5-9" class="pilcrow">¶</a></p>
-<span id="name-frost-signature-overview"></span><div id="fig-frost">
+<p id="section-5-9">FROST requires two rounds to complete. In the first round, participants generate
+and publish one-time-use commitments to be used in the second round. In the second
+round, each participant produces a share of the signature over the Coordinator-chosen
+message and the other participant commitments. This complete interaction is shown in <a href="#fig-frost" class="auto internal xref">Figure 1</a>.<a href="#section-5-9" class="pilcrow">¶</a></p>
+<span id="name-frost-protocol-overview"></span><div id="fig-frost">
 <figure id="figure-1">
         <div class="alignLeft art-text artwork" id="section-5-10.1">
 <pre>
@@ -2071,7 +2025,7 @@ This complete interaction is shown in <a href="#fig-frost" class="auto internal 
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
-<a href="#name-frost-signature-overview" class="selfRef">FROST signature overview</a>
+<a href="#name-frost-protocol-overview" class="selfRef">FROST protocol overview</a>
         </figcaption></figure>
 </div>
 <p id="section-5-11">Details for round one are described in <a href="#frost-round-one" class="auto internal xref">Section 5.1</a>, and details for round two
@@ -2120,7 +2074,7 @@ a pair of secret nonces <code>(hiding_nonce, binding_nonce)</code> and their cor
 <p id="section-5.1-3">The outputs <code>nonce</code> and <code>comm</code> from participant <code>P_i</code> should both be stored locally and
 kept for use in the second round. The <code>nonce</code> value is secret and MUST NOT be shared, whereas
 the public output <code>comm</code> is sent to the Coordinator. The nonce values produced by this
-function MUST NOT be reused in more than one invocation of FROST, and it MUST be generated
+function MUST NOT be used in more than one invocation of <code>sign</code>, and the nonces MUST be generated
 from a source of secure randomness.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2142,14 +2096,14 @@ MUST abort the protocol. Moreover, each participant MUST ensure that
 their identifier appears in commitment_list along with
 their commitment from the first round.
 Applications which require that participants not process arbitrary
-input messages are also required to also perform relevant application-layer input
+input messages are also required to perform relevant application-layer input
 validation checks; see <a href="#message-validation" class="auto internal xref">Section 7.6</a> for more details.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">Upon receipt and successful input validation, each Signer then runs the following
 procedure to produce its own signature share.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.2-4">
 <pre>
   Inputs:
-  - identifier, Identifier i of the participant. Note identifier will never equal 0.
+  - identifier, identifier i of the participant, a NonZeroScalar.
   - sk_i, Signer secret key share, a Scalar.
   - group_public_key, public key corresponding to the group signing key,
     an Element in G.
@@ -2159,9 +2113,9 @@ procedure to produce its own signature share.<a href="#section-5.2-3" class="pil
   - commitment_list =
       [(j, hiding_nonce_commitment_j, binding_nonce_commitment_j), ...], a
     list of commitments issued in Round 1 by each participant and sent by the Coordinator.
-    Each element in the list indicates the participant identifier j and their two commitment
+    Each element in the list indicates a NonZeroScalar identifier j and two commitment
     Element values (hiding_nonce_commitment_j, binding_nonce_commitment_j).
-    This list MUST be sorted in ascending order by participant identifier.
+    This list MUST be sorted in ascending order by identifier.
 
   Outputs: a Scalar value representing the signature share
 
@@ -2173,9 +2127,9 @@ procedure to produce its own signature share.<a href="#section-5.2-3" class="pil
     # Compute the group commitment
     group_commitment = compute_group_commitment(commitment_list, binding_factor_list)
 
-    # Compute Lagrange coefficient
+    # Compute the interpolating value
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
+    lambda_i = derive_interpolating_value(identifier, participant_list)
 
     # Compute the per-message challenge
     challenge = compute_challenge(group_commitment, group_public_key, msg)
@@ -2189,8 +2143,8 @@ procedure to produce its own signature share.<a href="#section-5.2-3" class="pil
 </div>
 <p id="section-5.2-5">The output of this procedure is a signature share. Each participant then sends
 these shares back to the Coordinator. Each participant MUST delete the nonce and
-corresponding commitment after this round completes, and MUST use the nonce
-to generate at most one signature share.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+corresponding commitment after completing <code>sign</code>, and MUST NOT use the nonce
+as input more than once to <code>sign</code>.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
 <p id="section-5.2-6">Note that the <code>lambda_i</code> value derived during this procedure does not change
 across FROST signing operations for the same signing group. As such, participants
 can compute it once and store it for reuse across signing sessions.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
@@ -2213,9 +2167,9 @@ parameters, to check that the signature share is valid using the following proce
 <div class="alignLeft art-text artwork" id="section-5.3-2">
 <pre>
   Inputs:
-  - identifier, Identifier i of the participant. Note: identifier MUST never equal 0.
+  - identifier, identifier i of the participant, a NonZeroScalar.
   - PK_i, the public key for the ith participant, where PK_i = G.ScalarBaseMult(sk_i),
-    an Element in G
+    an Element.
   - comm_i, pair of Element values in G (hiding_nonce_commitment, binding_nonce_commitment)
     generated in round one from the ith participant.
   - sig_share_i, a Scalar value indicating the signature share as produced in
@@ -2223,9 +2177,9 @@ parameters, to check that the signature share is valid using the following proce
   - commitment_list =
       [(j, hiding_nonce_commitment_j, binding_nonce_commitment_j), ...], a
     list of commitments issued in Round 1 by each participant, where each element
-    in the list indicates the participant identifier j and their two commitment
+    in the list indicates a NonZeroScalar identifier j and two commitment
     Element values (hiding_nonce_commitment_j, binding_nonce_commitment_j).
-    This list MUST be sorted in ascending order by participant identifier.
+    This list MUST be sorted in ascending order by identifier.
   - group_public_key, public key corresponding to the group signing key,
     an Element in G.
   - msg, the message to be signed.
@@ -2248,9 +2202,9 @@ parameters, to check that the signature share is valid using the following proce
     # Compute the challenge
     challenge = compute_challenge(group_commitment, group_public_key, msg)
 
-    # Compute Lagrange coefficient
+    # Compute the interpolating value
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
+    lambda_i = derive_interpolating_value(identifier, participant_list)
 
     # Compute relation values
     l = G.ScalarBaseMult(sig_share_i)
@@ -2337,7 +2291,7 @@ The value of the contextString parameter is "FROST-ED25519-SHA512-v11".<a href="
 <li class="normal" id="section-6.1-2.1">
             <p id="section-6.1-2.1.1">Group: edwards25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span><a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.1-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>)<a href="#section-6.1-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.1-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>).<a href="#section-6.1-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.1-2.1.2.2">Identity(): As defined in <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>.<a href="#section-6.1-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2350,7 +2304,8 @@ identity element.<a href="#section-6.1-2.1.2.4" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.1-2.1.2.5">DeserializeElement(buf): Implemented as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>], <a href="https://rfc-editor.org/rfc/rfc8032#section-5.1.3" class="relref">Section 5.1.3</a></span>.
 Additionally, this function validates that the resulting element is not the group
-identity element and is in the prime-order subgroup. The latter check can
+identity element and is in the prime-order subgroup. If any of these checks fail,
+deserialization returns an error. The latter check can
 be implemented by multiplying the resulting point by the order of the group and
 checking that the result is the identity element. Note that optimizations for
 this check exist; see <span>[<a href="#Pornin22" class="cite xref">Pornin22</a>]</span>.<a href="#section-6.1-2.1.2.5" class="pilcrow">¶</a>
@@ -2389,8 +2344,9 @@ as a little-endian integer, and reducing the resulting integer modulo
         </ul>
 <p id="section-6.1-3">Normally H2 would also include a domain separator, but for compatibility with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.1-4">Signature verification is as specified in <span><a href="https://rfc-editor.org/rfc/rfc8032#section-5.1.7" class="relref">Section 5.1.7</a> of [<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> with the
-constraint that implementations MUST check the group equation [8][S]B = [8]R + [8][k]A'.
-The alternative check [S]B = R + [k]A' is not safe or interoperable in practice.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+constraint that implementations MUST check the group equation [8][z]B = [8]R + [8][c]PK
+(changed to use the notation in this document).
+The alternative check [z]B = R + [c]PK is not interoperable in practice.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="recommended-suite">
@@ -2404,7 +2360,7 @@ The value of the contextString parameter is "FROST-RISTRETTO255-SHA512-v11".<a h
 <li class="normal" id="section-6.2-2.1">
             <p id="section-6.2-2.1.1">Group: ristretto255 <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span><a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.2-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>)<a href="#section-6.2-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.2-2.1.2.1">Order(): Return 2^252 + 27742317777372353535851937790883648493 (see <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>).<a href="#section-6.2-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.2-2.1.2.2">Identity(): As defined in <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>.<a href="#section-6.2-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2417,7 +2373,7 @@ identity element.<a href="#section-6.2-2.1.2.4" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.2-2.1.2.5">DeserializeElement(buf): Implemented using the 'Decode' function from <span>[<a href="#RISTRETTO" class="cite xref">RISTRETTO</a>]</span>.
 Additionally, this function validates that the resulting element is not the group
-identity element.<a href="#section-6.2-2.1.2.5" class="pilcrow">¶</a>
+identity element. If either 'Decode' or that check fails, deserialization returns an error.<a href="#section-6.2-2.1.2.5" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.2-2.1.2.6">SerializeScalar(s): Implemented by outputting the little-endian 32-byte encoding of
 the Scalar value with the top three bits set to zero.<a href="#section-6.2-2.1.2.6" class="pilcrow">¶</a>
@@ -2463,7 +2419,7 @@ The value of the contextString parameter is "FROST-ED448-SHAKE256-v11".<a href="
 <li class="normal" id="section-6.3-2.1">
             <p id="section-6.3-2.1.1">Group: edwards448 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span><a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.3-2.1.2.1">Order(): Return 2^446 - 13818066809895115352007386748515426880336692474882178609894547503885<a href="#section-6.3-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.3-2.1.2.1">Order(): Return 2^446 - 13818066809895115352007386748515426880336692474882178609894547503885.<a href="#section-6.3-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.3-2.1.2.2">Identity(): As defined in <span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>.<a href="#section-6.3-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2476,7 +2432,8 @@ identity element.<a href="#section-6.3-2.1.2.4" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.3-2.1.2.5">DeserializeElement(buf): Implemented as specified in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>], <a href="https://rfc-editor.org/rfc/rfc8032#section-5.2.3" class="relref">Section 5.2.3</a></span>.
 Additionally, this function validates that the resulting element is not the group
-identity element and is in the prime-order subgroup. The latter check can
+identity element and is in the prime-order subgroup. If any of these checks fail,
+deserialization returns an error. The latter check can
 be implemented by multiplying the resulting point by the order of the group and
 checking that the result is the identity element. Note that optimizations for
 this check exist; see <span>[<a href="#Pornin22" class="cite xref">Pornin22</a>]</span>.<a href="#section-6.3-2.1.2.5" class="pilcrow">¶</a>
@@ -2514,8 +2471,9 @@ modulo 2^446 - 13818066809895115352007386748515426880336692474882178609894547503
         </ul>
 <p id="section-6.3-3">Normally H2 would also include a domain separator, but for compatibility with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">Signature verification is as specified in <span><a href="https://rfc-editor.org/rfc/rfc8032#section-5.2.7" class="relref">Section 5.2.7</a> of [<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> with the
-constraint that implementations MUST check the group equation [4][S]B = [4]R + [4][k]A'.
-The alternative check [S]B = R + [k]A' is not safe or interoperable in practice.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+constraint that implementations MUST check the group equation [4][z]B = [4]R + [4][c]PK
+(changed to use the notation in this document).
+The alternative check [z]B = R + [c]PK is not interoperable in practice.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frostp-256-sha-256">
@@ -2529,7 +2487,7 @@ The value of the contextString parameter is "FROST-P256-SHA256-v11".<a href="#se
 <li class="normal" id="section-6.4-2.1">
             <p id="section-6.4-2.1.1">Group: P-256 (secp256r1) <span>[<a href="#x9.62" class="cite xref">x9.62</a>]</span><a href="#section-6.4-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.4-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551<a href="#section-6.4-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.4-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551.<a href="#section-6.4-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.4-2.1.2.2">Identity(): As defined in <span>[<a href="#x9.62" class="cite xref">x9.62</a>]</span>.<a href="#section-6.4-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2594,7 +2552,7 @@ The value of the contextString parameter is "FROST-secp256k1-SHA256-v11".<a href
 <li class="normal" id="section-6.5-2.1">
             <p id="section-6.5-2.1.1">Group: secp256k1 <span>[<a href="#SEC2" class="cite xref">SEC2</a>]</span><a href="#section-6.5-2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.5-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551<a href="#section-6.5-2.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.5-2.1.2.1">Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551.<a href="#section-6.5-2.1.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-6.5-2.1.2.2">Identity(): As defined in <span>[<a href="#SEC2" class="cite xref">SEC2</a>]</span>.<a href="#section-6.5-2.1.2.2" class="pilcrow">¶</a>
 </li>
@@ -2677,7 +2635,7 @@ the following requirements.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
       <h2 id="name-security-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-7-1">A security analysis of FROST exists in <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span> and <span>[<a href="#Schnorr21" class="cite xref">Schnorr21</a>]</span>. The protocol as specified
+<p id="section-7-1">A security analysis of FROST exists in <span>[<a href="#FROST20" class="cite xref">FROST20</a>]</span> and <span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span>. The protocol as specified
 in this document assumes the following threat model.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7-2.1">Secure key distribution. The signer key shares are generated and distributed securely, i.e.,
@@ -2703,7 +2661,8 @@ requirements in <a href="#ciphersuite-reqs" class="auto internal xref">Section 6
 <ul class="normal">
 <li class="normal" id="section-7-5.1">Post quantum security. FROST, like plain Schnorr signatures, requires the hardness of the Discrete Logarithm Problem.<a href="#section-7-5.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-7-5.2">Robustness. In the case of failure, FROST requires aborting the protocol.<a href="#section-7-5.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-7-5.2">Robustness. In the case of failure, FROST requires aborting the protocol. See <span>[<a href="#ROAST" class="cite xref">ROAST</a>]</span> as a wrapper protocol around
+FROST that provides robustness.<a href="#section-7-5.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-7-5.3">Downgrade prevention. All participants in the protocol are assumed to agree on what algorithms to use.<a href="#section-7-5.3" class="pilcrow">¶</a>
 </li>
@@ -2717,7 +2676,7 @@ channel can be used to facilitate key generation and signing.<a href="#section-7
         <h3 id="name-optimizations">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-optimizations" class="section-name selfRef">Optimizations</a>
         </h3>
-<p id="section-7.1-1"><span>[<a href="#Schnorr21" class="cite xref">Schnorr21</a>]</span> presented an optimization to FROST that reduces the total number of scalar multiplications
+<p id="section-7.1-1"><span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span> presented an optimization to FROST that reduces the total number of scalar multiplications
 from linear in the number of signing participants to a constant. However, as described in <span>[<a href="#StrongerSec22" class="cite xref">StrongerSec22</a>]</span>,
 this optimization removes the guarantee that the set of signer participants that started round one of
 the protocol is the same set of signing participants that produced the signature output by round two.
@@ -2790,8 +2749,8 @@ level commensurate with the security inherent to the ciphersuite chosen. It is
 RECOMMENDED that applications which choose to apply pre-hashing use the hash function
 (<code>H</code>) associated with the chosen ciphersuite in a manner similar to how <code>H4</code> is defined.
 In particular, a different prefix SHOULD be used to differentiate this pre-hash from
-<code>H4</code>. One possible example is to construct this pre-hash over message <code>m</code> as
-<code>H(contextString || "pre-hash" || m)</code>.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<code>H4</code>. For example, if a fictional protocol Quux decided to pre-hash its input messages,
+one possible way to do so is via <code>H(contextString || "Quux-pre-hash" || m)</code>.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="message-validation">
@@ -2799,19 +2758,23 @@ In particular, a different prefix SHOULD be used to differentiate this pre-hash 
         <h3 id="name-input-message-validation">
 <a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-input-message-validation" class="section-name selfRef">Input Message Validation</a>
         </h3>
-<p id="section-7.6-1">Some applications may require that participants only process messages of a certain
-structure. For example, in digital currency applications wherein multiple
-participants may collectively sign a transaction, it is reasonable to require that
-each participant check the input message to be a syntactically valid transaction.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
-<p id="section-7.6-2">As another example, use of threshold signatures in <span>[<a href="#TLS" class="cite xref">TLS</a>]</span> to produce
-signatures of transcript hashes might require the participants receive the source
-handshake messages themselves, and recompute the transcript hash which is used
-as input message to the signature generation process, so that they can verify
-that they are signing a proper TLS transcript hash and not some other data.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-1">Message validation varies by application. For example, some applications may
+require that participants only process messages of a certain structure. In digital
+currency applications, wherein multiple participants may collectively sign a transaction,
+it is reasonable to require that each participant check the input message to be a
+syntactically valid transaction.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.6-2">As another example, some applications may require that participants only process
+messages with permitted content according to some policy. In digital currency
+applications, this might mean that a transaction being signed is allowed and
+intended by the relevant stakeholders. Another instance of this type of message
+validation is in the context of <span>[<a href="#TLS" class="cite xref">TLS</a>]</span>, wherein implementations may
+use threshold signing protocols to produce signatures of transcript hashes. In
+this setting, signing participants might require the raw TLS handshake messages
+to validate before computing the transcript hash that is signed.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
 <p id="section-7.6-3">In general, input message validation is an application-specific consideration
 that varies based on the use case and threat model. However, it is RECOMMENDED
-that applications take additional precautions and validate inputs so that participants
-do not operate as signing oracles for arbitrary messages.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
+that applications take additional precautions and validate inputs so that
+participants do not operate as signing oracles for arbitrary messages.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2884,13 +2847,13 @@ do not operate as signing oracles for arbitrary messages.<a href="#section-7.6-3
         <dd>
 <span class="refAuthor">Langley, A.</span>, <span class="refAuthor">Hamburg, M.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Elliptic Curves for Security"</span>, <span class="seriesInfo">RFC 7748</span>, <span class="seriesInfo">DOI 10.17487/RFC7748</span>, <time datetime="2016-01" class="refDate">January 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7748">https://www.rfc-editor.org/rfc/rfc7748</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="Schnorr21">[Schnorr21]</dt>
+<dt id="ROAST">[ROAST]</dt>
         <dd>
-<span class="refAuthor">Crites, E.</span>, <span class="refAuthor">Komlo, C.</span>, and <span class="refAuthor">M. Maller</span>, <span class="refTitle">"How to Prove Schnorr Assuming Schnorr"</span>, <time datetime="2021-10-11" class="refDate">11 October 2021</time>, <span>&lt;<a href="https://eprint.iacr.org/2021/1375">https://eprint.iacr.org/2021/1375</a>&gt;</span>. </dd>
+<span class="refAuthor">Ruffing, T.</span>, <span class="refAuthor">Ronge, V.</span>, <span class="refAuthor">Jin, E.</span>, <span class="refAuthor">Schneider-Bensch, J.</span>, and <span class="refAuthor">D. Schröder</span>, <span class="refTitle">"ROAST: Robust Asynchronous Schnorr Threshold Signatures"</span>, <time datetime="2022-09-18" class="refDate">18 September 2022</time>, <span>&lt;<a href="https://eprint.iacr.org/2022/550">https://eprint.iacr.org/2022/550</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="StrongerSec22">[StrongerSec22]</dt>
         <dd>
-<span class="refAuthor">Bellare, M.</span>, <span class="refAuthor">Tessaro, S.</span>, and <span class="refAuthor">C. Zhu</span>, <span class="refTitle">"Stronger Security for Non-Interactive Threshold Signatures: BLS and FROST"</span>, <time datetime="2022-06-01" class="refDate">1 June 2022</time>, <span>&lt;<a href="https://eprint.iacr.org/2022/833">https://eprint.iacr.org/2022/833</a>&gt;</span>. </dd>
+<span class="refAuthor">Bellare, M.</span>, <span class="refAuthor">Crites, E.</span>, <span class="refAuthor">Komlo, C.</span>, <span class="refAuthor">Maller, M.</span>, <span class="refAuthor">Tessaro, S.</span>, and <span class="refAuthor">C. Zhu</span>, <span class="refTitle">"Better than Advertised Security for Non-interactive Threshold Signatures"</span>, <time datetime="2022-06-01" class="refDate">1 June 2022</time>, <span>&lt;<a href="https://crypto.iacr.org/2022/papers/538806_1_En_18_Chapter_OnlinePDF.pdf">https://crypto.iacr.org/2022/papers/538806_1_En_18_Chapter_OnlinePDF.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="TLS">[TLS]</dt>
       <dd>
@@ -2994,7 +2957,7 @@ algorithm, defined in <a href="#dep-shamir" class="auto internal xref">Appendix 
 
   Outputs:
   - participant_private_keys, MAX_PARTICIPANTS shares of the secret key s, each a tuple
-    consisting of the participant identifier and the key share (a Scalar).
+    consisting of the participant identifier (a NonZeroScalar) and the key share (a Scalar).
   - group_public_key, public key corresponding to the group signing key, an
     Element in G.
   - vss_commitment, a vector commitment of Elements in G, to each of the coefficients
@@ -3013,6 +2976,7 @@ algorithm, defined in <a href="#dep-shamir" class="auto internal xref">Appendix 
 </div>
 <p id="appendix-C-4">It is assumed the dealer then sends one secret key share to each of the <code>NUM_PARTICIPANTS</code> participants, along with <code>vss_commitment</code>.
 After receiving their secret key share and <code>vss_commitment</code>, participants MUST abort if they do not have the same view of <code>vss_commitment</code>.
+The dealer can use a secure broadcast channel to ensure each participant has a consistent view of this commitment.
 Otherwise, each participant MUST perform <code>vss_verify(secret_key_share_i, vss_commitment)</code>, and abort if the check fails.
 The trusted dealer MUST delete the secret_key and secret_key_shares upon completion.<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 <p id="appendix-C-5">Use of this method for key generation requires a mutually authenticated secure channel
@@ -3029,7 +2993,8 @@ secret. There are two basic steps in this scheme: (1) splitting a secret into
 multiple shares, and (2) combining shares to reveal the resulting secret.<a href="#appendix-C.1-1" class="pilcrow">¶</a></p>
 <p id="appendix-C.1-2">This secret sharing scheme works over any field <code>F</code>. In this specification, <code>F</code> is
 the scalar field of the prime-order group <code>G</code>.<a href="#appendix-C.1-2" class="pilcrow">¶</a></p>
-<p id="appendix-C.1-3">The procedure for splitting a secret into shares is as follows.<a href="#appendix-C.1-3" class="pilcrow">¶</a></p>
+<p id="appendix-C.1-3">The procedure for splitting a secret into shares is as follows.
+The algorithm <code>polynomial_evaluate</code> is defined in <a href="#dep-extended-polynomial-operations" class="auto internal xref">Appendix C.1.1</a>.<a href="#appendix-C.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-C.1-4">
 <pre>
   secret_share_shard(s, coefficients, MAX_PARTICIPANTS, MIN_PARTICIPANTS):
@@ -3043,11 +3008,11 @@ the scalar field of the prime-order group <code>G</code>.<a href="#appendix-C.1-
 
   Outputs:
   - secret_key_shares, A list of MAX_PARTICIPANTS number of secret shares, each a tuple
-    consisting of the participant identifier and the key share (a Scalar)
+    consisting of the participant identifier (a NonZeroScalar) and the key share (a Scalar)
   - coefficients, a vector of MIN_PARTICIPANTS coefficients which uniquely determine a polynomial f.
 
   Errors:
-  - "invalid parameters", if MIN_PARTICIPANTS &gt; MAX_PARTICIPANTS or if MIN_PARTICIPANTS is less than 2
+  - "invalid parameters", if MIN_PARTICIPANTS &gt; MAX_PARTICIPANTS or if MIN_PARTICIPANTS is less than 1
 
   def secret_share_shard(s, coefficients, MAX_PARTICIPANTS, MIN_PARTICIPANTS):
     if MIN_PARTICIPANTS &gt; MAX_PARTICIPANTS:
@@ -3070,10 +3035,10 @@ the scalar field of the prime-order group <code>G</code>.<a href="#appendix-C.1-
 <p id="appendix-C.1-5">Let <code>points</code> be the output of this function. The i-th element in <code>points</code> is
 the share for the i-th participant, which is the randomly generated polynomial
 evaluated at coordinate <code>i</code>. We denote a secret share as the tuple <code>(i, points[i])</code>,
-and the list of these shares as <code>shares</code>.
-<code>i</code> MUST never equal <code>0</code>; recall that <code>f(0) = s</code>, where <code>f</code> is the polynomial defined in a Shamir secret sharing operation.<a href="#appendix-C.1-5" class="pilcrow">¶</a></p>
+and the list of these shares as <code>shares</code>. <code>i</code> MUST never equal <code>0</code>; recall that
+<code>f(0) = s</code>, where <code>f</code> is the polynomial defined in a Shamir secret sharing operation.<a href="#appendix-C.1-5" class="pilcrow">¶</a></p>
 <p id="appendix-C.1-6">The procedure for combining a <code>shares</code> list of length <code>MIN_PARTICIPANTS</code> to recover the
-secret <code>s</code> is as follows; the algorithm <code>polynomial_interpolation</code> is defined in <a href="#dep-polynomial-interpolate" class="auto internal xref">Appendix C.1.1</a>.<a href="#appendix-C.1-6" class="pilcrow">¶</a></p>
+secret <code>s</code> is as follows; the algorithm <code>polynomial_interpolation</code> is defined in <a href="#dep-extended-polynomial-operations" class="auto internal xref">Appendix C.1.1</a>.<a href="#appendix-C.1-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-C.1-7">
 <pre>
   secret_share_combine(shares):
@@ -3090,39 +3055,59 @@ secret <code>s</code> is as follows; the algorithm <code>polynomial_interpolatio
   def secret_share_combine(shares):
     if len(shares) &lt; MIN_PARTICIPANTS:
       raise "invalid parameters"
-    s = polynomial_interpolation(shares)
+    s = polynomial_interpolate_constant(shares)
     return s
 </pre><a href="#appendix-C.1-7" class="pilcrow">¶</a>
 </div>
-<div id="dep-polynomial-interpolate">
+<div id="dep-extended-polynomial-operations">
 <section id="appendix-C.1.1">
-          <h4 id="name-deriving-the-constant-term-">
-<a href="#appendix-C.1.1" class="section-number selfRef">C.1.1. </a><a href="#name-deriving-the-constant-term-" class="section-name selfRef">Deriving the constant term of a polynomial</a>
+          <h4 id="name-additional-polynomial-opera">
+<a href="#appendix-C.1.1" class="section-number selfRef">C.1.1. </a><a href="#name-additional-polynomial-opera" class="section-name selfRef">Additional polynomial operations</a>
           </h4>
-<p id="appendix-C.1.1-1">Secret sharing requires "splitting" a secret, which is represented as
-a constant term of some polynomial <code>f</code> of degree <code>t-1</code>. Recovering the
-constant term occurs with a set of <code>t</code> points using polynomial
-interpolation, defined as follows.<a href="#appendix-C.1.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-C.1.1-2">
+<p id="appendix-C.1.1-1">This section describes two functions. One function, denoted <code>polynomial_evaluate</code>,
+is for evaluating a polynomial <code>f(x)</code> at a particular point <code>x</code> using Horner's method,
+i.e., computing <code>y = f(x)</code>. The other function, <code>polynomial_interpolate_constant</code>, is for
+recovering the constant term of an interpolating polynomial defined by a set of points.<a href="#appendix-C.1.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-C.1.1-2">The function <code>polynomial_evaluate</code> is defined as follows.<a href="#appendix-C.1.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.1.1-3">
+<pre>
+  polynomial_evaluate(x, coeffs):
+
+  Inputs:
+  - x, input at which to evaluate the polynomial, a Scalar
+  - coeffs, the polynomial coefficients, a list of Scalars
+
+  Outputs: Scalar result of the polynomial evaluated at input x
+
+  def polynomial_evaluate(x, coeffs):
+    value = 0
+    for coeff in reverse(coeffs):
+      value *= x
+      value += coeff
+    return value
+</pre><a href="#appendix-C.1.1-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-C.1.1-4">The function <code>polynomial_interpolate_constant</code> is defined as follows.<a href="#appendix-C.1.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-C.1.1-5">
 <pre>
   Inputs:
-  - points, a set of t distinct points on a polynomial f, each a tuple of two
-    Scalar values representing the x and y coordinates
+  - points, a set of t points with distinct x coordinates on a polynomial f,
+    each a tuple of two Scalar values representing the x and y coordinates
 
   Outputs: The constant term of f, i.e., f(0)
 
-  def polynomial_interpolation(points):
+  def polynomial_interpolate_constant(points):
     x_coords = []
-    for point in points:
-      x_coords.append(point.x)
+    for (x, y) in points:
+      x_coords.append(x)
 
     f_zero = Scalar(0)
-    for point in points:
-      delta = point.y * derive_lagrange_coefficient(point.x, x_coords)
+    for (x, y) in points:
+      delta = y * derive_interpolating_value(x, x_coords)
       f_zero = f_zero + delta
 
     return f_zero
-</pre><a href="#appendix-C.1.1-2" class="pilcrow">¶</a>
+</pre><a href="#appendix-C.1.1-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -3167,7 +3152,7 @@ If <code>vss_verify</code> fails, the participant MUST abort the protocol, and f
 
   Inputs:
   - share_i: A tuple of the form (i, sk_i), where i indicates the participant
-    identifier, and sk_i the participant's secret key, a secret share of the
+    identifier (a NonZeroScalar), and sk_i the participant's secret key, a secret share of the
     constant term of f, where sk_i is a Scalar.
   - vss_commitment: A VSS commitment to a secret polynomial f, a vector commitment
     to each of the coefficients in coeffs, where each element of the vector commitment
@@ -3238,7 +3223,7 @@ can leak information about the underlying corresponding Scalar.<a href="#appendi
 <p id="appendix-D.1-2">As an optimization, if the group order is very close to a power of
 2, it is acceptable to omit the rejection test completely.  In
 particular, if the group order is p, and there is an integer b
-such that <code>p - 2&lt;sup&gt;b&lt;/sup&gt;| &lt; 2&lt;sup&gt;(b/2)&lt;/sup&gt;</code>, then
+such that |p - 2<sup>b</sup>| is less than 2<sup>(b/2)</sup>, then
 <code>RandomScalar</code> can simply return a uniformly random integer of at
 most b bits.<a href="#appendix-D.1-2" class="pilcrow">¶</a></p>
 </section>

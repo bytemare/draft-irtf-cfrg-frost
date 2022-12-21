@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 16 June 2023           University of Waterloo, Zcash Foundation
+Expires: 24 June 2023           University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                        13 December 2022
+                                                        21 December 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -18,17 +18,18 @@ Expires: 16 June 2023           University of Waterloo, Zcash Foundation
 
 Abstract
 
-   In this document, we present the two-round signing variant of FROST,
-   a Flexible Round-Optimized Schnorr Threshold signature scheme.  FROST
-   can produce signatures after a threshold number of entities cooperate
-   to compute a signature, allowing for improved distribution of trust
-   and redundancy with respect to a secret key.  FROST depends only on a
-   prime-order group and cryptographic hash function.  This document
-   specifies a number of ciphersuites to instantiate FROST using
-   different prime-order groups and hash functions.  One such
-   ciphersuite can be used to produce signatures that can be verified
-   with an [RFC8032] compliant verifier.  However, unlike [RFC8032], the
-   signatures produced by FROST are not deterministic.
+   This document specifies the Flexible Round-Optimized Schnorr
+   Threshold (FROST) signing protocol.  FROST signatures can be issued
+   after a threshold number of entities cooperate to compute a
+   signature, allowing for improved distribution of trust and redundancy
+   with respect to a secret key.  FROST depends only on a prime-order
+   group and cryptographic hash function.  This document specifies a
+   number of ciphersuites to instantiate FROST using different prime-
+   order groups and hash functions.  One such ciphersuite can be used to
+   produce signatures that can be verified with an RFC8032 compliant
+   verifier.  However, unlike RFC8032, the signatures produced by FROST
+   are not deterministic.  This document is a product of the Crypto
+   Forum Research Group (CFRG) in the IRTF.
 
 Discussion Venues
 
@@ -56,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 June 2023.
+   This Internet-Draft will expire on 24 June 2023.
 
 Copyright Notice
 
@@ -82,9 +83,7 @@ Table of Contents
      3.2.  Cryptographic Hash Function
    4.  Helper Functions
      4.1.  Nonce generation
-     4.2.  Polynomial Operations
-       4.2.1.  Evaluation of a polynomial
-       4.2.2.  Lagrange coefficients
+     4.2.  Polynomials
      4.3.  List Operations
      4.4.  Binding Factors Computation
      4.5.  Group Commitment Computation
@@ -115,7 +114,7 @@ Table of Contents
            Prime-Order Groups
    Appendix C.  Trusted Dealer Key Generation
      C.1.  Shamir Secret Sharing
-       C.1.1.  Deriving the constant term of a polynomial
+       C.1.1.  Additional polynomial operations
      C.2.  Verifiable Secret Sharing
    Appendix D.  Random Scalar Generation
      D.1.  Rejection Sampling
@@ -141,14 +140,13 @@ Table of Contents
    threshold schemes in general assumes that an adversary can corrupt
    strictly fewer than a threshold number of signer participants.
 
-   This document presents a variant of a Flexible Round-Optimized
-   Schnorr Threshold (FROST) signature scheme originally defined in
+   This document specifies the Flexible Round-Optimized Schnorr
+   Threshold (FROST) signing protocol based on the original work in
    [FROST20].  FROST reduces network overhead during threshold signing
    operations while employing a novel technique to protect against
    forgery attacks applicable to prior Schnorr-based threshold signature
-   constructions.  The variant of FROST presented in this document
-   requires two rounds to compute a signature.  Single-round signing
-   with FROST is out of scope.
+   constructions.  FROST requires two rounds to compute a signature.
+   Single-round signing variants based on [FROST20] are out of scope.
 
    FROST depends only on a prime-order group and cryptographic hash
    function.  This document specifies a number of ciphersuites to
@@ -164,6 +162,9 @@ Table of Contents
    Key generation for FROST signing is out of scope for this document.
    However, for completeness, key generation with a trusted dealer is
    specified in Appendix C.
+
+   This document represents the consensus of the Crypto Forum Research
+   Group (CFRG).  It is not an IETF product and is not a standard.
 
 1.1.  Change Log
 
@@ -402,14 +403,17 @@ Table of Contents
    equivalent to the repeated application of the group operation B with
    itself r-1 times, this is denoted as ScalarBaseMult(r).  The set of
    scalars corresponds to GF(p), which we refer to as the scalar field.
+   It is assumed that group element addition, negation, and equality
+   comparisons can be efficiently computed for arbitrary group elements.
+
    This document uses types Element and Scalar to denote elements of the
    group G and its set of scalars, respectively.  We denote Scalar(x) as
    the conversion of integer input x to the corresponding Scalar value
    with the same numeric value.  For example, Scalar(1) yields a Scalar
-   representing the value 1.  We denote equality comparison as == and
-   assignment of values by =. Finally, it is assumed that group element
-   addition, negation, and equality comparisons can be efficiently
-   computed for arbitrary group elements.
+   representing the value 1.  Moreover, we use the type NonZeroScalar to
+   denote a Scalar value that is not equal to zero, i.e., Scalar(0).  We
+   denote equality comparison of these types as == and assignment of
+   values by =.
 
    We now detail a number of member functions that can be invoked on G.
 
@@ -467,7 +471,7 @@ Table of Contents
 
    *  Nonce generation, Section 4.1;
 
-   *  Polynomial operations, Section 4.2;
+   *  Polynomials, Section 4.2;
 
    *  Encoding operations, Section 4.3;
 
@@ -499,62 +503,33 @@ Table of Contents
        secret_enc = G.SerializeScalar(secret)
        return H3(random_bytes || secret_enc)
 
-4.2.  Polynomial Operations
+4.2.  Polynomials
 
-   This section describes operations on and associated with polynomials
-   over Scalars that are used in the main signing protocol.  A
-   polynomial of maximum degree t is represented as a list of t+1
-   coefficients, where the constant term of the polynomial is in the
-   first position and the highest-degree coefficient is in the last
-   position.  For example, the polynomial x^2 + 2x + 3 has degree 2 and
-   is represented as a list of 3 coefficients [3, 2, 1].  A point on the
-   polynomial is a tuple (x, y), where y = f(x).  For notational
-   convenience, we refer to the x-coordinate and y-coordinate of a point
-   p as p.x and p.y, respectively.
+   This section defines polynomials over Scalars that are used in the
+   main protocol.  A polynomial of maximum degree t is represented as a
+   list of t+1 coefficients, where the constant term of the polynomial
+   is in the first position and the highest-degree coefficient is in the
+   last position.  For example, the polynomial x^2 + 2x + 3 has degree 2
+   and is represented as a list of 3 coefficients [3, 2, 1].  A point on
+   the polynomial is a tuple (x, y), where y = f(x).
 
-4.2.1.  Evaluation of a polynomial
+   The function derive_interpolating_value derives a value used for
+   polynomial interpolation.  It is is provided a list of x-coordinates
+   as input, each of which cannot equal 0.
 
-   This section describes a method for evaluating a polynomial f at a
-   particular input x, i.e., y = f(x) using Horner's method.
-
-     polynomial_evaluate(x, coeffs):
-
-     Inputs:
-     - x, input at which to evaluate the polynomial, a Scalar
-     - coeffs, the polynomial coefficients, a list of Scalars
-
-     Outputs: Scalar result of the polynomial evaluated at input x
-
-     def polynomial_evaluate(x, coeffs):
-       value = 0
-       for coeff in reverse(coeffs):
-         value *= x
-         value += coeff
-       return value
-
-4.2.2.  Lagrange coefficients
-
-   The function derive_lagrange_coefficient derives a Lagrange
-   coefficient to later perform polynomial interpolation, and is
-   provided a list of x-coordinates as input.  Note that
-   derive_lagrange_coefficient does not permit any x-coordinate to equal
-   0.  Lagrange coefficients are used in FROST to evaluate a polynomial
-   f at x-coordinate 0, i.e., f(0), given a list of t other
-   x-coordinates.
-
-  derive_lagrange_coefficient(x_i, L):
+  derive_interpolating_value(x_i, L):
 
   Inputs:
   - x_i, an x-coordinate contained in L, a Scalar
   - L, the set of x-coordinates, each a Scalar
 
-  Outputs: L_i, the i-th Lagrange coefficient
+  Outputs: value, a Scalar
 
   Errors:
   - "invalid parameters", if 1) any x-coordinate is equal to 0, 2) if x_i
     is not in L, or if 3) any x-coordinate is represented more than once in L.
 
-  def derive_lagrange_coefficient(x_i, L):
+  def derive_interpolating_value(x_i, L):
     if x_i == 0:
       raise "invalid parameters"
     for x_j in L:
@@ -573,8 +548,8 @@ Table of Contents
       numerator *= x_j
       denominator *= x_j - x_i
 
-    L_i = numerator / denominator
-    return L_i
+    value = numerator / denominator
+    return value
 
 4.3.  List Operations
 
@@ -586,9 +561,9 @@ Table of Contents
   Inputs:
   - commitment_list = [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...],
     a list of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be sorted
-    in ascending order by participant identifier.
+    in ascending order by identifier.
 
   Outputs: A byte string containing the serialized representation of commitment_list
 
@@ -601,17 +576,17 @@ Table of Contents
       encoded_group_commitment = encoded_group_commitment || encoded_commitment
     return encoded_group_commitment
 
-   The following function is used to extract participant identifiers
-   from a commitment list.
+   The following function is used to extract identifiers from a
+   commitment list.
 
   Inputs:
   - commitment_list = [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...],
     a list of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be sorted
-    in ascending order by participant identifier.
+    in ascending order by identifier.
 
-  Outputs: A list of participant identifiers
+  Outputs: A list of identifiers
 
 def participants_from_commitment_list(commitment_list):
   identifiers = []
@@ -625,8 +600,8 @@ def participants_from_commitment_list(commitment_list):
   Inputs:
   - binding_factor_list = [(i, binding_factor), ...],
     a list of binding factors for each participant, where each element in the list
-    indicates the participant identifier i and their binding factor.
-  - identifier, participant identifier, a Scalar.
+    indicates a NonZeroScalar identifier i and Scalar binding factor.
+  - identifier, participant identifier, a NonZeroScalar.
 
   Outputs: A Scalar value.
 
@@ -646,12 +621,12 @@ def binding_factor_for_participant(binding_factor_list, identifier):
   Inputs:
   - commitment_list = [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...],
     a list of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be sorted
-    in ascending order by participant identifier.
+    in ascending order by identifier.
   - msg, the message to be signed.
 
-  Outputs: A list of (identifier, Scalar) tuples representing the binding factors.
+  Outputs: A list of (NonZeroScalar, Scalar) tuples representing the binding factors.
 
   def compute_binding_factors(commitment_list, msg):
     msg_hash = H4(msg)
@@ -674,19 +649,19 @@ def binding_factor_for_participant(binding_factor_list, identifier):
   - commitment_list =
      [(i, hiding_nonce_commitment_i, binding_nonce_commitment_i), ...], a list
     of commitments issued by each participant, where each element in the list
-    indicates the participant identifier i and their two commitment Element values
+    indicates a NonZeroScalar identifier i and two commitment Element values
     (hiding_nonce_commitment_i, binding_nonce_commitment_i). This list MUST be
-    sorted in ascending order by participant identifier.
+    sorted in ascending order by identifier.
   - binding_factor_list = [(i, binding_factor), ...],
-    a list of (identifier, Scalar) tuples representing the binding factor Scalar
+    a list of (NonZeroScalar, Scalar) tuples representing the binding factor Scalar
     for the given identifier.
 
-  Outputs: An Element in G representing the group commitment
+  Outputs: An Element representing the group commitment
 
   def compute_group_commitment(commitment_list, binding_factor_list):
     group_commitment = G.Identity()
     for (identifier, hiding_nonce_commitment, binding_nonce_commitment) in commitment_list:
-      binding_factor = binding_factor_for_participant(binding_factors, identifier)
+      binding_factor = binding_factor_for_participant(binding_factor_list, identifier)
       group_commitment = group_commitment +
         hiding_nonce_commitment + G.ScalarMult(binding_nonce_commitment, binding_factor)
     return group_commitment
@@ -713,17 +688,16 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
 5.  Two-Round FROST Signing Protocol
 
-   This section describes the two-round variant of the FROST threshold
-   signature protocol for producing Schnorr signatures.  The protocol is
-   configured to run with a selection of NUM_PARTICIPANTS signer
-   participants and a Coordinator.  NUM_PARTICIPANTS is a positive
-   integer at least MIN_PARTICIPANTS but no larger than
-   MAX_PARTICIPANTS, where MIN_PARTICIPANTS <= MAX_PARTICIPANTS,
-   MIN_PARTICIPANTS is a positive integer and MAX_PARTICIPANTS is a
-   positive integer less than the group order.  A signer participant, or
-   simply participant, is an entity that is trusted to hold and use a
-   signing key share.  The Coordinator is an entity with the following
-   responsibilities:
+   This section describes the two-round FROST signing protocol for
+   producing Schnorr signatures.  The protocol is configured to run with
+   a selection of NUM_PARTICIPANTS signer participants and a
+   Coordinator.  NUM_PARTICIPANTS is a positive integer at least
+   MIN_PARTICIPANTS but no larger than MAX_PARTICIPANTS, where
+   MIN_PARTICIPANTS <= MAX_PARTICIPANTS, MIN_PARTICIPANTS is a positive
+   integer and MAX_PARTICIPANTS is a positive integer less than the
+   group order.  A signer participant, or simply participant, is an
+   entity that is trusted to hold and use a signing key share.  The
+   Coordinator is an entity with the following responsibilities:
 
    1.  Determining which participants will participate (at least
        MIN_PARTICIPANTS in number);
@@ -743,17 +717,19 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    produced from a single signer using a signing key s with
    corresponding public key PK, where s is a Scalar value and PK =
    G.ScalarBaseMult(s).  As a threshold signing protocol, the group
-   signing key s is secret-shared amongst each participant and used to
-   produce signatures.  In particular, FROST assumes each participant is
-   configured with the following information:
+   signing key s is Shamir secret-shared amongst each of the
+   MAX_PARTICIPANTS participant and used to produce signatures.  In
+   particular, FROST assumes each participant is configured with the
+   following information:
 
-   *  An identifier, which is a Scalar value denoted i in the range [1,
-      MAX_PARTICIPANTS] and MUST be distinct from the identifier of
-      every other participant.
+   *  An identifier, which is a NonZeroScalar value denoted i in the
+      range [1, MAX_PARTICIPANTS] and MUST be distinct from the
+      identifier of every other participant.
 
-   *  A signing key share sk_i, which is a Scalar value representing the
-      i-th secret share of the group signing key s.  The public key
-      corresponding to this signing key share is PK_i =
+   *  A signing key sk_i, which is a Scalar value representing the i-th
+      Shamir secret share of the group signing key s.  In particular,
+      sk_i is the value f(i) on a secret polynomial f, where s is f(0).
+      The public key corresponding to this signing key share is PK_i =
       G.ScalarBaseMult(sk_i).
 
    The Coordinator and each participant are additionally configured with
@@ -772,16 +748,12 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    performing a distributed key generation protocol.  We highlight key
    generation mechanism by a trusted dealer in Appendix C for reference.
 
-   The signing variant of FROST in this document requires participants
-   to perform two network rounds: 1) generating and publishing
-   commitments, and 2) signature share generation and publication.  The
-   first round serves for each participant to issue a commitment to a
-   nonce.  The second round receives commitments for all participants as
-   well as the message, and issues a signature share with respect to
-   that message.  The Coordinator performs the coordination of each of
-   these rounds.  At the end of the second round, the Coordinator then
-   performs an aggregation step and outputs the final signature.  This
-   complete interaction is shown in Figure 1.
+   FROST requires two rounds to complete.  In the first round,
+   participants generate and publish one-time-use commitments to be used
+   in the second round.  In the second round, each participant produces
+   a share of the signature over the Coordinator-chosen message and the
+   other participant commitments.  This complete interaction is shown in
+   Figure 1.
 
            (group info)            (group info,     (group info,
                |               signing key share)   signing key share)
@@ -816,7 +788,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
      signature |
    <-----------+
 
-                     Figure 1: FROST signature overview
+                     Figure 1: FROST protocol overview
 
    Details for round one are described in Section 5.1, and details for
    round two are described in Section 5.2.  Note that each participant
@@ -871,8 +843,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    locally and kept for use in the second round.  The nonce value is
    secret and MUST NOT be shared, whereas the public output comm is sent
    to the Coordinator.  The nonce values produced by this function MUST
-   NOT be reused in more than one invocation of FROST, and it MUST be
-   generated from a source of secure randomness.
+   NOT be used in more than one invocation of sign, and the nonces MUST
+   be generated from a source of secure randomness.
 
 5.2.  Round Two - Signature Share Generation
 
@@ -892,15 +864,14 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    each participant MUST ensure that their identifier appears in
    commitment_list along with their commitment from the first round.
    Applications which require that participants not process arbitrary
-   input messages are also required to also perform relevant
-   application-layer input validation checks; see Section 7.6 for more
-   details.
+   input messages are also required to perform relevant application-
+   layer input validation checks; see Section 7.6 for more details.
 
    Upon receipt and successful input validation, each Signer then runs
    the following procedure to produce its own signature share.
 
   Inputs:
-  - identifier, Identifier i of the participant. Note identifier will never equal 0.
+  - identifier, identifier i of the participant, a NonZeroScalar.
   - sk_i, Signer secret key share, a Scalar.
   - group_public_key, public key corresponding to the group signing key,
     an Element in G.
@@ -910,9 +881,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
   - commitment_list =
       [(j, hiding_nonce_commitment_j, binding_nonce_commitment_j), ...], a
     list of commitments issued in Round 1 by each participant and sent by the Coordinator.
-    Each element in the list indicates the participant identifier j and their two commitment
+    Each element in the list indicates a NonZeroScalar identifier j and two commitment
     Element values (hiding_nonce_commitment_j, binding_nonce_commitment_j).
-    This list MUST be sorted in ascending order by participant identifier.
+    This list MUST be sorted in ascending order by identifier.
 
   Outputs: a Scalar value representing the signature share
 
@@ -924,9 +895,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
     # Compute the group commitment
     group_commitment = compute_group_commitment(commitment_list, binding_factor_list)
 
-    # Compute Lagrange coefficient
+    # Compute the interpolating value
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
+    lambda_i = derive_interpolating_value(identifier, participant_list)
 
     # Compute the per-message challenge
     challenge = compute_challenge(group_commitment, group_public_key, msg)
@@ -939,9 +910,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
    The output of this procedure is a signature share.  Each participant
    then sends these shares back to the Coordinator.  Each participant
-   MUST delete the nonce and corresponding commitment after this round
-   completes, and MUST use the nonce to generate at most one signature
-   share.
+   MUST delete the nonce and corresponding commitment after completing
+   sign, and MUST NOT use the nonce as input more than once to sign.
 
    Note that the lambda_i value derived during this procedure does not
    change across FROST signing operations for the same signing group.
@@ -965,9 +935,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    procedure.
 
   Inputs:
-  - identifier, Identifier i of the participant. Note: identifier MUST never equal 0.
+  - identifier, identifier i of the participant, a NonZeroScalar.
   - PK_i, the public key for the ith participant, where PK_i = G.ScalarBaseMult(sk_i),
-    an Element in G
+    an Element.
   - comm_i, pair of Element values in G (hiding_nonce_commitment, binding_nonce_commitment)
     generated in round one from the ith participant.
   - sig_share_i, a Scalar value indicating the signature share as produced in
@@ -975,9 +945,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
   - commitment_list =
       [(j, hiding_nonce_commitment_j, binding_nonce_commitment_j), ...], a
     list of commitments issued in Round 1 by each participant, where each element
-    in the list indicates the participant identifier j and their two commitment
+    in the list indicates a NonZeroScalar identifier j and two commitment
     Element values (hiding_nonce_commitment_j, binding_nonce_commitment_j).
-    This list MUST be sorted in ascending order by participant identifier.
+    This list MUST be sorted in ascending order by identifier.
   - group_public_key, public key corresponding to the group signing key,
     an Element in G.
   - msg, the message to be signed.
@@ -1000,9 +970,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
     # Compute the challenge
     challenge = compute_challenge(group_commitment, group_public_key, msg)
 
-    # Compute Lagrange coefficient
+    # Compute the interpolating value
     participant_list = participants_from_commitment_list(commitment_list)
-    lambda_i = derive_lagrange_coefficient(identifier, participant_list)
+    lambda_i = derive_interpolating_value(identifier, participant_list)
 
     # Compute relation values
     l = G.ScalarBaseMult(sig_share_i)
@@ -1086,7 +1056,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    *  Group: edwards25519 [RFC8032]
 
       -  Order(): Return 2^252 + 27742317777372353535851937790883648493
-         (see [RFC7748])
+         (see [RFC7748]).
 
       -  Identity(): As defined in [RFC7748].
 
@@ -1101,10 +1071,11 @@ def binding_factor_for_participant(binding_factor_list, identifier):
       -  DeserializeElement(buf): Implemented as specified in [RFC8032],
          Section 5.1.3.  Additionally, this function validates that the
          resulting element is not the group identity element and is in
-         the prime-order subgroup.  The latter check can be implemented
-         by multiplying the resulting point by the order of the group
-         and checking that the result is the identity element.  Note
-         that optimizations for this check exist; see [Pornin22].
+         the prime-order subgroup.  If any of these checks fail,
+         deserialization returns an error.  The latter check can be
+         implemented by multiplying the resulting point by the order of
+         the group and checking that the result is the identity element.
+         Note that optimizations for this check exist; see [Pornin22].
 
       -  SerializeScalar(s): Implemented by outputting the little-endian
          32-byte encoding of the Scalar value with the top three bits
@@ -1141,8 +1112,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
    Signature verification is as specified in Section 5.1.7 of [RFC8032]
    with the constraint that implementations MUST check the group
-   equation [8][S]B = [8]R + [8][k]A'.  The alternative check [S]B = R +
-   [k]A' is not safe or interoperable in practice.
+   equation [8][z]B = [8]R + [8][c]PK (changed to use the notation in
+   this document).  The alternative check [z]B = R + [c]PK is not
+   interoperable in practice.
 
 6.2.  FROST(ristretto255, SHA-512)
 
@@ -1153,7 +1125,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    *  Group: ristretto255 [RISTRETTO]
 
       -  Order(): Return 2^252 + 27742317777372353535851937790883648493
-         (see [RISTRETTO])
+         (see [RISTRETTO]).
 
       -  Identity(): As defined in [RISTRETTO].
 
@@ -1168,7 +1140,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
       -  DeserializeElement(buf): Implemented using the 'Decode'
          function from [RISTRETTO].  Additionally, this function
          validates that the resulting element is not the group identity
-         element.
+         element.  If either 'Decode' or that check fails,
+         deserialization returns an error.
 
       -  SerializeScalar(s): Implemented by outputting the little-endian
          32-byte encoding of the Scalar value with the top three bits
@@ -1210,7 +1183,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    *  Group: edwards448 [RFC8032]
 
       -  Order(): Return 2^446 - 138180668098951153520073867485154268803
-         36692474882178609894547503885
+         36692474882178609894547503885.
 
       -  Identity(): As defined in [RFC7748].
 
@@ -1225,10 +1198,11 @@ def binding_factor_for_participant(binding_factor_list, identifier):
       -  DeserializeElement(buf): Implemented as specified in [RFC8032],
          Section 5.2.3.  Additionally, this function validates that the
          resulting element is not the group identity element and is in
-         the prime-order subgroup.  The latter check can be implemented
-         by multiplying the resulting point by the order of the group
-         and checking that the result is the identity element.  Note
-         that optimizations for this check exist; see [Pornin22].
+         the prime-order subgroup.  If any of these checks fail,
+         deserialization returns an error.  The latter check can be
+         implemented by multiplying the resulting point by the order of
+         the group and checking that the result is the identity element.
+         Note that optimizations for this check exist; see [Pornin22].
 
       -  SerializeScalar(s): Implemented by outputting the little-endian
          57-byte encoding of the Scalar value.
@@ -1265,8 +1239,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
    Signature verification is as specified in Section 5.2.7 of [RFC8032]
    with the constraint that implementations MUST check the group
-   equation [4][S]B = [4]R + [4][k]A'.  The alternative check [S]B = R +
-   [k]A' is not safe or interoperable in practice.
+   equation [4][z]B = [4]R + [4][c]PK (changed to use the notation in
+   this document).  The alternative check [z]B = R + [c]PK is not
+   interoperable in practice.
 
 6.4.  FROST(P-256, SHA-256)
 
@@ -1277,7 +1252,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    *  Group: P-256 (secp256r1) [x9.62]
 
       -  Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179
-         e84f3b9cac2fc632551
+         e84f3b9cac2fc632551.
 
       -  Identity(): As defined in [x9.62].
 
@@ -1344,7 +1319,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    *  Group: secp256k1 [SEC2]
 
       -  Order(): Return 0xffffffff00000000ffffffffffffffffbce6faada7179
-         e84f3b9cac2fc632551
+         e84f3b9cac2fc632551.
 
       -  Identity(): As defined in [SEC2].
 
@@ -1422,7 +1397,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
 7.  Security Considerations
 
-   A security analysis of FROST exists in [FROST20] and [Schnorr21].
+   A security analysis of FROST exists in [FROST20] and [StrongerSec22].
    The protocol as specified in this document assumes the following
    threat model.
 
@@ -1457,7 +1432,8 @@ def binding_factor_for_participant(binding_factor_list, identifier):
       requires the hardness of the Discrete Logarithm Problem.
 
    *  Robustness.  In the case of failure, FROST requires aborting the
-      protocol.
+      protocol.  See [ROAST] as a wrapper protocol around FROST that
+      provides robustness.
 
    *  Downgrade prevention.  All participants in the protocol are
       assumed to agree on what algorithms to use.
@@ -1471,9 +1447,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
 
 7.1.  Optimizations
 
-   [Schnorr21] presented an optimization to FROST that reduces the total
-   number of scalar multiplications from linear in the number of signing
-   participants to a constant.  However, as described in
+   [StrongerSec22] presented an optimization to FROST that reduces the
+   total number of scalar multiplications from linear in the number of
+   signing participants to a constant.  However, as described in
    [StrongerSec22], this optimization removes the guarantee that the set
    of signer participants that started round one of the protocol is the
    same set of signing participants that produced the signature output
@@ -1544,23 +1520,29 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    to apply pre-hashing use the hash function (H) associated with the
    chosen ciphersuite in a manner similar to how H4 is defined.  In
    particular, a different prefix SHOULD be used to differentiate this
-   pre-hash from H4.  One possible example is to construct this pre-hash
-   over message m as H(contextString || "pre-hash" || m).
+   pre-hash from H4.  For example, if a fictional protocol Quux decided
+   to pre-hash its input messages, one possible way to do so is via
+   H(contextString || "Quux-pre-hash" || m).
 
 7.6.  Input Message Validation
 
-   Some applications may require that participants only process messages
-   of a certain structure.  For example, in digital currency
-   applications wherein multiple participants may collectively sign a
-   transaction, it is reasonable to require that each participant check
-   the input message to be a syntactically valid transaction.
+   Message validation varies by application.  For example, some
+   applications may require that participants only process messages of a
+   certain structure.  In digital currency applications, wherein
+   multiple participants may collectively sign a transaction, it is
+   reasonable to require that each participant check the input message
+   to be a syntactically valid transaction.
 
-   As another example, use of threshold signatures in [TLS] to produce
-   signatures of transcript hashes might require the participants
-   receive the source handshake messages themselves, and recompute the
-   transcript hash which is used as input message to the signature
-   generation process, so that they can verify that they are signing a
-   proper TLS transcript hash and not some other data.
+   As another example, some applications may require that participants
+   only process messages with permitted content according to some
+   policy.  In digital currency applications, this might mean that a
+   transaction being signed is allowed and intended by the relevant
+   stakeholders.  Another instance of this type of message validation is
+   in the context of [TLS], wherein implementations may use threshold
+   signing protocols to produce signatures of transcript hashes.  In
+   this setting, signing participants might require the raw TLS
+   handshake messages to validate before computing the transcript hash
+   that is signed.
 
    In general, input message validation is an application-specific
    consideration that varies based on the use case and threat model.
@@ -1637,15 +1619,17 @@ def binding_factor_for_participant(binding_factor_list, identifier):
               for Security", RFC 7748, DOI 10.17487/RFC7748, January
               2016, <https://www.rfc-editor.org/rfc/rfc7748>.
 
-   [Schnorr21]
-              Crites, E., Komlo, C., and M. Maller, "How to Prove
-              Schnorr Assuming Schnorr", 11 October 2021,
-              <https://eprint.iacr.org/2021/1375>.
+   [ROAST]    Ruffing, T., Ronge, V., Jin, E., Schneider-Bensch, J., and
+              D. Schröder, "ROAST: Robust Asynchronous Schnorr Threshold
+              Signatures", 18 September 2022,
+              <https://eprint.iacr.org/2022/550>.
 
    [StrongerSec22]
-              Bellare, M., Tessaro, S., and C. Zhu, "Stronger Security
-              for Non-Interactive Threshold Signatures: BLS and FROST",
-              1 June 2022, <https://eprint.iacr.org/2022/833>.
+              Bellare, M., Crites, E., Komlo, C., Maller, M., Tessaro,
+              S., and C. Zhu, "Better than Advertised Security for Non-
+              interactive Threshold Signatures", 1 June 2022,
+              <https://crypto.iacr.org/2022/
+              papers/538806_1_En_18_Chapter_OnlinePDF.pdf>.
 
    [TLS]      Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
@@ -1738,7 +1722,7 @@ Appendix C.  Trusted Dealer Key Generation
 
   Outputs:
   - participant_private_keys, MAX_PARTICIPANTS shares of the secret key s, each a tuple
-    consisting of the participant identifier and the key share (a Scalar).
+    consisting of the participant identifier (a NonZeroScalar) and the key share (a Scalar).
   - group_public_key, public key corresponding to the group signing key, an
     Element in G.
   - vss_commitment, a vector commitment of Elements in G, to each of the coefficients
@@ -1757,11 +1741,12 @@ Appendix C.  Trusted Dealer Key Generation
    It is assumed the dealer then sends one secret key share to each of
    the NUM_PARTICIPANTS participants, along with vss_commitment.  After
    receiving their secret key share and vss_commitment, participants
-   MUST abort if they do not have the same view of vss_commitment.
-   Otherwise, each participant MUST perform
-   vss_verify(secret_key_share_i, vss_commitment), and abort if the
-   check fails.  The trusted dealer MUST delete the secret_key and
-   secret_key_shares upon completion.
+   MUST abort if they do not have the same view of vss_commitment.  The
+   dealer can use a secure broadcast channel to ensure each participant
+   has a consistent view of this commitment.  Otherwise, each
+   participant MUST perform vss_verify(secret_key_share_i,
+   vss_commitment), and abort if the check fails.  The trusted dealer
+   MUST delete the secret_key and secret_key_shares upon completion.
 
    Use of this method for key generation requires a mutually
    authenticated secure channel between the dealer and participants to
@@ -1780,7 +1765,8 @@ C.1.  Shamir Secret Sharing
    This secret sharing scheme works over any field F.  In this
    specification, F is the scalar field of the prime-order group G.
 
-   The procedure for splitting a secret into shares is as follows.
+   The procedure for splitting a secret into shares is as follows.  The
+   algorithm polynomial_evaluate is defined in Appendix C.1.1.
 
   secret_share_shard(s, coefficients, MAX_PARTICIPANTS, MIN_PARTICIPANTS):
 
@@ -1793,11 +1779,11 @@ C.1.  Shamir Secret Sharing
 
   Outputs:
   - secret_key_shares, A list of MAX_PARTICIPANTS number of secret shares, each a tuple
-    consisting of the participant identifier and the key share (a Scalar)
+    consisting of the participant identifier (a NonZeroScalar) and the key share (a Scalar)
   - coefficients, a vector of MIN_PARTICIPANTS coefficients which uniquely determine a polynomial f.
 
   Errors:
-  - "invalid parameters", if MIN_PARTICIPANTS > MAX_PARTICIPANTS or if MIN_PARTICIPANTS is less than 2
+  - "invalid parameters", if MIN_PARTICIPANTS > MAX_PARTICIPANTS or if MIN_PARTICIPANTS is less than 1
 
   def secret_share_shard(s, coefficients, MAX_PARTICIPANTS, MIN_PARTICIPANTS):
     if MIN_PARTICIPANTS > MAX_PARTICIPANTS:
@@ -1841,30 +1827,51 @@ C.1.  Shamir Secret Sharing
   def secret_share_combine(shares):
     if len(shares) < MIN_PARTICIPANTS:
       raise "invalid parameters"
-    s = polynomial_interpolation(shares)
+    s = polynomial_interpolate_constant(shares)
     return s
 
-C.1.1.  Deriving the constant term of a polynomial
+C.1.1.  Additional polynomial operations
 
-   Secret sharing requires "splitting" a secret, which is represented as
-   a constant term of some polynomial f of degree t-1.  Recovering the
-   constant term occurs with a set of t points using polynomial
-   interpolation, defined as follows.
+   This section describes two functions.  One function, denoted
+   polynomial_evaluate, is for evaluating a polynomial f(x) at a
+   particular point x using Horner's method, i.e., computing y = f(x).
+   The other function, polynomial_interpolate_constant, is for
+   recovering the constant term of an interpolating polynomial defined
+   by a set of points.
+
+   The function polynomial_evaluate is defined as follows.
+
+     polynomial_evaluate(x, coeffs):
+
+     Inputs:
+     - x, input at which to evaluate the polynomial, a Scalar
+     - coeffs, the polynomial coefficients, a list of Scalars
+
+     Outputs: Scalar result of the polynomial evaluated at input x
+
+     def polynomial_evaluate(x, coeffs):
+       value = 0
+       for coeff in reverse(coeffs):
+         value *= x
+         value += coeff
+       return value
+
+   The function polynomial_interpolate_constant is defined as follows.
 
   Inputs:
-  - points, a set of t distinct points on a polynomial f, each a tuple of two
-    Scalar values representing the x and y coordinates
+  - points, a set of t points with distinct x coordinates on a polynomial f,
+    each a tuple of two Scalar values representing the x and y coordinates
 
   Outputs: The constant term of f, i.e., f(0)
 
-  def polynomial_interpolation(points):
+  def polynomial_interpolate_constant(points):
     x_coords = []
-    for point in points:
-      x_coords.append(point.x)
+    for (x, y) in points:
+      x_coords.append(x)
 
     f_zero = Scalar(0)
-    for point in points:
-      delta = point.y * derive_lagrange_coefficient(point.x, x_coords)
+    for (x, y) in points:
+      delta = y * derive_interpolating_value(x, x_coords)
       f_zero = f_zero + delta
 
     return f_zero
@@ -1905,7 +1912,7 @@ C.2.  Verifiable Secret Sharing
 
   Inputs:
   - share_i: A tuple of the form (i, sk_i), where i indicates the participant
-    identifier, and sk_i the participant's secret key, a secret share of the
+    identifier (a NonZeroScalar), and sk_i the participant's secret key, a secret share of the
     constant term of f, where sk_i is a Scalar.
   - vss_commitment: A VSS commitment to a secret polynomial f, a vector commitment
     to each of the coefficients in coeffs, where each element of the vector commitment
@@ -1966,8 +1973,8 @@ D.1.  Rejection Sampling
    As an optimization, if the group order is very close to a power of 2,
    it is acceptable to omit the rejection test completely.  In
    particular, if the group order is p, and there is an integer b such
-   that p - 2<sup>b</sup>| < 2<sup>(b/2)</sup>, then RandomScalar can
-   simply return a uniformly random integer of at most b bits.
+   that |p - 2^b| is less than 2^(b/2), then RandomScalar can simply
+   return a uniformly random integer of at most b bits.
 
 D.2.  Wide Reduction
 
