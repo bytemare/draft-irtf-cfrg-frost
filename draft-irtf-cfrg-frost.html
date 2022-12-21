@@ -1217,7 +1217,7 @@ This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-round-two-signature-share-g" class="internal xref">Round Two - Signature Share Generation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-signature-share-verificatio" class="internal xref">Signature Share Verification and Aggregation</a></p>
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-signature-share-aggregation" class="internal xref">Signature Share Aggregation</a></p>
 </li>
             </ul>
 </li>
@@ -2147,23 +2147,61 @@ as input more than once to <code>sign</code>.<a href="#section-5.2-5" class="pil
 <p id="section-5.2-6">Note that the <code>lambda_i</code> value derived during this procedure does not change
 across FROST signing operations for the same signing group. As such, participants
 can compute it once and store it for reuse across signing sessions.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
-<p id="section-5.2-7">Upon receipt from each Signer, the Coordinator MUST validate the input
-signature share using DeserializeElement. If validation fails, the Coordinator MUST abort
-the protocol. If validation succeeds, the Coordinator then verifies the set of
-signature shares using the following procedure.<a href="#section-5.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frost-aggregation">
 <section id="section-5.3">
-        <h3 id="name-signature-share-verificatio">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-signature-share-verificatio" class="section-name selfRef">Signature Share Verification and Aggregation</a>
+        <h3 id="name-signature-share-aggregation">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-signature-share-aggregation" class="section-name selfRef">Signature Share Aggregation</a>
         </h3>
 <p id="section-5.3-1">After participants perform round two and send their signature shares to the Coordinator,
-the Coordinator verifies each signature share for correctness. In particular,
-for each participant, the Coordinator uses commitment pairs generated during round
-one and the signature share generated during round two, along with other group
-parameters, to check that the signature share is valid using the following procedure.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+the Coordinator can aggregate each share to produce a final signature. Before aggregating,
+the Coordinator MUST validate each signature share using DeserializeElement. If validation
+fails, the Coordinator MUST abort the protocol as the resulting signature will be invalid.
+If all signature shares are valid, the Coordinator then aggregates them to produce the final
+signature using the following procedure.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.3-2">
+<pre>
+  Inputs:
+  - group_commitment, the group commitment returned by compute_group_commitment,
+    an Element in G.
+  - sig_shares, a set of signature shares z_i, Scalar values, for each participant,
+    of length NUM_PARTICIPANTS, where MIN_PARTICIPANTS &lt;= NUM_PARTICIPANTS &lt;= MAX_PARTICIPANTS.
+
+  Outputs: (R, z), a Schnorr signature consisting of an Element R and Scalar z.
+
+  def aggregate(group_commitment, sig_shares):
+    z = 0
+    for z_i in sig_shares:
+      z = z + z_i
+    return (group_commitment, z)
+</pre><a href="#section-5.3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.3-3">The output signature (R, z) from the aggregation step MUST be encoded as follows
+(using notation from <span><a href="https://rfc-editor.org/rfc/rfc8446#section-3" class="relref">Section 3</a> of [<a href="#TLS" class="cite xref">TLS</a>]</span>):<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3-4">
+<pre>
+  struct {
+    opaque R_encoded[Ne];
+    opaque z_encoded[Ns];
+  } Signature;
+</pre><a href="#section-5.3-4" class="pilcrow">¶</a>
+</div>
+<p id="section-5.3-5">Where Signature.R_encoded is <code>G.SerializeElement(R)</code> and Signature.z_encoded is
+<code>G.SerializeScalar(z)</code>.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
+<p id="section-5.3-6">The Coordinator SHOULD verify this signature using the group public key before publishing or
+releasing the signature. Signature verification is as specified for the corresponding
+ciphersuite; see <a href="#ciphersuites" class="auto internal xref">Section 6</a> for details.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<p id="section-5.3-7">The aggregate signature will verify successfully if and only if all signature shares are valid.
+In other words, if there exists an invalid signature share, then the resulting aggregate
+signature will not verify successfully against the group public key. Moreover, subsets of
+valid signature shares will themselves not yield a valid aggregate signature.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
+<p id="section-5.3-8">If the aggregate signature verification fails, the Coordinator can verify each signature
+share individually to identify and act on misbehaving participants. The mechanism for acting on
+a misbehaving participant is out of scope for this specification. However, a reasonable approach
+would be to remove the participant from the set of allowed participants in future runs of FROST.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<p id="section-5.3-9">The function for verifying a signature share, denoted <code>verify_signature_share</code>, is described below.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3-10">
 <pre>
   Inputs:
   - identifier, identifier i of the participant, a NonZeroScalar.
@@ -2210,47 +2248,12 @@ parameters, to check that the signature share is valid using the following proce
     r = comm_share + G.ScalarMult(PK_i, challenge * lambda_i)
 
     return l == r
-</pre><a href="#section-5.3-2" class="pilcrow">¶</a>
+</pre><a href="#section-5.3-10" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-3">If any signature share fails to verify, i.e., if verify_signature_share returns False for
-any participant share, the Coordinator MUST abort the protocol for correctness reasons
-(this is true regardless of the size or makeup of the signing set selected by
-the Coordinator).
-Excluding one participant means that their nonce will not be included in the joint response <code>z</code>
-and consequently the output signature will not verify. This is because the
-group commitment will be with respect to a different signing set than the
-aggregated response.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<p id="section-5.3-4">Otherwise, if all shares from participants that participated in Rounds 1 and 2 are valid, the Coordinator
-performs the <code>aggregate</code> operation and publishes the resulting signature.<a href="#section-5.3-4" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.3-5">
-<pre>
-  Inputs:
-  - group_commitment, the group commitment returned by compute_group_commitment,
-    an Element in G.
-  - sig_shares, a set of signature shares z_i, Scalar values, for each participant,
-    of length NUM_PARTICIPANTS, where MIN_PARTICIPANTS &lt;= NUM_PARTICIPANTS &lt;= MAX_PARTICIPANTS.
-
-  Outputs: (R, z), a Schnorr signature consisting of an Element R and Scalar z.
-
-  def aggregate(group_commitment, sig_shares):
-    z = 0
-    for z_i in sig_shares:
-      z = z + z_i
-    return (group_commitment, z)
-</pre><a href="#section-5.3-5" class="pilcrow">¶</a>
-</div>
-<p id="section-5.3-6">The output signature (R, z) from the aggregation step MUST be encoded as follows
-(using notation from <span><a href="https://rfc-editor.org/rfc/rfc8446#section-3" class="relref">Section 3</a> of [<a href="#TLS" class="cite xref">TLS</a>]</span>):<a href="#section-5.3-6" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.3-7">
-<pre>
-  struct {
-    opaque R_encoded[Ne];
-    opaque z_encoded[Ns];
-  } Signature;
-</pre><a href="#section-5.3-7" class="pilcrow">¶</a>
-</div>
-<p id="section-5.3-8">Where Signature.R_encoded is <code>G.SerializeElement(R)</code> and Signature.z_encoded is
-<code>G.SerializeScalar(z)</code>.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<p id="section-5.3-11">The Coordinator can verify each signature share before first aggregating and verifying the
+signature under the group public key. However, since the aggregate signature is valid if
+and only if all signature shares are valid, this order of operations is more expensive
+if the signature is valid.<a href="#section-5.3-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
