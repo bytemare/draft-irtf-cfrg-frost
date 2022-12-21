@@ -2344,8 +2344,9 @@ as a little-endian integer, and reducing the resulting integer modulo
 <p id="section-6.1-3">Normally H2 would also include a domain separator, but for backwards compatibility
 with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.1-4">Signature verification is as specified in <span><a href="https://rfc-editor.org/rfc/rfc8032#section-5.1.7" class="relref">Section 5.1.7</a> of [<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> with the
-constraint that implementations MUST check the group equation [8][S]B = [8]R + [8][k]A'.
-The alternative check [S]B = R + [k]A' is not safe or interoperable in practice.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+constraint that implementations MUST check the group equation [8][z]B = [8]R + [8][c]PK
+(changed to use the notation in this document).
+The alternative check [z]B = R + [c]PK is not interoperable in practice.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="recommended-suite">
@@ -2471,8 +2472,9 @@ modulo 2^446 - 13818066809895115352007386748515426880336692474882178609894547503
 <p id="section-6.3-3">Normally H2 would also include a domain separator, but for backwards compatibility
 with <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>, it is omitted.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">Signature verification is as specified in <span><a href="https://rfc-editor.org/rfc/rfc8032#section-5.2.7" class="relref">Section 5.2.7</a> of [<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> with the
-constraint that implementations MUST check the group equation [4][S]B = [4]R + [4][k]A'.
-The alternative check [S]B = R + [k]A' is not safe or interoperable in practice.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+constraint that implementations MUST check the group equation [4][z]B = [4]R + [4][c]PK
+(changed to use the notation in this document).
+The alternative check [z]B = R + [c]PK is not interoperable in practice.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frostp-256-sha-256">
