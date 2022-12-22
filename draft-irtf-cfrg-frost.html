@@ -1725,7 +1725,7 @@ highest-degree coefficient is in the last position. For example, the polynomial
 <code>x^2 + 2x + 3</code> has degree 2 and is represented as a list of 3 coefficients <code>[3, 2, 1]</code>.
 A point on the polynomial is a tuple (x, y), where <code>y = f(x)</code>.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <p id="section-4.2-2">The function <code>derive_interpolating_value</code> derives a value used for polynomial
-interpolation. It is is provided a list of x-coordinates as input, each of which
+interpolation. It is provided a list of x-coordinates as input, each of which
 cannot equal 0.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4.2-3">
 <pre>
@@ -3042,7 +3042,7 @@ evaluated at coordinate <code>i</code>. We denote a secret share as the tuple <c
 and the list of these shares as <code>shares</code>. <code>i</code> MUST never equal <code>0</code>; recall that
 <code>f(0) = s</code>, where <code>f</code> is the polynomial defined in a Shamir secret sharing operation.<a href="#appendix-C.1-5" class="pilcrow">¶</a></p>
 <p id="appendix-C.1-6">The procedure for combining a <code>shares</code> list of length <code>MIN_PARTICIPANTS</code> to recover the
-secret <code>s</code> is as follows; the algorithm <code>polynomial_interpolation</code> is defined in <a href="#dep-extended-polynomial-operations" class="auto internal xref">Appendix C.1.1</a>.<a href="#appendix-C.1-6" class="pilcrow">¶</a></p>
+secret <code>s</code> is as follows; the algorithm <code>polynomial_interpolate_constant</code> is defined in <a href="#dep-extended-polynomial-operations" class="auto internal xref">Appendix C.1.1</a>.<a href="#appendix-C.1-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-C.1-7">
 <pre>
   secret_share_combine(shares):

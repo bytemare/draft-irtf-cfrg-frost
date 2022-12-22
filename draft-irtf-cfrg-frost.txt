@@ -514,8 +514,8 @@ Table of Contents
    the polynomial is a tuple (x, y), where y = f(x).
 
    The function derive_interpolating_value derives a value used for
-   polynomial interpolation.  It is is provided a list of x-coordinates
-   as input, each of which cannot equal 0.
+   polynomial interpolation.  It is provided a list of x-coordinates as
+   input, each of which cannot equal 0.
 
   derive_interpolating_value(x_i, L):
 
@@ -1823,7 +1823,7 @@ C.1.  Shamir Secret Sharing
 
    The procedure for combining a shares list of length MIN_PARTICIPANTS
    to recover the secret s is as follows; the algorithm
-   polynomial_interpolation is defined in Appendix C.1.1.
+   polynomial_interpolate_constant is defined in Appendix C.1.1.
 
   secret_share_combine(shares):
 
