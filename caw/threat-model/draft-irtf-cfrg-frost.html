@@ -1052,7 +1052,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Connolly, et al.</td>
-<td class="center">Expires 24 June 2023</td>
+<td class="center">Expires 25 June 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-irtf-cfrg-frost-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-12-21" class="published">21 December 2022</time>
+<time datetime="2022-12-22" class="published">22 December 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-06-24">24 June 2023</time></dd>
+<dd class="expires"><time datetime="2023-06-25">25 June 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1135,7 +1135,7 @@ This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 June 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 June 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1220,6 +1220,9 @@ This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-signature-share-aggregation" class="internal xref">Signature Share Aggregation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-identifiable-abort" class="internal xref">Identifiable Abort</a></p>
 </li>
             </ul>
 </li>
@@ -1985,7 +1988,11 @@ key generation mechanism by a trusted dealer in <a href="#dep-dealer" class="aut
 <p id="section-5-9">FROST requires two rounds to complete. In the first round, participants generate
 and publish one-time-use commitments to be used in the second round. In the second
 round, each participant produces a share of the signature over the Coordinator-chosen
-message and the other participant commitments. This complete interaction is shown in <a href="#fig-frost" class="auto internal xref">Figure 1</a>.<a href="#section-5-9" class="pilcrow">¶</a></p>
+message and the other participant commitments. After the second round completes, the
+Coordinator aggregates the signatures to produce a final signature. The Coordinator
+aborts if the signature is invalid; see <a href="#abort" class="auto internal xref">Section 5.4</a> for more information about dealing
+with invalid signatures and misbehaving participants. This complete interaction,
+without abort, is shown in <a href="#fig-frost" class="auto internal xref">Figure 1</a>.<a href="#section-5-9" class="pilcrow">¶</a></p>
 <span id="name-frost-protocol-overview"></span><div id="fig-frost">
 <figure id="figure-1">
         <div class="alignLeft art-text artwork" id="section-5-10.1">
@@ -2039,9 +2046,9 @@ respectively, as these functions perform the necessary input validation steps.<a
 <p id="section-5-13">FROST assumes reliable message delivery between the Coordinator and participants in
 order for the protocol to complete. An attacker masquerading as another participant
 will result only in an invalid signature; see <a href="#sec-considerations" class="auto internal xref">Section 7</a>. However, in order
-to identify any participant which has misbehaved (resulting in the protocol aborting)
-to take actions such as excluding them from future signing operations, we assume that
-the network channel is additionally authenticated; confidentiality is not required.<a href="#section-5-13" class="pilcrow">¶</a></p>
+to identify misbehaving participants that contribute to produce an invalid signature,
+we assume that the network channel is additionally authenticated; confidentiality is
+not required.<a href="#section-5-13" class="pilcrow">¶</a></p>
 <div id="frost-round-one">
 <section id="section-5.1">
         <h3 id="name-round-one-commitment">
@@ -2192,17 +2199,17 @@ signature using the following procedure.<a href="#section-5.3-1" class="pilcrow"
 <code>G.SerializeScalar(z)</code>.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
 <p id="section-5.3-6">The Coordinator SHOULD verify this signature using the group public key before publishing or
 releasing the signature. Signature verification is as specified for the corresponding
-ciphersuite; see <a href="#ciphersuites" class="auto internal xref">Section 6</a> for details.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
-<p id="section-5.3-7">The aggregate signature will verify successfully if and only if all signature shares are valid.
-In other words, if there exists an invalid signature share, then the resulting aggregate
-signature will not verify successfully against the group public key. Moreover, subsets of
-valid signature shares will themselves not yield a valid aggregate signature.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
-<p id="section-5.3-8">If the aggregate signature verification fails, the Coordinator can verify each signature
+ciphersuite; see <a href="#ciphersuites" class="auto internal xref">Section 6</a> for details. The aggregate signature will verify successfully
+if and only if all signature shares are valid. In other words, if there exists an invalid
+signature share, then the resulting aggregate signature will not verify successfully against
+the group public key. Moreover, subsets of valid signature shares will themselves not yield
+a valid aggregate signature.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+<p id="section-5.3-7">If the aggregate signature verification fails, the Coordinator can verify each signature
 share individually to identify and act on misbehaving participants. The mechanism for acting on
-a misbehaving participant is out of scope for this specification. However, a reasonable approach
-would be to remove the participant from the set of allowed participants in future runs of FROST.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
-<p id="section-5.3-9">The function for verifying a signature share, denoted <code>verify_signature_share</code>, is described below.<a href="#section-5.3-9" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-5.3-10">
+a misbehaving participant is out of scope for this specification; see <a href="#abort" class="auto internal xref">Section 5.4</a> for more information
+about dealing with invalid signatures and misbehaving participants.<a href="#section-5.3-7" class="pilcrow">¶</a></p>
+<p id="section-5.3-8">The function for verifying a signature share, denoted <code>verify_signature_share</code>, is described below.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.3-9">
 <pre>
   Inputs:
   - identifier, identifier i of the participant, a NonZeroScalar.
@@ -2249,12 +2256,28 @@ would be to remove the participant from the set of allowed participants in futur
     r = comm_share + G.ScalarMult(PK_i, challenge * lambda_i)
 
     return l == r
-</pre><a href="#section-5.3-10" class="pilcrow">¶</a>
+</pre><a href="#section-5.3-9" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-11">The Coordinator can verify each signature share before first aggregating and verifying the
+<p id="section-5.3-10">The Coordinator can verify each signature share before first aggregating and verifying the
 signature under the group public key. However, since the aggregate signature is valid if
 and only if all signature shares are valid, this order of operations is more expensive
-if the signature is valid.<a href="#section-5.3-11" class="pilcrow">¶</a></p>
+if the signature is valid.<a href="#section-5.3-10" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="abort">
+<section id="section-5.4">
+        <h3 id="name-identifiable-abort">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-identifiable-abort" class="section-name selfRef">Identifiable Abort</a>
+        </h3>
+<p id="section-5.4-1">FROST does not provide robustness. As such, a misbehaving participant can cause a denial-of-service
+on the signing protocol if it is allowed to contribute to the signing protocol.
+Preventing this type of attack requires the Coordinator to identify the misbehaving
+participant such that applications can take corrective action to prevent denial-of-service.
+For example, one approach would be to remove the participant from the set of allowed
+participants in future runs of FROST. FROST assumes the network channel is authenticated
+to allow for this identification. Beyond identifying the misbehaving participant, the
+Coordinator SHOULD abort when the signing protocol yields an invalid signature. See
+<a href="#sec-considerations" class="auto internal xref">Section 7</a> for more information about FROST's security properties and the threat model.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2652,13 +2675,16 @@ that performs key generation (see <a href="#dep-vss" class="auto internal xref">
       </ul>
 <p id="section-7-3">Note that the Coordinator is not trusted with any private information and communication
 at the time of signing can be performed over a public but reliable channel. Moreover, the
-Coordinator is trusted to not perform a denial of service attack.<a href="#section-7-3" class="pilcrow">¶</a></p>
+Coordinator is trusted to not perform a denial of service attack. To prevent denial-of-service
+attacks, the Coordinator is trusted to identify misbehaving participants and ideally abort
+the protocol in the event of an invalid signature.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">FROST does not aim to achieve the following goals:<a href="#section-7-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7-5.1">Post quantum security. FROST, like plain Schnorr signatures, requires the hardness of the Discrete Logarithm Problem.<a href="#section-7-5.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-7-5.2">Robustness. In the case of failure, FROST requires aborting the protocol. See <span>[<a href="#ROAST" class="cite xref">ROAST</a>]</span> as a wrapper protocol around
-FROST that provides robustness.<a href="#section-7-5.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-7-5.2">Robustness. Preventing denial-of-service attacks against misbehaving participants requires the Coordinator
+to identify and act on miebehaving participants; see <a href="#abort" class="auto internal xref">Section 5.4</a> for more information. While FROST
+does not provide robustness, <span>[<a href="#ROAST" class="cite xref">ROAST</a>]</span> is as a wrapper protocol around FROST that does.<a href="#section-7-5.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-7-5.3">Downgrade prevention. All participants in the protocol are assumed to agree on what algorithms to use.<a href="#section-7-5.3" class="pilcrow">¶</a>
 </li>
