@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 25 June 2023           University of Waterloo, Zcash Foundation
+Expires: 26 June 2023           University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                        22 December 2022
+                                                        23 December 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 June 2023.
+   This Internet-Draft will expire on 26 June 2023.
 
 Copyright Notice
 
@@ -970,9 +970,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    The Coordinator SHOULD verify this signature using the group public
    key before publishing or releasing the signature.  Signature
    verification is as specified for the corresponding ciphersuite; see
-   Section 6 for details.  Recall that the Coordinator is configured
-   with "group info" which contains the group public key PK and public
-   keys PK_i for each participant.
+   Section 6 for details.
 
    The aggregate signature will verify successfully if and only if all
    signature shares are valid.  In other words, if there exists an
@@ -987,6 +985,10 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    participant is out of scope for this specification.  However, a
    reasonable approach would be to remove the participant from the set
    of allowed participants in future runs of FROST.
+
+   Recall that the Coordinator is configured with "group info" which
+   contains the group public key PK and public keys PK_i for each
+   participant.
 
    The function for verifying a signature share, denoted
    verify_signature_share, is described below.
