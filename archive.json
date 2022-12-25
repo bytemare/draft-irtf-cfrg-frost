@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-22T00:43:34.426951+00:00",
+  "timestamp": "2022-12-25T00:45:53.420541+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3620,7 +3620,7 @@
       "id": "I_kwDOEpUZs85YWS6o",
       "title": "Consistent pseudocode notation",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/330",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3629,8 +3629,8 @@
       "labels": [],
       "body": "From Paul:\r\n\r\n4.1.  Nonce generation\r\n\r\n    * Why are the Inputs \"- secret, a Scalar\" on a new line and preceded by a hyphen, while the Outputs are on the same line: \"Outputs: nonce, a Scalar\"?\r\n        This also applies to the other algorithms in that subsection, e.g., \"4.2.1.  Evaluation of a polynomial\". Consider making these uniform throughout the document.\r\n\r\n5.1.  Round One - Commitment\r\n\r\n    * Just observing that now, Inputs and Outputs are consistent (single line and no hyphen since there's one I/O per line). I would suggest modifying some algorithms from Sec 4 to follow that approach, where applicable.\r\n\r\nFrom @armfazh:\r\n\r\n> Outputs: 1 if sk_i is valid, and 0 otherwise\r\nBetter to return true/false?",
       "createdAt": "2022-12-07T15:50:18Z",
-      "updatedAt": "2022-12-13T20:47:21Z",
-      "closedAt": null,
+      "updatedAt": "2022-12-22T19:45:01Z",
+      "closedAt": "2022-12-22T19:45:01Z",
       "comments": []
     },
     {
@@ -22449,24 +22449,26 @@
       "id": "PR_kwDOEpUZs85FdwYi",
       "title": "Make pseudocode descriptions consistent",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/363",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #330\r\n\r\nBuilds on #333 -- merge that first.",
       "createdAt": "2022-12-14T15:45:07Z",
-      "updatedAt": "2022-12-21T21:53:37Z",
+      "updatedAt": "2022-12-22T19:45:01Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "e7ff0a2c61b9b2220fc0b027ce8f3b8c6fde8f30",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/consistent-pseudocode",
       "headRefOid": "bae5fc8936ba7e3539772007c944eaac8cd6dd9c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-12-22T19:45:00Z",
+      "mergedAt": "2022-12-22T19:45:00Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "a069bcefb460fc8801f472deb42a394454a74f7f"
+      },
       "comments": [
         {
           "author": "chris-wood",
@@ -23609,13 +23611,13 @@
       "labels": [],
       "body": "Closes #324 \r\nAlternative to #377\r\n",
       "createdAt": "2022-12-21T19:58:12Z",
-      "updatedAt": "2022-12-21T23:43:41Z",
+      "updatedAt": "2022-12-23T16:11:47Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "e7ff0a2c61b9b2220fc0b027ce8f3b8c6fde8f30",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/threat-model",
-      "headRefOid": "05bd4c19d1366b28134ce8467e954bf0dd11316c",
+      "headRefOid": "a0d9f2950146ec9ab8ccfa7618e9d7b0e2abcdc5",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -23641,6 +23643,146 @@
               "updatedAt": "2022-12-21T23:43:41Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JQzTj",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T16:02:31Z",
+          "updatedAt": "2022-12-23T16:02:32Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "```suggestion\r\nFROST does not provide robustness; i.e, all participants are required to complete the protocol honestly in order to generate a valid signature. As such, a misbehaving participant can cause a denial-of-service\r\n```",
+              "createdAt": "2022-12-23T16:02:31Z",
+              "updatedAt": "2022-12-23T16:02:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JQzrI",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T16:03:19Z",
+          "updatedAt": "2022-12-23T16:03:19Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "```suggestion\r\non the signing protocol, such as by contributing malformed signature shares or simply refusing to participate. \r\n```",
+              "createdAt": "2022-12-23T16:03:19Z",
+              "updatedAt": "2022-12-23T16:03:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JQ0GX",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T16:04:08Z",
+          "updatedAt": "2022-12-23T16:04:09Z",
+          "comments": [
+            {
+              "originalPosition": 61,
+              "body": "```suggestion\r\nFor example, one approach would be to remove the misbehaving participant from the set of allowed\r\n```",
+              "createdAt": "2022-12-23T16:04:09Z",
+              "updatedAt": "2022-12-23T16:04:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JQ1Gc",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T16:06:15Z",
+          "updatedAt": "2022-12-23T16:06:16Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "```suggestion\r\nFROST allows for identifying misbehaving participants that caused the protocol to abort; preventing this attack in future runs of the protocol requires the Coordinator to honestly report the misbehaving\r\n```",
+              "createdAt": "2022-12-23T16:06:15Z",
+              "updatedAt": "2022-12-23T16:06:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JQ1MS",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T16:06:27Z",
+          "updatedAt": "2022-12-23T16:06:27Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "```suggestion\r\nparticipant such that applications can take corrective action.\r\n```",
+              "createdAt": "2022-12-23T16:06:27Z",
+              "updatedAt": "2022-12-23T16:06:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JQ2Wm",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T16:10:26Z",
+          "updatedAt": "2022-12-23T16:10:27Z",
+          "comments": [
+            {
+              "originalPosition": 105,
+              "body": "```suggestion\r\nCoordinator is trusted to not perform a denial of service attacks and to identify and report misbehaving participants. To prevent denial-of-service\r\n```",
+              "createdAt": "2022-12-23T16:10:27Z",
+              "updatedAt": "2022-12-23T16:10:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JQ2cX",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T16:10:59Z",
+          "updatedAt": "2022-12-23T16:10:59Z",
+          "comments": [
+            {
+              "originalPosition": 106,
+              "body": "```suggestion\r\nattacks, the Coordinator is trusted to abort\r\n```",
+              "createdAt": "2022-12-23T16:10:59Z",
+              "updatedAt": "2022-12-23T16:11:47Z"
+            }
+          ]
         }
       ]
     },
@@ -23649,46 +23791,373 @@
       "id": "PR_kwDOEpUZs85F_el3",
       "title": "No Ed448 context string",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/379",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2022-12-21T21:46:34Z",
-      "updatedAt": "2022-12-21T21:46:34Z",
+      "updatedAt": "2022-12-22T18:26:26Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "e7ff0a2c61b9b2220fc0b027ce8f3b8c6fde8f30",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/no-ed448-context",
-      "headRefOid": "7284f08a7c571fc898ec63c9a6b05c08be062cb3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "headRefOid": "a9cd33b13a28a71eb644cecfbf435bb5e9ecba5b",
+      "closedAt": "2022-12-22T18:26:26Z",
+      "mergedAt": "2022-12-22T18:26:26Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "bc347149942537b32ce30c736ba2b2e17d2e80b8"
+      },
+      "comments": [
+        {
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm assuming the downsides of not allowing this context strong are strongly outweighed by the upsides of having consistency among the ciphersuites. ",
+          "createdAt": "2022-12-22T17:43:40Z",
+          "updatedAt": "2022-12-22T17:43:50Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Mostly that no one cares about context strings, and if they do, we could define a ciphersuite in the future to use them.",
+          "createdAt": "2022-12-22T17:44:28Z",
+          "updatedAt": "2022-12-22T17:44:28Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85JMlsF",
+          "commit": {
+            "abbreviatedOid": "7284f08"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks @chris-wood ! ",
+          "createdAt": "2022-12-22T17:42:40Z",
+          "updatedAt": "2022-12-22T17:42:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JMvRz",
+          "commit": {
+            "abbreviatedOid": "7284f08"
+          },
+          "author": "conradoplg",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-22T18:13:42Z",
+          "updatedAt": "2022-12-22T18:13:42Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "This can be a bit confusing, because it's talking about two different context strings in sequence. Here's a suggestion but it's not great\r\n\r\n```suggestion\r\nmeant to produce Ed448-compliant signatures as specified in {{!RFC8032}}. Note that this\r\nciphersuite does not allow applications to specify a context string as is allowed for Ed448\r\nin {{RFC8032}}, and always sets the {{RFC8032}} context string to the empty string. The value of the (internal to FROST) contextString parameter is \"FROST-ED448-SHAKE256-v11\".\r\n```",
+              "createdAt": "2022-12-22T18:13:42Z",
+              "updatedAt": "2022-12-22T18:13:42Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 380,
       "id": "PR_kwDOEpUZs85F_fum",
       "title": "minor nits",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/380",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "armfazh",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2022-12-21T21:53:15Z",
-      "updatedAt": "2022-12-21T21:53:16Z",
+      "updatedAt": "2022-12-22T19:44:06Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
-      "baseRefOid": "e7ff0a2c61b9b2220fc0b027ce8f3b8c6fde8f30",
+      "baseRefOid": "bc347149942537b32ce30c736ba2b2e17d2e80b8",
       "headRepository": "armfazh/draft-irtf-cfrg-frost",
       "headRefName": "patch-1",
-      "headRefOid": "dd96458a56a4ed05da8405f1cfeb592567d5146b",
+      "headRefOid": "b723f980ecbb41f7d5aa7e61fe7051ab3ba6c307",
+      "closedAt": "2022-12-22T19:44:05Z",
+      "mergedAt": "2022-12-22T19:44:05Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "1d0dd3c50c3fbe3ccf3c0f98bf06168f84f1576b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85JMlDj",
+          "commit": {
+            "abbreviatedOid": "dd96458"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good, thanks @armfazh ! ",
+          "createdAt": "2022-12-22T17:41:34Z",
+          "updatedAt": "2022-12-22T17:41:34Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JMmCm",
+          "commit": {
+            "abbreviatedOid": "dd96458"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2022-12-22T17:43:49Z",
+          "updatedAt": "2022-12-22T17:43:53Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "The other changes look good, but please revert this change. I think it's less clear without much benefit (saving one line).",
+              "createdAt": "2022-12-22T17:43:49Z",
+              "updatedAt": "2022-12-22T17:43:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JMyrg",
+          "commit": {
+            "abbreviatedOid": "dd96458"
+          },
+          "author": "armfazh",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-22T18:21:33Z",
+          "updatedAt": "2022-12-22T18:21:33Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "I changed this to be in line with the code for `polynomial_evaluate`, which also uses similar syntax. \r\n\r\n```\r\nfor coeff in reverse(coeffs):\r\n      value *= x\r\n      value += coeff\r\n```",
+              "createdAt": "2022-12-22T18:21:33Z",
+              "updatedAt": "2022-12-22T18:21:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JM0-N",
+          "commit": {
+            "abbreviatedOid": "dd96458"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-22T18:27:30Z",
+          "updatedAt": "2022-12-22T18:27:30Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "The difference, to me, is that this one line now does two things: it multiplies two values, and then adds the result to the accumulator. The examples in `polynomial_evaluate` just do one thing. ",
+              "createdAt": "2022-12-22T18:27:30Z",
+              "updatedAt": "2022-12-22T18:27:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JNDHS",
+          "commit": {
+            "abbreviatedOid": "dd96458"
+          },
+          "author": "armfazh",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-22T19:20:26Z",
+          "updatedAt": "2022-12-22T19:20:26Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "updated now.",
+              "createdAt": "2022-12-22T19:20:26Z",
+              "updatedAt": "2022-12-22T19:20:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JNI7x",
+          "commit": {
+            "abbreviatedOid": "b723f98"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-22T19:44:01Z",
+          "updatedAt": "2022-12-22T19:44:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 381,
+      "id": "PR_kwDOEpUZs85GFIZO",
+      "title": "expand aggregate parameters",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/381",
+      "state": "MERGED",
+      "author": "conradoplg",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is just a suggestion.\r\n\r\nAfter reordering the aggregate section, it's not clear how the `group_commitment` is computed since it's described only in `verify_signature_share` which is listed later.\r\n\r\nThis changes `aggregate` to compute `group_commitment` from `commitment_list` and `msg`.\r\n\r\nWe could also additionally change `verify_signature_share` to receive a `group_commitment`.",
+      "createdAt": "2022-12-22T21:46:45Z",
+      "updatedAt": "2022-12-23T13:10:13Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "a069bcefb460fc8801f472deb42a394454a74f7f",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "expand-aggregate-params",
+      "headRefOid": "f6f41b7bbc4bc85b15ced9db9044936cffef33ac",
+      "closedAt": "2022-12-23T13:10:13Z",
+      "mergedAt": "2022-12-23T13:10:13Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "45172f37a278ce26048759fc445bae19698201b9"
+      },
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this is fine \ud83d\udc4d Can you please also update the reference implementation to match?",
+          "createdAt": "2022-12-22T22:45:36Z",
+          "updatedAt": "2022-12-22T22:45:36Z"
+        },
+        {
+          "author": "conradoplg",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I think this is fine +1 Can you please also update the reference implementation to match?\r\n\r\nSure, done in f6f41b7",
+          "createdAt": "2022-12-23T13:04:55Z",
+          "updatedAt": "2022-12-23T13:04:55Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85JQGPq",
+          "commit": {
+            "abbreviatedOid": "f6f41b7"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-23T13:10:07Z",
+          "updatedAt": "2022-12-23T13:10:08Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 382,
+      "id": "PR_kwDOEpUZs85GFSTu",
+      "title": "Reminder about where public key material comes from when used in verification",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/382",
+      "state": "OPEN",
+      "author": "chelseakomlo",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses #344 cc @armfazh ",
+      "createdAt": "2022-12-22T22:41:33Z",
+      "updatedAt": "2022-12-23T19:54:45Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "a069bcefb460fc8801f472deb42a394454a74f7f",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "clarify-coord-inputs",
+      "headRefOid": "1a48fabfd96a45166aea63ffb403bf569b4656f1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOEpUZs85JNyrD",
+          "commit": {
+            "abbreviatedOid": "be7891d"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2022-12-22T22:43:59Z",
+          "updatedAt": "2022-12-22T22:44:01Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Can we move this down to L828? It doesn't seem useful here. ",
+              "createdAt": "2022-12-22T22:43:59Z",
+              "updatedAt": "2022-12-22T22:44:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JRsaO",
+          "commit": {
+            "abbreviatedOid": "be7891d"
+          },
+          "author": "chelseakomlo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-23T19:47:38Z",
+          "updatedAt": "2022-12-23T19:47:38Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Line 828? Done.",
+              "createdAt": "2022-12-23T19:47:38Z",
+              "updatedAt": "2022-12-23T19:47:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JRtEm",
+          "commit": {
+            "abbreviatedOid": "1a48fab"
+          },
+          "author": "armfazh",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-23T19:54:45Z",
+          "updatedAt": "2022-12-23T19:54:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 383,
+      "id": "PR_kwDOEpUZs85GHb0m",
+      "title": "Bump actions/setup-python from 4.1.0 to 4.4.0",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/383",
+      "state": "OPEN",
+      "author": "dependabot",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [
+        "dconnolly"
+      ],
+      "labels": [
+        "dependencies"
+      ],
+      "body": "Bumps [actions/setup-python](https://github.com/actions/setup-python) from 4.1.0 to 4.4.0.\n<details>\n<summary>Release notes</summary>\n<p><em>Sourced from <a href=\"https://github.com/actions/setup-python/releases\">actions/setup-python's releases</a>.</em></p>\n<blockquote>\n<h2>Add support to install multiple python versions</h2>\n<p>In scope of this release we added support to <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/567\">install multiple python versions</a>. For this you can try to use this snippet:</p>\n<pre lang=\"yaml\"><code>    - uses: actions/setup-python@v4\n      with:\n        python-version: |\n            3.8\n            3.9\n            3.10\n</code></pre>\n<p>Besides, we changed logic with throwing the error for GHES if cache is unavailable to warn (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/566\">actions/setup-python#566</a>).</p>\n<h2>Improve error handling and messages</h2>\n<p>In scope of this release we added improved error message to put operating system and its version in the logs (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/559\">actions/setup-python#559</a>). Besides, the release</p>\n<ul>\n<li>fixes issue about <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/518\">specifying architecture for pypy-nightly on Windows</a> with related <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/520\">pull request</a>.</li>\n<li>improves error handling for Http Errors (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/511\">actions/setup-python#511</a>).</li>\n<li>updates minimatch (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/558\">actions/setup-python#558</a>).</li>\n</ul>\n<h2>v4.3.0</h2>\n<ul>\n<li>Update <code>@\u200bactions/core</code> to 1.10.0 version <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/517\">#517</a></li>\n<li>Update <code>@\u200bactions/cache</code> to 3.0.4 version <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/499\">#499</a></li>\n<li>Only use github.token on github.com <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/443\">#443</a></li>\n<li>Improvement of documentation <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/477\">#477</a>  <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/479\">#479</a> <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/491\">#491</a>  <a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/492\">#492</a></li>\n</ul>\n<h2>Add check-latest input and bug fixes</h2>\n<p>In scope of this release we add the\u00a0<a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/406\">check-latest</a>\u00a0input. If\u00a0check-latest\u00a0is set to\u00a0true, the action first checks if the cached version is the latest one. If the locally cached version is not the most up-to-date, the version will then be downloaded from\u00a0<a href=\"https://github.com/actions/python-versions\">python-versions</a>\u00a0repository. By default\u00a0check-latest\u00a0is set to\u00a0false. For PyPy it will to try to reach <a href=\"https://downloads.python.org/pypy/versions.json\">https://downloads.python.org/pypy/versions.json</a></p>\n<h3>Example of usage:</h3>\n<pre lang=\"yaml\"><code>steps:\n  - uses: actions/checkout@v3\n  - uses: actions/setup-python@v4\n    with:\n      python-version: '3.9'\n      check-latest: true\n  - run: python --version\n</code></pre>\n<p>Besides, it includes such changes as</p>\n<ul>\n<li>Resolved logs for python-version and file inputs: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/465\">actions/setup-python#465</a></li>\n<li>Added linux os release info to primary key: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/467\">actions/setup-python#467</a></li>\n<li>Added fix to change Python versions for poetry: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/445\">actions/setup-python#445</a></li>\n<li>Fix Tool Path handling for self-hosted runners: <a href=\"https://github-redirect.dependabot.com/actions/setup-python/pull/466\">actions/setup-python#466</a></li>\n</ul>\n</blockquote>\n</details>\n<details>\n<summary>Commits</summary>\n<ul>\n<li><a href=\"https://github.com/actions/setup-python/commit/5ccb29d8773c3f3f653e1705f474dfaa8a06a912\"><code>5ccb29d</code></a> Install multiple python versions (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/567\">#567</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/c3e033939cccc2ea50f0194cbc59de6fc5265be6\"><code>c3e0339</code></a> Update action to use reusable workflows (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/569\">#569</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/206e984b94c0532e57811bc170b0832bc4515975\"><code>206e984</code></a> refactor: Use early return pattern to avoid nested conditions (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/566\">#566</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/2c3dd9e7e29afd70cc0950079bde6c979d1f69f9\"><code>2c3dd9e</code></a> Add OS info to the error message (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/559\">#559</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/76bbdfadd7792e54db5b82bd04a77913663d4dd6\"><code>76bbdfa</code></a> Update minimatch (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/558\">#558</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/1aafadcfb96443dc8b2c66d464369fad6ead5571\"><code>1aafadc</code></a> Caching projects that use setup.py (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/549\">#549</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/b80efd6bc5dcdc82c015d69ecd3e39320d0095e6\"><code>b80efd6</code></a> Update to latest <code>actions/publish-action</code> (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/546\">#546</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/5cddb278857fec730853802fad5126d9d78895d5\"><code>5cddb27</code></a> Recommend setting python-version (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/545\">#545</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/47c4a7af1d72897a511c975c95a5335bb6329dec\"><code>47c4a7a</code></a> fix(ci): run <code>.github/workflows/workflow.yml</code> on ubuntu-20.04 (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/535\">#535</a>)</li>\n<li><a href=\"https://github.com/actions/setup-python/commit/af57b6499414c9dd25c305c7c008a5109c5a188f\"><code>af57b64</code></a> Extend docu regarding rate limit issues. (<a href=\"https://github-redirect.dependabot.com/actions/setup-python/issues/510\">#510</a>)</li>\n<li>Additional commits viewable in <a href=\"https://github.com/actions/setup-python/compare/v4.1.0...v4.4.0\">compare view</a></li>\n</ul>\n</details>\n<br />\n\n\n[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/setup-python&package-manager=github_actions&previous-version=4.1.0&new-version=4.4.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge and block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually\n- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)\n\n\n</details>",
+      "createdAt": "2022-12-23T12:04:39Z",
+      "updatedAt": "2022-12-23T12:04:42Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "a069bcefb460fc8801f472deb42a394454a74f7f",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "dependabot/github_actions/actions/setup-python-4.4.0",
+      "headRefOid": "cef3576dd71c9cbf4ad8145b54bc705fe007dfb1",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
