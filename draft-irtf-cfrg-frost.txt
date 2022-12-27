@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 26 June 2023           University of Waterloo, Zcash Foundation
+Expires: 30 June 2023           University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                        23 December 2022
+                                                        27 December 2022
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 June 2023.
+   This Internet-Draft will expire on 30 June 2023.
 
 Copyright Notice
 
@@ -999,7 +999,9 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    of allowed participants in future runs of FROST.
 
    The function for verifying a signature share, denoted
-   verify_signature_share, is described below.
+   verify_signature_share, is described below.  Recall that the
+   Coordinator is configured with "group info" which contains the group
+   public key PK and public keys PK_i for each participant.
 
   Inputs:
   - identifier, identifier i of the participant, a NonZeroScalar.
