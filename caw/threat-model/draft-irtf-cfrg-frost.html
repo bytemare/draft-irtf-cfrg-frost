@@ -2269,15 +2269,22 @@ if the signature is valid.<a href="#section-5.3-10" class="pilcrow">¶</a></p>
         <h3 id="name-identifiable-abort">
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-identifiable-abort" class="section-name selfRef">Identifiable Abort</a>
         </h3>
-<p id="section-5.4-1">FROST does not provide robustness; i.e, all participants are required to complete the protocol honestly in order to generate a valid signature. As such, a misbehaving participant can cause a denial-of-service
-on the signing protocol, such as by contributing malformed signature shares or refusing to participate. 
-Preventing this type of attack requires the Coordinator to identify the misbehaving
-participant such that applications can take corrective action to prevent denial-of-service.
-For example, one approach would be to remove the misbehaving participant from the set of allowed
-participants in future runs of FROST. FROST assumes the network channel is authenticated
-to allow for this identification. Beyond identifying the misbehaving participant, the
-Coordinator SHOULD abort when the signing protocol yields an invalid signature. See
-<a href="#sec-considerations" class="auto internal xref">Section 7</a> for more information about FROST's security properties and the threat model.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-1">FROST does not provide robustness; i.e, all participants are required to complete the
+protocol honestly in order to generate a valid signature. When the signing protocol
+does not produce a valid signature, the Coordinator SHOULD abort; see <a href="#sec-considerations" class="auto internal xref">Section 7</a>
+for more information about FROST's security properties and the threat model.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-2">As a result of this property, a misbehaving participant can cause a denial-of-service on
+the signing protocol by contributing malformed signature shares or refusing to participate.
+FROST assumes the network channel is authenticated to allow for this identification.
+FROST allows for identifying misbehaving participants that produce invalid signature shares
+as described in <a href="#frost-aggregation" class="auto internal xref">Section 5.3</a>. FROST does not provide accommodations for identifying
+participants that refuse to participate, though applications are assumed to detect when participants
+fail to engage in the signing protocol.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+<p id="section-5.4-3">In both cases, preventing this type of attack requires the Coordinator to identify
+misbehaving participants such that applications can take corrective action. The mechanism
+for acting on misbehaving participants is out of scope for this specification. However,
+one approach reasonable would be to remove the misbehaving participant from the set of allowed
+participants in future runs of FROST.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2677,7 +2684,8 @@ that performs key generation (see <a href="#dep-vss" class="auto internal xref">
 at the time of signing can be performed over a public but reliable channel. Moreover, the
 Coordinator is trusted to not perform a denial of service attack. To prevent denial-of-service
 attacks, the Coordinator is trusted to identify misbehaving participants and ideally abort
-the protocol in the event of an invalid signature.<a href="#section-7-3" class="pilcrow">¶</a></p>
+the protocol in the event of an invalid signature. Aborting the protocol ensures that invalid
+signatures are not produced as output.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">FROST does not aim to achieve the following goals:<a href="#section-7-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7-5.1">Post quantum security. FROST, like plain Schnorr signatures, requires the hardness of the Discrete Logarithm Problem.<a href="#section-7-5.1" class="pilcrow">¶</a>
