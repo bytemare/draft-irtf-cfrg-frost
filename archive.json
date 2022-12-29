@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-25T00:45:53.420541+00:00",
+  "timestamp": "2022-12-29T00:44:48.962458+00:00",
   "repo": "cfrg/draft-irtf-cfrg-frost",
   "labels": [
     {
@@ -3148,7 +3148,7 @@
       ],
       "body": "One implementor expressed interest in having this to debug their implementation, this would be a nice-to-have, not a blocker.",
       "createdAt": "2022-09-20T19:24:12Z",
-      "updatedAt": "2022-09-21T13:09:34Z",
+      "updatedAt": "2022-12-27T12:46:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -3157,6 +3157,13 @@
           "body": "This would be a good thing to add \ud83d\udc4d Maybe the enhancement could be an appendix that lists test vectors for each helper function?",
           "createdAt": "2022-09-21T13:09:34Z",
           "updatedAt": "2022-09-21T13:09:34Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dconnolly will you have time to do this? If not, let's close this.",
+          "createdAt": "2022-12-27T12:46:57Z",
+          "updatedAt": "2022-12-27T12:46:57Z"
         }
       ]
     },
@@ -4010,7 +4017,7 @@
       "id": "I_kwDOEpUZs85YWs72",
       "title": "Clarify coordinator inputs",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/issues/344",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4019,8 +4026,8 @@
       "labels": [],
       "body": "From @armfazh:\r\n\r\nIn verify_signature_share, at which point the Coordinator learns the\r\nPK_i from participants?\r\n\r\n------\r\n\r\nThe coordinator gets these as input (part of group info), but this doesn't seem to be clear enough. Let's make it more clear.",
       "createdAt": "2022-12-07T16:40:31Z",
-      "updatedAt": "2022-12-07T21:23:36Z",
-      "closedAt": null,
+      "updatedAt": "2022-12-27T12:23:20Z",
+      "closedAt": "2022-12-27T12:23:20Z",
       "comments": []
     },
     {
@@ -23611,13 +23618,13 @@
       "labels": [],
       "body": "Closes #324 \r\nAlternative to #377\r\n",
       "createdAt": "2022-12-21T19:58:12Z",
-      "updatedAt": "2022-12-23T16:11:47Z",
+      "updatedAt": "2022-12-27T12:46:14Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "e7ff0a2c61b9b2220fc0b027ce8f3b8c6fde8f30",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "caw/threat-model",
-      "headRefOid": "a0d9f2950146ec9ab8ccfa7618e9d7b0e2abcdc5",
+      "headRefOid": "9446a986d79e05ab5ccb9ae0808e3b08e139ec96",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -23678,9 +23685,9 @@
           "comments": [
             {
               "originalPosition": 58,
-              "body": "```suggestion\r\non the signing protocol, such as by contributing malformed signature shares or simply refusing to participate. \r\n```",
+              "body": "```suggestion\r\non the signing protocol, such as by contributing malformed signature shares or refusing to participate. \r\n```",
               "createdAt": "2022-12-23T16:03:19Z",
-              "updatedAt": "2022-12-23T16:03:19Z"
+              "updatedAt": "2022-12-27T12:24:24Z"
             }
           ]
         },
@@ -23781,6 +23788,106 @@
               "body": "```suggestion\r\nattacks, the Coordinator is trusted to abort\r\n```",
               "createdAt": "2022-12-23T16:10:59Z",
               "updatedAt": "2022-12-23T16:11:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JWiAT",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-27T12:27:40Z",
+          "updatedAt": "2022-12-27T12:27:40Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "I don't agree with this suggestion, since (1) it assumes that the underlying channel has been authenticated as is required for public key shares to be associated with the desired entities and (2) we haven't said what \"honestly reporting\" even means. ",
+              "createdAt": "2022-12-27T12:27:40Z",
+              "updatedAt": "2022-12-27T12:27:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JWiHp",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-27T12:28:22Z",
+          "updatedAt": "2022-12-27T12:28:22Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "I don't agree with this suggestion since this is the purpose of aborting. That is, to me, DoS resistance is the security property we get from identifiable aborts.",
+              "createdAt": "2022-12-27T12:28:22Z",
+              "updatedAt": "2022-12-27T12:28:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JWiNA",
+          "commit": {
+            "abbreviatedOid": "a0d9f29"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-27T12:28:52Z",
+          "updatedAt": "2022-12-27T12:28:52Z",
+          "comments": [
+            {
+              "originalPosition": 105,
+              "body": "As above, I don't agree with this suggestion since we have not described what \"reporting\" means.",
+              "createdAt": "2022-12-27T12:28:52Z",
+              "updatedAt": "2022-12-27T12:28:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JWiXW",
+          "commit": {
+            "abbreviatedOid": "c25454f"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-27T12:29:54Z",
+          "updatedAt": "2022-12-27T12:29:54Z",
+          "comments": [
+            {
+              "originalPosition": 106,
+              "body": "I don't agree with this change, as aborting is not sufficient for preventing DoS.",
+              "createdAt": "2022-12-27T12:29:54Z",
+              "updatedAt": "2022-12-27T12:29:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JWlCJ",
+          "commit": {
+            "abbreviatedOid": "c25454f"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-27T12:46:14Z",
+          "updatedAt": "2022-12-27T12:46:14Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "Please take a look at the latest commit and let me know what you think!",
+              "createdAt": "2022-12-27T12:46:14Z",
+              "updatedAt": "2022-12-27T12:46:14Z"
             }
           ]
         }
@@ -24060,24 +24167,26 @@
       "id": "PR_kwDOEpUZs85GFSTu",
       "title": "Reminder about where public key material comes from when used in verification",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/382",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chelseakomlo",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses #344 cc @armfazh ",
       "createdAt": "2022-12-22T22:41:33Z",
-      "updatedAt": "2022-12-23T19:54:45Z",
+      "updatedAt": "2022-12-27T12:22:52Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-frost",
       "baseRefName": "master",
       "baseRefOid": "a069bcefb460fc8801f472deb42a394454a74f7f",
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "clarify-coord-inputs",
-      "headRefOid": "1a48fabfd96a45166aea63ffb403bf569b4656f1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "6bd04ad8118646e9da7b1942f6fd3386569c4eaa",
+      "closedAt": "2022-12-27T12:22:52Z",
+      "mergedAt": "2022-12-27T12:22:52Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "6da660691e1af605408a4952dbfc8cc4f0c1f2aa"
+      },
       "comments": [],
       "reviews": [
         {
@@ -24132,6 +24241,39 @@
           "createdAt": "2022-12-23T19:54:45Z",
           "updatedAt": "2022-12-23T19:54:45Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JWhKJ",
+          "commit": {
+            "abbreviatedOid": "1a48fab"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-12-27T12:22:30Z",
+          "updatedAt": "2022-12-27T12:22:30Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\nThe function for verifying a signature share, denoted `verify_signature_share`, is described below.\r\nRecall that the Coordinator is configured with \"group info\" which contains\r\nthe group public key `PK` and public keys `PK_i` for each participant.\r\n```",
+              "createdAt": "2022-12-27T12:22:30Z",
+              "updatedAt": "2022-12-27T12:22:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOEpUZs85JWhMn",
+          "commit": {
+            "abbreviatedOid": "6bd04ad"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-12-27T12:22:45Z",
+          "updatedAt": "2022-12-27T12:22:45Z",
+          "comments": []
         }
       ]
     },
@@ -24158,6 +24300,32 @@
       "headRepository": "cfrg/draft-irtf-cfrg-frost",
       "headRefName": "dependabot/github_actions/actions/setup-python-4.4.0",
       "headRefOid": "cef3576dd71c9cbf4ad8145b54bc705fe007dfb1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 384,
+      "id": "PR_kwDOEpUZs85GPxt1",
+      "title": "Apply RGLC edits",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-frost/pull/384",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Partially closes #329. @cjpatton's line wrapping comment isn't addressed here, and I'm torn between addressing it now or letting the RFC editor deal with it. Note that addressing some will require using different notation or parameter names. I'll chew on that this week...",
+      "createdAt": "2022-12-27T13:15:21Z",
+      "updatedAt": "2022-12-27T13:15:26Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-frost",
+      "baseRefName": "master",
+      "baseRefOid": "6da660691e1af605408a4952dbfc8cc4f0c1f2aa",
+      "headRepository": "cfrg/draft-irtf-cfrg-frost",
+      "headRefName": "caw/rglc-editorial",
+      "headRefOid": "978a762465e572238fb1eb35f229eb4b20098caa",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
