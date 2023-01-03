@@ -5,12 +5,12 @@
 CFRG                                                         D. Connolly
 Internet-Draft                                          Zcash Foundation
 Intended status: Informational                                  C. Komlo
-Expires: 30 June 2023           University of Waterloo, Zcash Foundation
+Expires: 7 July 2023            University of Waterloo, Zcash Foundation
                                                              I. Goldberg
                                                   University of Waterloo
                                                               C. A. Wood
                                                               Cloudflare
-                                                        27 December 2022
+                                                          3 January 2023
 
 
            Two-Round Threshold Schnorr Signatures with FROST
@@ -58,11 +58,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 June 2023.
+   This Internet-Draft will expire on 7 July 2023.
 
 Copyright Notice
 
-   Copyright (c) 2022 IETF Trust and the persons identified as the
+   Copyright (c) 2023 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -733,7 +733,7 @@ def binding_factor_for_participant(binding_factor_list, identifier):
    corresponding public key PK, where s is a Scalar value and PK =
    G.ScalarBaseMult(s).  As a threshold signing protocol, the group
    signing key s is Shamir secret-shared amongst each of the
-   MAX_PARTICIPANTS participant and used to produce signatures; see
+   MAX_PARTICIPANTS participants and used to produce signatures; see
    [ShamirSecretSharing] for more information about Shamir secret
    sharing.  In particular, FROST assumes each participant is configured
    with the following information:
